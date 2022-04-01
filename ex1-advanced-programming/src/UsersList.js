@@ -1,5 +1,10 @@
+//changed##################################################################################
 
+const usersList = [{
+    username: "admin",
+    nickname: "admin",
+    photo: "photo",
+    password: "admin"
+}];
 
- const usersList = [{ name: 'eden', password: '123' }, { name: 'roni', password: '1234' }];
-
- export default usersList;
+export default usersList;

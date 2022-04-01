@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 function LoginPage({ Login, error }) {
-  const [details, setDetails] = useState({ name: "", password: "" });
+  const [details, setDetails] = useState({ username: "", password: "" });
 
   const loginHandler = e => {
     e.preventDefault();
@@ -15,7 +15,7 @@ function LoginPage({ Login, error }) {
         <h2>Login Form</h2>
         { (error!="") ? (<div className="error">{error}</div>) : "" }
         <p>Username:</p>
-        <input type="text" id="name" name="name" onChange={e => setDetails({ ...details, name: e.target.value })} value={details.name} />
+        <input type="text" id="name" name="name" onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} />
       </div>
       <div>
         <p>Password:</p>
@@ -23,7 +23,6 @@ function LoginPage({ Login, error }) {
       </div>
       <div>
         <input type="submit" value="LOGIN"/>
-        <button>Register</button>
       </div>
     </form>
   );

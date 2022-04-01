@@ -4,7 +4,7 @@ function MainPage({user}) {
 
   return(
     <div className="welcome">
-    <h2>hello, <span>{user.name}</span></h2>
+      <h2>hello, <span>{user.username}</span></h2>
   </div>
   );
 }
