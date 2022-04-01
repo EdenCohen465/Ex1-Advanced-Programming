@@ -4,7 +4,7 @@ import LoginPage from '../loginPage/LoginPage';
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import usersList from '../UsersList';
 
-function RegisterPage(submit) {
+function RegisterPage({submit}) {
     const handleLogin = e => {
         e.preventDefault();
         //LoginPage();
@@ -13,7 +13,7 @@ function RegisterPage(submit) {
     const handleSubmit = e => {
         // prevent refresh of the page.
         e.preventDefault();
-        submit();
+        submit(0);
     }
     return (
         <div className="Register" id = 'registerLogic'>

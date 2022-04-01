@@ -8,31 +8,31 @@ import RegisterPage from './registerPage/RegisterPage';
 function App() {
 
   const [user, setUser] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
 
-
-  const Login = details => {
+  const Login = function (details) {
+    let isIn = false;
     console.log(details);
     usersList.map((d) => {
-      if (d.username == details.username && d.password == details.password) {
-        setUser({
-          username: details.username,
-          password: details.password
-        });
-        setError("");
-      }
-      // the user didnt initialized.
-      else if (d.username == details.username && user.username == null) {
-        setError("Wrong Password");
-      }
-      else if (user.username == "" && user.password == "") {
-        setError("Please Register");
+      if (d.username == details.username) {
+        isIn = true;
+        if (d.password == details.password) {
+          setUser({
+            username: details.username,
+            password: details.password
+          });
+        }
+        else {
+          alert("Wrong Password");
+        }
+        return;
       }
     });
+    if (!isIn) {
+      alert("please register");
+    }
   }
 
-
-  const submit = _ => {
+  const submit = x => {
     //getting the values of all inputs.
     const user_name = document.getElementById('username').value;
     const nick_name = document.getElementById('nickname').value;
@@ -66,7 +66,6 @@ function App() {
     });
   }
 
-
   const Logout = () => {
     setUser({ username: "", password: "" });
   }
@@ -77,7 +76,7 @@ function App() {
     ) : (
       // added#############################################################################
       <div>
-        {/* <LoginPage Login={Login} error={error} /> */}
+        {/* <LoginPage Login={Login} /> */}
         <RegisterPage submit={submit} />
       </div>
     )

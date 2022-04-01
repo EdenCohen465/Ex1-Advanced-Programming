@@ -1,7 +1,9 @@
 
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
-function LoginPage({ Login, error }) {
+
+function LoginPage({Login}) {
   const [details, setDetails] = useState({ username: "", password: "" });
 
   const loginHandler = e => {
@@ -13,7 +15,6 @@ function LoginPage({ Login, error }) {
     <form onSubmit={loginHandler}>
       <div className="form-inner">
         <h2>Login Form</h2>
-        { (error!="") ? (<div className="error">{error}</div>) : "" }
         <p>Username:</p>
         <input type="text" id="name" name="name" onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} />
       </div>
@@ -22,7 +23,10 @@ function LoginPage({ Login, error }) {
         <input type="password" onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} />
       </div>
       <div>
-        <input type="submit" value="LOGIN"/>
+        <input type="submit" value="LOGIN" />
+        {/* <BrowserRouter>
+          <Link to='/RegisterForm'>tap to register</Link>
+        </BrowserRouter> */}
       </div>
     </form>
   );
