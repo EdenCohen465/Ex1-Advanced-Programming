@@ -1,7 +1,11 @@
 import React from 'react';
 
-export default function MainPage() {
+function MainPage({user}) {
+
   return(
-    <div>Dashboard</div>
+    <div className="welcome">
+    <h2>hello, <span>{user.name}</span></h2>
+  </div>
   );
 }
+export default MainPage;

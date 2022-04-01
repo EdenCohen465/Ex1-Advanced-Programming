@@ -1,45 +1,46 @@
 
 import LoginPage from './loginPage/LoginPage';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import MainPage from './mainPage/MainPage';
+import usersList from './UsersList';
 
 function App() {
 
-  const usersList = [{name:'eden', password:'123'},{name:'roni', password:'1234'}];
- 
-  const NewUser = {
-    name:"",
-    password:""
-  }
+  const [user, setUser] = useState({ name: "", password: "" });
   const [error, setError] = useState("");
-  const [user, setUser] = useState(usersList);
-  
-  const Login = details=>{
-    let isIn = false;
-    console.log(details);
-    usersList.map((d)=> {
-      if (d.name == details.name && d.password == details.password){
-        console.log('found');
-        isIn = true;
-        // JUMP TO CHAT
-        <MainPage users={usersList} />}
-      else if (d.name == details.name) {
-        console.log('wrong password');
-        isIn = true;
-      }
-      });
-    // IF DIDNT FOUND- NEED TO REGISTER
-    if(!isIn){
-    console.log('YOU NEED TO REGISTER');
-    }
-  }
- 
-  return (
-    <div className="App">
-      <LoginPage Login={Login} error={error} />
-    </div>
-  );
 
+
+  const Login = details => {
+    console.log(details);
+    usersList.map((d) => {
+      if (d.name == details.name && d.password == details.password) {
+        setUser({
+          name: details.name,
+          password: details.password
+        });
+        setError("");
+      }
+      // the user didnt initialized.
+      else if(d.name == details.name && user.name == null) {
+        setError("Wrong Password");
+      }
+      else if(user.name == "" && user.password=="") {
+        setError("Please Register");
+      }
+    });
+  }
+
+  const Logout = () => {
+    setUser({ name: "", password: "" });
+  }
+  return (
+    <div className="App">{(user.name != ""  && user.password != "") ? (
+      <MainPage user={user}/>
+      ) : (
+      <LoginPage Login={Login} error={error} />)
+      }    
+      </div>
+      );
 }
 
 export default App;
