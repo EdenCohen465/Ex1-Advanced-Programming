@@ -1,9 +1,10 @@
 //changed##################################################################################
+import sunflower from './userPhotos/sunflower.jpg';
 
 const usersList = [{
     username: "admin",
     nickname: "admin",
-    photo: "photo",
+    photo: sunflower,
     password: "admin"
 }];
 

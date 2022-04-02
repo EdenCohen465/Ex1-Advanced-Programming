@@ -4,8 +4,8 @@ function MainPage({user}) {
 
   return(
     <div className="welcome">
-      <h2>hello, <span>{user.username}</span></h2>
-  </div>
+      <h2>hello, <span>{user.nickname}</span></h2>
+    </div>
   );
 }
 export default MainPage;

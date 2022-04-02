@@ -4,7 +4,7 @@ const inputs = [{ name: "Username:", type: "text", id: "username", placeholder: 
     { name: "Nickname:", type: "text", type: "text", id: "nickname", placeholder: "please enter a nick name", labelClass: "form-label", inputClass: "form-control"  },
     { name: "Photo:", type: "file", id: "formFileSm", placeholder: "please add a photo", labelClass: "form-label", inputClass: "form-control form-control-sm"},
     { name: "Password:", type: "password", id: "password", placeholder: "please enter a password", labelClass: "form-label", inputClass: "form-control" },
-    { name: "Password:", type: "password", id: "password-again", placeholder: "please enter again the password", labelClass: "form-label", inputClass: "form-control" }];   
+    { name: "Confirm password:", type: "password", id: "password-again", placeholder: "please enter again the password", labelClass: "form-label", inputClass: "form-control" }];   
 
 const inputsList = inputs.map((input) => {
     return (

@@ -2,24 +2,41 @@
 import LoginPage from './loginPage/LoginPage';
 import React, { useState, useRef } from 'react';
 import MainPage from './mainPage/MainPage';
+import ChatsBar from './chatsBar/ChatsBar';
 import usersList from './UsersList';
 import './App.css';
 import RegisterPage from './registerPage/RegisterPage';
 
+function checkValidPassword(password) {
+  var numbers = false;
+  var letters = false;
+  for (var i = 0; i < password.length; i++) {
+    if (Number.isInteger(parseInt(password.charAt(i)))) {
+      numbers = true;
+    }
+    if (/^[a-zA-Z]+$/.test(password.charAt(i))) {
+      letters = true;
+    }
+  }
+  if (!numbers || !letters) {
+    return false;
+  }
+  return true;
+}
+
 function App() {
 
-  const [user, setUser] = useState({ username: "", password: "" });
+  const [user, setUser] = useState({ nickname: "", photo: ""});
 
   const Login = function (details) {
     let isIn = false;
-    console.log(details);
     usersList.map((d) => {
       if (d.username == details.username) {
         isIn = true;
         if (d.password == details.password) {
           setUser({
-            username: details.username,
-            password: details.password
+            nickname: d.nickname,
+            photo: d.photo
           });
         }
         else {
@@ -33,7 +50,7 @@ function App() {
     }
   }
 
-  const submit = x => {
+  const submit = _ => {
     //getting the values of all inputs.
     const user_name = document.getElementById('username').value;
     const nick_name = document.getElementById('nickname').value;
@@ -53,6 +70,11 @@ function App() {
       return;
     }
 
+    if (!checkValidPassword(password_)) {
+      alert("Password must contain numbers and letters. Try again!");
+      return;
+    }
+    
     // check with numbers and letters
     usersList.push({
       username: user_name,
@@ -62,23 +84,23 @@ function App() {
     });
 
     setUser({
-      username: user_name,
-      password: password_
+      nickname: nick_name,
+      photo: photo_
     });
   }
 
   const Logout = () => {
-    setUser({ username: "", password: "" });
+    setUser({ nickname: "", photo: "" });
   }
 
   return (
-    <div className="App">{(user.username != "" && user.password != "") ? (
-      <MainPage user={user} />
+    <div className="App">{(user.nickname != "" && user.photo != "") ? (
+      <ChatsBar user={user} />
     ) : (
       // added#############################################################################
       <div>
-        {/* <LoginPage Login={Login} /> */}
-        <RegisterPage submit={submit} />
+        <LoginPage Login={Login} />
+        {/* <RegisterPage submit={submit} /> */}
       </div>
     )
     }
