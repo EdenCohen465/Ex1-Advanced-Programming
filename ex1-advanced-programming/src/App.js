@@ -3,6 +3,7 @@ import LoginPage from './loginPage/LoginPage';
 import React, { useState, useRef } from 'react';
 import MainPage from './mainPage/MainPage';
 import usersList from './UsersList';
+import './App.css';
 import RegisterPage from './registerPage/RegisterPage';
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
     //getting the values of all inputs.
     const user_name = document.getElementById('username').value;
     const nick_name = document.getElementById('nickname').value;
-    const photo_ = document.getElementById('photo').value;
+    const photo_ = document.getElementById('formFileSm').value;
     const password_ = document.getElementById('password').value;
     const passwordagain = document.getElementById('password-again').value;
 
