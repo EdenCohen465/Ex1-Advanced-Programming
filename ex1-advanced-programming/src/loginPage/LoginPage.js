@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+//import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 
 function LoginPage({Login}) {
@@ -12,18 +12,16 @@ function LoginPage({Login}) {
   }
 
   return (
-    <form onSubmit={loginHandler}>
-      <div className="form-inner">
-        <h2>Login Form</h2>
-        <p>Username:</p>
-        <input type="text" id="name" name="name" onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} />
+    <form className="Login-form" onSubmit={loginHandler}>
+      <div className="mb-3">
+        <h2 className="page-title">Login Page</h2>
+        <label className="form-label" htmlFor="Username">Username: </label>
+        <input className="form-control" type="text" id="username" name="name" placeholder="Please enter username" required onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} />
+        <label className="form-label" htmlFor="Password: ">Password: </label>
+        <input className="form-control" type="password" id="password" placeholder="Please enter your password" required onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} />
+        <button className="btn btn-outline-secondary" type="submit"> Login </button>
       </div>
       <div>
-        <p>Password:</p>
-        <input type="password" onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} />
-      </div>
-      <div>
-        <input type="submit" value="LOGIN" />
         {/* <BrowserRouter>
           <Link to='/RegisterForm'>tap to register</Link>
         </BrowserRouter> */}

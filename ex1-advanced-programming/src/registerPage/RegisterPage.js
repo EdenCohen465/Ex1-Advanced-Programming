@@ -16,13 +16,13 @@ function RegisterPage({submit}) {
         submit(0);
     }
     return (
-        <div className="Register" id = 'registerLogic'>
+        <div className="mb-3" id = 'registerLogic'>
             <form className="Register-form" onSubmit={handleSubmit}>
                 <InputBox />
-                <button type="submit">Register</button>
-                <span>Already registered? </span>
+                <button className="btn btn-outline-secondary" type="submit">Register</button>
+                {/* <span>Already registered? </span>
                 <button onClick={handleLogin}>Click here </button>
-                <span>to login.</span>
+                <span>to login.</span> */}
                 {/* <BrowserRouter>
                     <span>Already registered?</span>
                     <Link to='/'> Click here </Link>
