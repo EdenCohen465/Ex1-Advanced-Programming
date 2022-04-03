@@ -7,6 +7,12 @@ import usersList from './UsersList';
 import './App.css';
 import RegisterPage from './registerPage/RegisterPage';
 
+var photo = null;
+
+const photoHandler = (e) => {
+   photo = e.target.files[0];
+}
+
 function checkValidPassword(password) {
   var numbers = false;
   var letters = false;
@@ -79,13 +85,13 @@ function App() {
     usersList.push({
       username: user_name,
       nickname: nick_name,
-      photo: photo_,
+      photo: photo,
       password: password_
     });
 
     setUser({
       nickname: nick_name,
-      photo: photo_
+      photo: photo
     });
   }
 
@@ -99,8 +105,8 @@ function App() {
     ) : (
       // added#############################################################################
       <div>
-        <LoginPage Login={Login} />
-        {/* <RegisterPage submit={submit} /> */}
+        {/* <LoginPage Login={Login} /> */}
+        <RegisterPage submit={submit} photoHandler={photoHandler}/>
       </div>
     )
     }

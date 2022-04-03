@@ -25,8 +25,6 @@ function ChatsBar({ user }) {
         // what photo?#########################################################################################################
         const newEl = {nickname: user, photo: sunset , lastMessage: "", lastMessageTime: "", messagesHistory: []};
         setList([newEl, ...chatsList]);
-        console.log(chatsList);
-
     }
 
     const chats = chatsList.map((chat, key) => {
@@ -42,6 +40,7 @@ function ChatsBar({ user }) {
         );
     });
 
+    console.log(user.photo)
     return (
         <div >
             <div id="chatsBar">

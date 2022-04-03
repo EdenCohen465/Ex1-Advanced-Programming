@@ -10,8 +10,8 @@ div#popup.popup {
 }
 
 .images {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
 }
 
 .nickname {
@@ -28,6 +28,7 @@ div#popup.popup {
 .userLine {
     width: 400px;
     padding: 5px;
+    border: 1px solid gray;
 }
 
 #addContact {
