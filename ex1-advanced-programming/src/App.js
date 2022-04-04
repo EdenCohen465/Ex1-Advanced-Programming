@@ -105,8 +105,8 @@ function App() {
     ) : (
       // added#############################################################################
       <div>
-        {/* <LoginPage Login={Login} /> */}
-        <RegisterPage submit={submit} photoHandler={photoHandler}/>
+        <LoginPage Login={Login} />
+        {/* <RegisterPage submit={submit} photoHandler={photoHandler}/> */}
       </div>
     )
     }
