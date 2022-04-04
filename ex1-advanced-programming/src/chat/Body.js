@@ -1,9 +1,10 @@
-import './Body.css'
+import './Body.css';
+
 function Body({ friend }) {
     const chatHistory =
         friend.messagesHistory.map(message => {
             return (<div> <div className="card-header">{message.time}</div>
-                <p className="card-text">{message.message}</p></div>
+                <p className="card-text">{message.m}</p></div>
             );
         }
         );
