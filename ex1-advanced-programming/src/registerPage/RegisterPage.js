@@ -1,4 +1,3 @@
-import './RegisterPage.css';
 import InputBox from './InputBox';
 import LoginPage from '../loginPage/LoginPage';
 //import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';

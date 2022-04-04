@@ -1,0 +1,10 @@
+.chatbox {
+    background-color:#f8edeb;
+    text-align:left;
+    align-self: flex-end;
+    height: 500px;
+    width: 900px;
+    position: absolute;
+    left: 25%;
+    top: 20%;
+}

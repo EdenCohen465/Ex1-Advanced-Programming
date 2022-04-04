@@ -100,22 +100,9 @@ function App() {
     setUser({ nickname: "", photo: "" });
   }
 
-  const message1 = {
-    time: "10:00",
-    m: "HEEEEY"
-  }
-  const message2 = {
-    time: "12:00",
-    m: "whats up"
-  }
-  const message3 = {
-    time: "13:00",
-    m: "thanks"
-  }
-  const friend1 = {nickname:"Eden", messagesHistory:[message1, message2,message3]}
   return (
     <div className="App">{(user.nickname != "" && user.photo != "") ? (
-      <Chat friend={friend1} />
+      <MainPage />
       ) : (
       // added#############################################################################
       <div>

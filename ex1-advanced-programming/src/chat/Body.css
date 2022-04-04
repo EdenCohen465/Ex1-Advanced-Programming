@@ -1,4 +1,25 @@
-.card border-secondary mb-3{
-    /* max-width: 13rem; */
+.message {
+    border: 1.5px solid black;
+    border-radius: 25px;
+    padding-left: 5px; 
+    padding-top: 2px;
+    padding-bottom: 0px;
+    background-color: #fcd5ce;
+    width: 50%;
+    margin-bottom: 20px;
+    margin-left: 5px;
+}
+.text{
+    padding-left: 5%;
+    font-size: 20px;
+}
+.time{
+    font-size: 15px;
+}
+
+.input-group mb-3{
+    height: 50px;
+    
+
 
 }

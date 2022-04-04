@@ -1,18 +1,18 @@
 import './Chat.css';
 import HeadBar from './HeadBar';
 import Body from './Body';
-import {useState} from 'react';
+import { useState } from 'react';
 
-function Chat({friend}){
+function Chat({ friend }) {
 
-    return(
-        <div>
-        <div className="HeadBar">
-            <HeadBar friend={friend}/>
-        </div>
-        <div className="body"></div>
-        <Body friend={friend}/>
-        <div className="toolBar"></div>
+    return (
+        <div className="chatbox border border-2">
+            <div className="HeadBar">
+                <HeadBar friend={friend} />
+            </div>
+            <div className="body"></div>
+            <Body friend={friend} />
+            <div className="toolBar"></div>
         </div>
     );
 }
