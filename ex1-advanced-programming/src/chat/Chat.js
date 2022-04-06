@@ -26,7 +26,7 @@ function Chat({ friend }) {
     }
 
     return (
-        <div className="chat">
+        <div  className="chat">
             <div className="header">
                 <h3>chat with {friend.nickname}</h3>
             </div>
@@ -45,7 +45,7 @@ function Chat({ friend }) {
                 <div><UploadFile trigger={uploadFile} setUploadFile={setUploadFile}><h3>POPUP</h3></UploadFile>
                 </div>
                 <form>
-                    <input id="newM" placeholder='Write your message' type="text" onChange={e => set_message({ time: getTime(), m: e.target.value })} value={new_message.m}/>
+                    <input id="newM" placeholder='Write your message' type="text" onClick={()=>setUploadFile(false)} onChange={e => set_message({ time: getTime(), m: e.target.value })} value={new_message.m}/>
                     <button className="bi bi-mic" onClick={HandleMicrophone}></button>
                     <button onClick={HandleAddMessage} type="submit">Send <i className="bi bi-envelope"></i></button>
                 </form>
