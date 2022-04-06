@@ -102,7 +102,7 @@ function App() {
 
   return (
     <div className="App">{(user.nickname != "" && user.photo != "") ? (
-      <MainPage />
+      <div className='mainpage'><MainPage /></div>
       ) : (
       // added#############################################################################
       <div>

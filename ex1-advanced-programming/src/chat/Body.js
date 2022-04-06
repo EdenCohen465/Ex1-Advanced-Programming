@@ -1,31 +1,22 @@
 import './Body.css';
-import { useState } from 'react';
 
-function Body({ friend }) {
-    const [chatsList, setList] = useState(friend.messagesHistory);
+
+function Body({ chat }) {
+
     const chatHistory =
-        chatsList.map(message => {
-            return (<div className="message" key={message} > <span className="time">{message.time}</span>
-                <p><span className="text">{message.m}</span></p></div>
+        chat.map((message) => {
+            return (<p className="message" key={Math.random().toString(36).substr(2, 9)} >
+                <span className="text">{message.m}</span><span className="time">{message.time}</span></p>
             );
         }
         );
-    const HandleAddMessage = function (e) {
-      //  e.preventDefault();
-        const message = document.getElementById('newMessage');
-        const t ="10:00";
-        const newM = {time:t, m:message}
-        setList([newM, ...chatsList]);
-            
-    }
+
     return (
         <div>
             <div>
-                <div className="chat">
-                    <div>{chatHistory}</div></div>
+                <div className="chatHistory">
+                    {chatHistory}</div>
                 <div className="newMessage">
-                    <input type="text" placeholder="write your messege" aria-label="Recipient's username" id="newMessage"/>
-                    <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={HandleAddMessage}>Button</button>
                 </div>
             </div>
 

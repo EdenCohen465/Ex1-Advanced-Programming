@@ -1,5 +1,6 @@
 import React from 'react';
 import Chat from '../chat/Chat';
+import './MainPage.css'
 function MainPage() {
   const message1 = {
     time: "10:00",

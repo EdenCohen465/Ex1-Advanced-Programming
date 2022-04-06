@@ -1,3 +1,10 @@
+.mainpage{
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background-color: #dadbd3;
+}
+
 .mb-3 {
   height: 500px;
   width: 500px;
