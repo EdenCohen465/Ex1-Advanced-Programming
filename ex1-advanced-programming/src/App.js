@@ -42,7 +42,8 @@ function App() {
         if (d.password == details.password) {
           setUser({
             nickname: d.nickname,
-            photo: d.photo
+            photo: d.photo,
+            public_photo: d.public_photo
           });
         }
         else {
@@ -91,7 +92,8 @@ function App() {
 
     setUser({
       nickname: nick_name,
-      photo: photo
+      photo: photo,
+      public_photo: ""
     });
   }
 
@@ -105,8 +107,8 @@ function App() {
     ) : (
       // added#############################################################################
       <div>
-        {/* <LoginPage Login={Login} /> */}
-        <RegisterPage submit={submit} photoHandler={photoHandler}/>
+        <LoginPage Login={Login} />
+        {/* <RegisterPage submit={submit} photoHandler={photoHandler}/> */}
       </div>
     )
     }

@@ -4,7 +4,7 @@ import sunflower from './userPhotos/sunflower.jpg';
 const usersList = [{
     username: "admin",
     nickname: "admin",
-    photo: sunflower,
+    public_photo: sunflower,
     password: "admin"
 }];
 
