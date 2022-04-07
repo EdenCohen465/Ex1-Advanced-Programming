@@ -16,8 +16,6 @@ function Body({ chat }) {
             <div>
                 <div className="chatHistory">
                     {chatHistory}</div>
-                <div className="newMessage">
-                </div>
             </div>
 
         </div>

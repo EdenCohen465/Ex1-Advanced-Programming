@@ -1,5 +1,6 @@
 import React from 'react';
 import Chat from '../chat/Chat';
+import sunset from '../userPhotos/sunset.jpg';
 import './MainPage.css'
 function MainPage() {
   const message1 = {
@@ -14,7 +15,7 @@ function MainPage() {
     time: "13:00",
     m: "thanks"
   }
-  const friend1 = {nickname:"Eden", messagesHistory:[message1, message2,message3]}
+  const friend1 = {nickname:"Eden", messagesHistory:[message1, message2,message3], picture: sunset}
   return(
     <div className="welcome">
       <Chat friend={friend1} />
