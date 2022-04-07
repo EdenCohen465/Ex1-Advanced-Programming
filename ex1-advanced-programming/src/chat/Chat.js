@@ -36,9 +36,8 @@ function Chat({ friend }) {
             <div className="chatBody"><Body chat={chatsList} />
             </div>
             <div className="toolBar">
-                <button className="button_option" onClick={() => setUploadFile(true)}><i className="bi bi-link-45deg"></i></button>
-                <div><UploadFile trigger={uploadFile} setUploadFile={setUploadFile}></UploadFile>
-                </div>
+            <button onClick={()=>setUploadFile(true)}><i className="bi bi-link-45deg"></i></button>
+                <div><UploadFile trigger={uploadFile} setUploadFile={setUploadFile}><h3>POPUP</h3></UploadFile></div>
                 <form>
                     <input id="newM" placeholder='Write your message' type="text" onClick={() => setUploadFile(false)} onChange={e => set_message({ time: getTime(), m: e.target.value })} value={new_message.m} onKeyPress={(e) => {
                         if (e.key === "Enter") {
