@@ -4,7 +4,6 @@ import ChatsBar from './chatsBar/ChatsBar';
 import usersList from './UsersList';
 import './App.css';
 import RegisterPage from './registerPage/RegisterPage';
-import MainPage from './mainPage/MainPage';
 
 var photo = null;
 
@@ -102,7 +101,7 @@ function App() {
 
   return (
     <div className="App">{(user.nickname != "" && user.photo != "") ? (
-      <MainPage />
+      <ChatsBar user={user} />
     ) : (
       // added#############################################################################
       <div>
