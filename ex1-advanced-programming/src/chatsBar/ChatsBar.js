@@ -3,16 +3,19 @@ import chatsListDefault from './ChatsList'
 import { useState } from 'react';
 import sunset from '../userPhotos/sunset.jpg';
 import './ChatsBar.css'
-
+import Chat from '../chat/Chat'
 
 
 function ChatsBar({ user }) {
     const [chatsList, setList] = useState(chatsListDefault);
-    const [friend, setFriend] = useState('');
+    const initialFriend = {
+        nickname: "", photo: "", messagesHistory: [{ time: "", m: "" }]};
+    const [friend, setFriend] = useState(initialFriend);
 
     const AddContact = e => {
         e.preventDefault();
         document.getElementById('chatsBar').style.opacity = 0.5;
+        document.getElementById('chat').style.opacity = 0.5;
         document.getElementById('popup').style.opacity = 1;
         document.getElementById('popup').style.display = "block";
     }
@@ -20,16 +23,16 @@ function ChatsBar({ user }) {
     const handleExit = () => {
         document.getElementById('popup').style.display = "none";
         document.getElementById('chatsBar').style.opacity = 1;
+        document.getElementById('chat').style.opacity = 1;
         document.getElementById('newContact').value = '';
      }
 
     const HandleAddContact = e => {
         e.preventDefault();
-        handleExit();
         const user = document.getElementById('newContact').value;
-
+        handleExit();
         // what photo?#########################################################################################################
-        const newEl = {nickname: user, photo: sunset , lastMessage: "", lastMessageTime: "", messagesHistory: []};
+        const newEl = { nickname: user, photo: sunset, messagesHistory: [{ time: "", m: "" }]};
         setList([newEl, ...chatsList]);
     }
 
@@ -45,8 +48,8 @@ function ChatsBar({ user }) {
                 <div className="userLine" onClick={() => {HandleOpenChat(chat);}}>
                     <img src={chat.photo} className="col-4 rounded-circle images" alt="photo" ></img>
                     <span className='nickname col-4'>{chat.nickname}</span>
-                    <span className='minAgo col-4'>{chat.lastMessageTime} minutes ago</span>
-                    <div>{chat.lastMessage}</div>
+                    <span className='minAgo col-4'>{chat.messagesHistory[chat.messagesHistory.length - 1].time}</span>
+                    <div>{chat.messagesHistory[chat.messagesHistory.length - 1].m}</div>
                 </div>
             </div>
         );
@@ -96,7 +99,7 @@ function ChatsBar({ user }) {
             </div>
             <div id="chat" className='col'>
                 <div>
-                    <div> hey {friend.nickname}</div>
+                    <Chat friend={friend}/>
                 </div>
             </div>
         </div>
