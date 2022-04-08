@@ -12,7 +12,7 @@ function LoginPage({Login}) {
   }
 
   return (
-    <form className="Login-form" onSubmit={loginHandler}>
+    <form className="LoginOrRegister" onSubmit={loginHandler}>
       <div className="mb-3">
         <h2 className="page-title">Login Page</h2>
         <label className="form-label" htmlFor="Username">Username: </label>
