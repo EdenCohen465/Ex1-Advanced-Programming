@@ -1,9 +1,3 @@
-//import { editableInputTypes } from '@testing-library/user-event/dist/utils';
-//import { isCompositeComponentWithType } from 'react-dom/test-utils';
-import './InputBox.css';
-
-
-
 function InputBox({photoHandler}) {
     const inputs = [{ name: "Username:", type: "text", id: "username", placeholder: "please enter user name", labelClass: "form-label", inputClass: "form-control" },
     { name: "Nickname:", type: "text", type: "text", id: "nickname", placeholder: "please enter a nick name", labelClass: "form-label", inputClass: "form-control" },

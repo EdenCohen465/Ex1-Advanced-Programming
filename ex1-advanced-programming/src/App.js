@@ -1,12 +1,10 @@
-
 import LoginPage from './loginPage/LoginPage';
 import React, { useState, useRef } from 'react';
-import MainPage from './mainPage/MainPage';
 import ChatsBar from './chatsBar/ChatsBar';
 import usersList from './UsersList';
 import './App.css';
 import RegisterPage from './registerPage/RegisterPage';
-import Chat from './chat/Chat';
+import MainPage from './mainPage/MainPage';
 
 var photo = null;
 
@@ -43,7 +41,8 @@ function App() {
         if (d.password == details.password) {
           setUser({
             nickname: d.nickname,
-            photo: d.photo
+            photo: d.photo,
+            public_photo: d.public_photo
           });
         }
         else {
@@ -92,7 +91,8 @@ function App() {
 
     setUser({
       nickname: nick_name,
-      photo: photo
+      photo: photo,
+      public_photo: ""
     });
   }
 
@@ -102,8 +102,8 @@ function App() {
 
   return (
     <div className="App">{(user.nickname != "" && user.photo != "") ? (
-      <div className='mainpage'><MainPage /></div>
-      ) : (
+      <MainPage />
+    ) : (
       // added#############################################################################
       <div>
         <LoginPage Login={Login} />

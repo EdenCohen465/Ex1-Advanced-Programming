@@ -1,20 +1,11 @@
-.mainpage{
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  background-color: #dadbd3;
-}
-
-.mb-3 {
+.LoginOrRegister {
   height: 500px;
   width: 500px;
   position: absolute;
   left: 33%;
   top: 20%;
-}
-
-.btn {
-  margin-top: 10px;
+  font-family: 'Nunito',sans-serif;
+  background-color: #D8e2dc
 }
 
 .form-label {

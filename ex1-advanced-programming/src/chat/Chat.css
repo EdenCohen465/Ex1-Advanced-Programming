@@ -43,7 +43,8 @@
     padding: 10px;
    
 }
-.button_option {
+
+.toolBar > button , .button_option  {
     border-radius: 30px;
     border: none;
     padding: 10px;
