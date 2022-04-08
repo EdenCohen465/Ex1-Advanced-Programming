@@ -1,7 +1,6 @@
 
 import LoginPage from './loginPage/LoginPage';
 import React, { useState, useRef } from 'react';
-import MainPage from './mainPage/MainPage';
 import ChatsBar from './chatsBar/ChatsBar';
 import usersList from './UsersList';
 import './App.css';

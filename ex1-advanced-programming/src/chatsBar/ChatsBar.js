@@ -10,8 +10,6 @@ function ChatsBar({ user }) {
     const [chatsList, setList] = useState(chatsListDefault);
     const [friend, setFriend] = useState('');
 
-    console.log(chatsList);
-
     const AddContact = e => {
         e.preventDefault();
         document.getElementById('chatsBar').style.opacity = 0.5;
