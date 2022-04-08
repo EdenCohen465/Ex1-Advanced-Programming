@@ -1,19 +1,52 @@
 div#popup.popup {
     display: none;
-    background-color: rgb(243, 183, 183);
+    background-color: white;
     z-index: 1;
     width: 400px;
     position: absolute;
-    left: 40%;
+    left: 35%;
     top: 20%;
     opacity: 1;
+    border-width: 5px;
+    border-color: black;
+    border-radius: .25rem;
+}
+#new-contant-buttom {
+    right: 0;
+    top: 0;
+}
+.button {
+    position: relative;
+    right: 0;
+    top: 0;
 }
 
+#x-button {
+    padding-top: 8px;
+}
+.padding{
+    padding: 15px;
+}
+.btn {
+    margin-top: 0px;
+}
+.row {
+    border-color: gray;
+    background: none;
+}
+.bi-x-circle {
+
+    align-items: center;
+}
 .images {
     width: 80px;
     height: 80px;
 }
 
+#user-image {
+    width: 100px;
+    height: 80px;
+}
 .nickname {
     margin: 10px;
     font-size: 20px;
@@ -39,4 +72,16 @@ div#popup.popup {
 
 #chatsBar {
     opacity: 100%
+}
+
+#chat {
+    display: none;
+}
+.identifier {
+    background-color: white;
+    border-radius: .25rem;
+    background: rgba(255,255,255,0);
+}
+.col-2 {
+    width: 0;
 }

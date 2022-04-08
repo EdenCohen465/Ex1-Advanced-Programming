@@ -1,5 +1,7 @@
 import InputBox from './InputBox';
 import LoginPage from '../loginPage/LoginPage';
+//import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+
 import usersList from '../UsersList';
 
 function RegisterPage({ submit, photoHandler}) {
@@ -14,7 +16,8 @@ function RegisterPage({ submit, photoHandler}) {
         submit();
     }
     return (
-        <div className="mb-3" id ='LoginOrRegister'>
+
+        <div className="mb-3 LoginOrRegister" id ='registerLogic'>
             <form className="Register-form" onSubmit={handleSubmit}>
                 <InputBox photoHandler={photoHandler}/>
                 <button className="btn btn-outline-secondary" type="submit">Register</button>
