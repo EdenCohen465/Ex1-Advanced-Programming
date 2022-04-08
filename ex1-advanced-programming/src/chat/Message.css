@@ -1,0 +1,31 @@
+.chatHistory {
+    
+    /* border: 1.5px solid black;
+    border-radius: 25px;
+    padding-left: 5px; 
+    padding-top: 2px;
+    padding-bottom: 0px;
+    background-color: #fcd5ce;
+    width: 50%;
+    margin-bottom: 20px;
+    margin-left: 5px; */
+}
+
+.message{
+    position: relative;
+    padding: 7px;
+    width:fit-content;
+    border-radius: 10px;
+    background-color: #ffffff;
+    margin-bottom: 15px;
+    margin-left: auto;
+
+}
+.text{
+    margin-right: 5px;
+    font-size: 20px;
+}
+.time{
+    font-size: 10px;
+}
+
