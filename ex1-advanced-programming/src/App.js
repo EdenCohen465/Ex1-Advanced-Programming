@@ -6,7 +6,6 @@ import './App.css';
 import RegisterPage from './registerPage/RegisterPage';
 
 var photo = null;
-
 const photoHandler = (e) => {
    photo = e.target.files[0];
 }
