@@ -3,7 +3,7 @@ import chatsListDefault from './ChatsList'
 import { useState } from 'react';
 import sunset from '../userPhotos/sunset.jpg';
 import './ChatsBar.css'
-import Chat from '../chat/Chat'
+import Chat from '../chat/Chat.js'
 
 function ChatsBar({ user }) {
     const [chatsList, setList] = useState(chatsListDefault);

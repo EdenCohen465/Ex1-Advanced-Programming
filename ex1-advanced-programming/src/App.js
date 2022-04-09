@@ -1,9 +1,11 @@
 import LoginPage from './loginPage/LoginPage';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import ChatsBar from './chatsBar/ChatsBar';
 import usersList from './UsersList';
 import './App.css';
 import RegisterPage from './registerPage/RegisterPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 var photo = null;
 const photoHandler = (e) => {
@@ -31,8 +33,9 @@ function App() {
 
   const [user, setUser] = useState({ nickname: "", photo: ""});
 
-  const Login = function (details) {
+  const Login = (details) => {
     let isIn = false;
+    let flag = false;
     usersList.map((d) => {
       if (d.username == details.username) {
         isIn = true;
@@ -41,42 +44,43 @@ function App() {
             nickname: d.nickname,
             photo: d.photo,
             public_photo: d.public_photo
-          });
+          })
+          flag = true;
         }
         else {
           alert("Wrong Password");
         }
-        return;
       }
     });
     if (!isIn) {
       alert("please register");
     }
+    return flag;
   }
 
   const submit = _ => {
+    let flag = true;
     //getting the values of all inputs.
     const user_name = document.getElementById('username').value;
     const nick_name = document.getElementById('nickname').value;
-    const photo_ = document.getElementById('formFileSm').value;
     const password_ = document.getElementById('password').value;
     const passwordagain = document.getElementById('password-again').value;
 
     usersList.map((user) => {
       if (user.username == user_name) {
         alert('Username already taken! enter another username :)');
-        return;
+        flag = false;
       }
     });
 
     if (password_ != passwordagain) {
       alert('The passwords does not match, please register again.');
-      return;
+        flag = false;
     }
 
     if (!checkValidPassword(password_)) {
       alert("Password must contain numbers and letters. Try again!");
-      return;
+      flag = false;
     }
     
     // check with numbers and letters
@@ -92,6 +96,7 @@ function App() {
       photo: photo,
       public_photo: ""
     });
+    return flag;
   }
 
   const Logout = () => {
@@ -99,17 +104,15 @@ function App() {
   }
 
   return (
-    <div className="App">{(user.nickname != "" && user.photo != "") ? (
-      <ChatsBar user={user}/>
-    ) : (
-      // added#############################################################################
-      <div>
-        <LoginPage Login={Login} />
-        {/* <RegisterPage submit={submit} photoHandler={photoHandler}/> */}
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/registerpage" element={<RegisterPage submit={submit} photoHandler={photoHandler}/>}></Route>
+            <Route path="/" element={<LoginPage Login={Login} />}></Route>
+            <Route path="/chatsbar" element={<ChatsBar user={user} />}></Route>
+          </Routes>
+        </BrowserRouter>
       </div>
-    )
-    }
-    </div>
   );
 }
 
