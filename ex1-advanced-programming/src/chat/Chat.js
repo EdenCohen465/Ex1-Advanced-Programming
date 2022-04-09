@@ -47,7 +47,7 @@ function Chat({ friend }) {
                 <div><UploadOptions trigger={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup}></UploadOptions></div>
                 <form>
                     <input id="newM" placeholder='Write your message' type="text" onChange={HandleChangeMessage}
-                         value={new_message.m} onKeyPress={HandleSendMessage} />
+                         value={new_message.m} onKeyPress={HandleSendMessage} onClick={e=>{setUploadOptionsPopup(false);}} />
                     <button className="button_option bi bi-mic" onClick={HandleMicrophone}></button>
                     <button className="button_option" onClick={HandleAddMessage} type="submit">Send <i className="bi bi-envelope"></i></button>
                 </form>
