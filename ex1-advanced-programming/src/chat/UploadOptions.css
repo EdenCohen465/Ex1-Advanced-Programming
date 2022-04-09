@@ -1,0 +1,25 @@
+*{
+    border-radius: 10px;
+    border-color: rgb(72, 72, 72);
+}
+.popup{
+    position: fixed;
+    background-color: rgb(237, 237, 237);
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: fit-content;
+    padding:5px;
+    margin-bottom: 50px;
+}
+
+.inner-popup{
+    position: relative;
+    width: 100%;
+}
+
+.inner-popup > button {
+    border: 1px solid gray;
+    padding: 4px;
+    border: none;
+}

@@ -1,0 +1,72 @@
+.chat {
+   
+   display: flex;
+   flex:1;
+   flex-direction: column;
+   flex: 0.65;
+
+}
+.header{
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid lightgrey;
+}
+
+.chat > h3 {
+    margin-bottom: 3px;
+    font-weight: 500;
+}
+
+.chatBody{
+   overflow-y: scroll;
+   height: 180px;
+}
+
+.toolBar{
+
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid gray;
+}
+.toolBar > form {
+    flex: 1;
+    display: flex;
+    padding: 10px;
+}
+
+.toolBar > form > input {
+    flex:1;
+    border-radius: 30px;
+    border: none;
+    padding: 10px;
+   
+}
+
+.toolBar > button , .button_option  {
+    border-radius: 30px;
+    border: none;
+    padding: 10px;
+    padding:none;
+    margin-right: 0px;
+}
+
+#selectPhoto {
+    display: none;
+    background-color: white;
+    z-index: 1;
+    width: 400px;
+    position: absolute;
+    left: 35%;
+    top: 20%; 
+    opacity: 1;
+    border-width: 5px;
+    border-color: black;
+    border-radius: .25rem;
+
+}
+
+#selectVideo {
+    display: none;
+}

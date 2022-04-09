@@ -66,8 +66,8 @@ div#popup.popup {
 
 #addContact {
     position: relative;
-    right: 0px;
-    top: 0px;
+    width: 400px;
+    margin-left: 1.6%;
 }
 
 #chatsBar {
@@ -84,4 +84,9 @@ div#popup.popup {
 }
 .col-2 {
     width: 0;
+}
+
+#newContact {
+    width: 400px;
+    margin-left: 1.6%;
 }

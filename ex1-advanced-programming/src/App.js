@@ -1,4 +1,3 @@
-
 import LoginPage from './loginPage/LoginPage';
 import React, { useState, useRef } from 'react';
 import ChatsBar from './chatsBar/ChatsBar';
@@ -7,7 +6,6 @@ import './App.css';
 import RegisterPage from './registerPage/RegisterPage';
 
 var photo = null;
-
 const photoHandler = (e) => {
    photo = e.target.files[0];
 }
@@ -102,7 +100,7 @@ function App() {
 
   return (
     <div className="App">{(user.nickname != "" && user.photo != "") ? (
-      <ChatsBar user={user} />
+      <ChatsBar user={user}/>
     ) : (
       // added#############################################################################
       <div>
