@@ -1,16 +1,18 @@
 import './Message.css';
 
 
-function Message({ chat }) {
-
+function Message({ messagesList }) {
+    console.log(messagesList);
     const chatHistory =
-        chat.map((message, key) => {
+        messagesList.map((message, key) => {
             return (
-            <p className="message" key={key} >
-                <span className="text">{message.m}</span>
-                <span className="time">{message.time}</span>
-            </p>
-            );
+            <p className="message" key={key} > { (message.m != "") ? (
+                <div> 
+                    <span className="text">{message.m}</span>
+                    <span className="time">{message.time}</span>
+                </div>
+            ) : ""
+        }</p>);
         }
         );
 
@@ -18,7 +20,8 @@ function Message({ chat }) {
         <div>
             <div>
                 <div className="chatHistory">
-                    {chatHistory}</div>
+                    {chatHistory}
+                </div>
             </div>
 
         </div>

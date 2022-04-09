@@ -7,6 +7,7 @@ import RegisterPage from './registerPage/RegisterPage';
 import Chat from './chat/Chat';
 import sunset from './userPhotos/sunset.jpg'
 
+
 var photo = null;
 
 const photoHandler = (e) => {
@@ -118,6 +119,7 @@ function App() {
   return (
     <div className="App">{(user.nickname != "" && user.photo != "") ? (
       <Chat friend={friend1} />
+
     ) : (
       // added#############################################################################
       <div>
