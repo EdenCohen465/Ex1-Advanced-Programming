@@ -23,7 +23,6 @@ function LoginPage({ Login }) {
         <label className="form-label" htmlFor="Password: ">Password: </label>
         <input className="form-control" type="password" id="password" placeholder="Please enter your password" required onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} />
         <button className="btn btn-outline-secondary" type="submit"> Login </button>
-
       </div>
       <div>
         <Link to='/registerpage'>tap to register</Link>

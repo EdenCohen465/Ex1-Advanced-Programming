@@ -1,17 +1,27 @@
 import './Chat.css';
 import UploadOptions from './UploadOptions';
 import Message from './Message';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
+import FriendDetails from './FriendDetails';
 
+function InitialChat({setList, friend, messagesList}){
+    console.log('last: '+FriendDetails.lastFriend.nickname);
+    console.log('current: '+FriendDetails.thisFriend.nickname);
+     if(FriendDetails.updated==false&& friend.nickname!="" && FriendDetails.thisFriend.nickname!='' && FriendDetails.lastFriend.nickname != FriendDetails.thisFriend.nickname){
+        console.log('message history of this frieng:');
+        console.log(friend.messagesHistory);
+        setList(friend.messagesHistory);
+        console.log(messagesList);
+        FriendDetails.updated = true;
+
+    }}
 
 function Chat({ friend, handleExit }) {
-
     const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
-    const [messagesList, setList] = useState(friend.messagesHistory);
-    // console.log(friend.messagesHistory)
-    console.log(messagesList)
-    const [new_message, set_message] = useState({ time: "", m: "", type: "" });
+    const [messagesList, setList] = useState([]);
+    
 
+    const [new_message, set_message] = useState({ time: "", m: "", type: "" });
     const HandleAddMessage = function (e) {
         e.preventDefault();
         if (new_message.m != "") {
@@ -106,6 +116,7 @@ function Chat({ friend, handleExit }) {
                     <span><img src={friend.photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
                     <h3>chat with {friend.nickname}</h3>
                 </div>
+                <InitialChat friend={friend} setList={setList} messagesList={messagesList}/>
                 <div className="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
                     <button className="bi bi-link-45deg" onClick={()=>setUploadOptionsPopup(true)}></button>
@@ -117,11 +128,10 @@ function Chat({ friend, handleExit }) {
                         <button className="button_option" onClick={HandleAddMessage} type="submit">Send <i className="bi bi-envelope"></i></button>
                     </form>
                 </div>
-
-            </div>
             <div>
-                {imageOrVideoTags}
+                      {imageOrVideoTags}
             </div>
+        </div>
         </div>
     );
 }

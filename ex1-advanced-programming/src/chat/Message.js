@@ -14,12 +14,11 @@ function DisplayMessage(message) {
 }
 
 function Message({ messagesList }) {
-    console.log(messagesList);
     const chatHistory =
         messagesList.map((message, key) => {
             return (
                 <div className="message" key={key} > { (message.m != "") ? (
-                    <div> 
+                   <div> 
                        {(() => {
                             if(message.type == "text") {
                                 return(<span className="text">{message.m}</span>);

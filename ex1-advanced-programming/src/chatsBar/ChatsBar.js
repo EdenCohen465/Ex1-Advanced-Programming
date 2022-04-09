@@ -4,12 +4,13 @@ import { useState } from 'react';
 import sunset from '../userPhotos/sunset.jpg';
 import './ChatsBar.css'
 import Chat from '../chat/Chat.js'
+import FriendDetails from '../chat/FriendDetails';
 
 function ChatsBar({ user }) {
     const [chatsList, setList] = useState(chatsListDefault);
     const initialFriend = {
-        nickname: "", photo: "", messagesHistory: [{ time: "", m: "" }]};
-    const [friend, setFriend] = useState(initialFriend);
+        nickname: "", photo: "", messagesHistory: [{ time: "", m: "" , type:""}]};
+    const [currentFriend, setFriend] = useState(initialFriend);
 
     const AddContact = e => {
         e.preventDefault();
@@ -38,6 +39,13 @@ function ChatsBar({ user }) {
 
     const HandleOpenChat = (friend) => {
         //e.preventDefault();
+        // update the current friend to be last friend.
+        FriendDetails.lastFriend = currentFriend;
+        // update this friend.
+        FriendDetails.thisFriend = friend;
+        if(FriendDetails.thisFriend.nickname != FriendDetails.lastFriend.nickname){
+            FriendDetails.updated = false;
+        }
         setFriend(friend);
         document.getElementById('chat').style.display = "block";
     }
@@ -100,7 +108,7 @@ function ChatsBar({ user }) {
             </div>
             <div id="chat" className='col'>
                 <div>
-                    <Chat friend={friend} handleExit={handleExit}/>
+                    <Chat friend={currentFriend} handleExit={handleExit}/>
                 </div>
             </div>
         </div>
