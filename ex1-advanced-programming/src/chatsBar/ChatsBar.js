@@ -4,27 +4,28 @@ import { useState } from 'react';
 import sunset from '../userPhotos/sunset.jpg';
 import './ChatsBar.css'
 import Chat from '../chat/Chat'
-
+import FriendDetails from '../chat/FriendDetails';
 
 function ChatsBar({ user }) {
     const [chatsList, setList] = useState(chatsListDefault);
     const initialFriend = {
-        nickname: "", photo: "", messagesHistory: [{ time: "", m: "" }]};
-    const [friend, setFriend] = useState(initialFriend);
+        nickname: "", photo: "", messagesHistory: [{ time: "", m: "" , type:""}]};
+    const [currentFriend, setFriend] = useState(initialFriend);
 
     const AddContact = e => {
         e.preventDefault();
         document.getElementById('chatsBar').style.opacity = 0.5;
         document.getElementById('chat').style.opacity = 0.5;
-        document.getElementById('popup').style.opacity = 1;
         document.getElementById('popup').style.display = "block";
     }
 
-    const handleExit = () => {
-        document.getElementById('popup').style.display = "none";
+    const handleExit = (popUp, clearVal) => {
+        document.getElementById(popUp).style.display = "none";
         document.getElementById('chatsBar').style.opacity = 1;
         document.getElementById('chat').style.opacity = 1;
-        document.getElementById('newContact').value = '';
+        if (clearVal != '') {
+            document.getElementById(clearVal).value = '';
+        }
      }
 
     const HandleAddContact = e => {
@@ -38,9 +39,17 @@ function ChatsBar({ user }) {
 
     const HandleOpenChat = (friend) => {
         //e.preventDefault();
+        // update the current friend to be last friend.
+        FriendDetails.lastFriend = currentFriend;
+        // update this friend.
+        FriendDetails.thisFriend = friend;
+        if(FriendDetails.thisFriend.nickname != FriendDetails.lastFriend.nickname){
+            FriendDetails.updated = false;
+        }
         setFriend(friend);
         document.getElementById('chat').style.display = "block";
     }
+
 
     const chats = chatsList.map((chat, key) => {
         return (
@@ -83,7 +92,7 @@ function ChatsBar({ user }) {
                     <div className="row"> 
                         <div className="col-10 padding">Add new contact</div>
                         <div id="x-button" className='col-2'>
-                            <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={handleExit}> </button>   
+                            <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit('popup', 'newContact')}}> </button>   
                         </div> 
                     </div>
                     <form className="form-floating mb3" onSubmit={HandleAddContact}>
@@ -99,7 +108,7 @@ function ChatsBar({ user }) {
             </div>
             <div id="chat" className='col'>
                 <div>
-                    <Chat friend={friend}/>
+                    <Chat friend={currentFriend} handleExit={handleExit}/>
                 </div>
             </div>
         </div>

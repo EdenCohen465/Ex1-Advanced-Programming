@@ -21,11 +21,6 @@ function LoginPage({Login}) {
         <input className="form-control" type="password" id="password" placeholder="Please enter your password" required onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} />
         <button className="btn btn-outline-secondary" type="submit"> Login </button>
       </div>
-      <div>
-        {/* <BrowserRouter>
-          <Link to='/RegisterForm'>tap to register</Link>
-        </BrowserRouter> */}
-      </div>
     </form>
   );
 }
