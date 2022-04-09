@@ -5,7 +5,6 @@ import sunset from '../userPhotos/sunset.jpg';
 import './ChatsBar.css'
 import Chat from '../chat/Chat'
 
-
 function ChatsBar({ user }) {
     const [chatsList, setList] = useState(chatsListDefault);
     const initialFriend = {
@@ -16,15 +15,16 @@ function ChatsBar({ user }) {
         e.preventDefault();
         document.getElementById('chatsBar').style.opacity = 0.5;
         document.getElementById('chat').style.opacity = 0.5;
-        document.getElementById('popup').style.opacity = 1;
         document.getElementById('popup').style.display = "block";
     }
 
-    const handleExit = () => {
-        document.getElementById('popup').style.display = "none";
+    const handleExit = (popUp, clearVal) => {
+        document.getElementById(popUp).style.display = "none";
         document.getElementById('chatsBar').style.opacity = 1;
         document.getElementById('chat').style.opacity = 1;
-        document.getElementById('newContact').value = '';
+        if (clearVal != '') {
+            document.getElementById(clearVal).value = '';
+        }
      }
 
     const HandleAddContact = e => {
@@ -41,6 +41,7 @@ function ChatsBar({ user }) {
         setFriend(friend);
         document.getElementById('chat').style.display = "block";
     }
+
 
     const chats = chatsList.map((chat, key) => {
         return (
@@ -83,7 +84,7 @@ function ChatsBar({ user }) {
                     <div className="row"> 
                         <div className="col-10 padding">Add new contact</div>
                         <div id="x-button" className='col-2'>
-                            <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={handleExit}> </button>   
+                            <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit('popup', 'newContact')}}> </button>   
                         </div> 
                     </div>
                     <form className="form-floating mb3" onSubmit={HandleAddContact}>
@@ -99,7 +100,7 @@ function ChatsBar({ user }) {
             </div>
             <div id="chat" className='col'>
                 <div>
-                    <Chat friend={friend}/>
+                    <Chat friend={friend} handleExit={handleExit}/>
                 </div>
             </div>
         </div>

@@ -10,11 +10,15 @@
     margin-bottom: 20px;
     margin-left: 5px; */
 }
-
+.photoMessage {
+    width: 150px;
+    height: 150px;
+}
 .message{
     position: relative;
     padding: 7px;
     width:fit-content;
+    height:fit-content;
     border-radius: 10px;
     background-color: #ffffff;
     margin-bottom: 15px;
