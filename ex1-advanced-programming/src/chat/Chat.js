@@ -41,6 +41,7 @@ function Chat({ friend, handleExit }) {
         const today = new Date();
         const time = today.getHours() + ':' + today.getMinutes();
         set_message({ time: time, m: e.target.value, type: "text" });
+
     }
     
     const HandleSendMessage = (e) => {
@@ -51,8 +52,8 @@ function Chat({ friend, handleExit }) {
     
     // handle upload inmage and videos functions #################################################################
     const inputs = [
-        { id: "selectPhoto", val: "Upload an image", type: "image" },
-        { id: "selectVideo", val: "Upload a video", type: "video" }
+        { id: "selectPhoto", val: "Upload an image", type: "image", clearVal: "imageUpload"},
+        { id: "selectVideo", val: "Upload a video", type: "video", clearVal: "videoUpload" }
     ];
 
     var photo = null;
@@ -60,39 +61,43 @@ function Chat({ friend, handleExit }) {
         photo = e.target.files[0];
     }
 
-    const video = null;
+    var video = null;
     const videoHandler = (e) => {
         video = e.target.files[0];
+        console.log(video);
     }
 
-    const HandleUpload = (e, id) => {
+    const HandleUpload = (e, input) => {
         e.preventDefault();
         const today = new Date();
         const time = today.getHours() + ':' + today.getMinutes();
-        if (id == "selectPhoto") {
+        if (input.id == "selectPhoto") {
             set_message({ time: time, m: photo, type: "photo" });
             HandleAddMessage(e);
         } else {
             set_message({ time: time, m: video, type: "video" });
             HandleAddMessage(e);
         }
-        handleExit(id, '');
+        handleExit(input.id, input.clearVal);
     }
-
+    const HandleSubmitImageOrVideo= (e, input) => {
+        HandleUpload(e, input);
+        setUploadOptionsPopup(false);
+    }
     const imageOrVideoTags = inputs.map((input, key) => {
         return (
             <div key={key} id={input.id} className="container UploadImageOrVideo">
                 <div className="row">
                     <div className="col-10 padding">{input.val}</div>
                     <div id="x-button" className='col-2'>
-                        <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit(input.id, '') }}> </button>
+                        <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit(input.id, input.clearVal) }}> </button>
                     </div>
                 </div>
-                <form className="form-floating mb3" onSubmit={(e) => HandleUpload(e, input.id)}>
+                <form className="form-floating mb3" onSubmit={(e) => HandleSubmitImageOrVideo(e, input)}>
                     <div className="form-floating mb-3 row"> {(input.type == "image") ? (
-                        <input type="file" accept="image/*" onChange={photoHandler} required></input>
+                        <input id="imageUpload" type="file" accept="image/*" onChange={photoHandler} required></input>
                     ) : (
-                        <input type="file" accept="video/*" onChange={videoHandler} required></input>
+                        <input id="videoUpload" type="file" accept="video/*" onChange={videoHandler} required></input>
                     )}
                     </div>
                     <div className="row">
