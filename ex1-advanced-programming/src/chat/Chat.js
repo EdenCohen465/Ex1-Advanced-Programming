@@ -4,33 +4,18 @@ import Message from './Message';
 import { useState} from 'react';
 import FriendDetails from './FriendDetails';
 import usersList from '../UsersList';
-
-var messagesHistoryWithFriend = [];
-var messagesHistoryOfFriendWithMe = [];
+var friend_messages_history = null;
 
 
-function InitialChat({setList, friend, messagesList, user}){
-    console.log('last: '+ FriendDetails.lastFriend.nickname);
-    console.log('current: '+FriendDetails.thisFriend.nickname);
-     if(FriendDetails.updated==false&& friend.nickname!="" && FriendDetails.thisFriend.nickname!='' && FriendDetails.lastFriend.nickname != FriendDetails.thisFriend.nickname){
-         user.friendsMessagesHistory.map((messagesHistoryWithUser)=> {
-            if (messagesHistoryWithUser.username == friend.username) {
-                console.log(messagesHistoryWithUser.messagesHistory);
-                messagesHistoryWithFriend = messagesHistoryWithUser.messagesHistory;
-                setList(messagesHistoryWithUser.messagesHistory);
-            }
-         }); 
-         friend.friendsMessagesHistory.map((messagesHistoryWithUser) => {
-             if (messagesHistoryWithUser.username == friend.username) {
-                 messagesHistoryOfFriendWithMe = messagesHistoryWithUser.messagesHistory;
-             }
-         }); 
-        console.log(messagesList);
-        setList(friend.messagesHistory);
+function InitialChat({setList, friend, connected_user}){
+     if(FriendDetails.updated==false&& friend.username!="" && FriendDetails.thisFriend!='' && FriendDetails.lastFriend != FriendDetails.thisFriend){
+        setList(usersList.get(connected_user.username).friendsMessagesHistory.get(friend.username));
+        friend_messages_history = friend.friendsMessagesHistory.get(connected_user.username);
         FriendDetails.updated = true;
-    }}
+    }
+}
 
-function Chat({ friend, handleExit, user }) {
+function Chat({ friend, handleExit, connected_user }) {
     const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
     const [messagesList, setList] = useState([]);
     const [new_message, set_message] = useState({ time: "", message: "", displayMessage:"", type: "", iSent: "" });
@@ -39,9 +24,11 @@ function Chat({ friend, handleExit, user }) {
         e.preventDefault();
         if (new_message.message != "") {
             console.log(new_message);
-            messagesHistoryWithFriend = [...messagesHistoryWithFriend, new_message];
             setList([...messagesList, new_message]);
-            messagesHistoryOfFriendWithMe = [...messagesHistoryOfFriendWithMe, { time: new_message.time, message: new_message.message, displayMessage: new_message.displayMessage, type: new_message.type, iSent: !new_message.iSent}];
+            usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, messagesList);
+            var new_message_friend = {...new_message, iSent: false};
+            friend_messages_history = [...friend_messages_history, new_message_friend];
+            usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
             set_message({ time: "", message: "", displayMessage: "", type: "", iSent: "" });
         }
     }
@@ -129,7 +116,7 @@ function Chat({ friend, handleExit, user }) {
                     <span><img src={friend.public_photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
                     <h3>chat with {friend.nickname}</h3>
                 </div>
-                <InitialChat user={user} friend={friend} setList={setList} messagesList={messagesList}/>
+                <InitialChat connected_user={connected_user} friend={friend} setList={setList}/>
                 <div className="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
                     <button className="bi bi-link-45deg" onClick={()=>setUploadOptionsPopup(true)}></button>

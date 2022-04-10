@@ -2,28 +2,23 @@ import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import usersList from '../UsersList';
 
-function LoginPage({ setUser }) {
+function LoginPage({ connected_user, setConnected_user }) {
   const navigate = useNavigate();
   // detalis is the user name and paasword that entered in the login page.
   const [details, setDetails] = useState({ username: "", password: "" });
 
   const Login = (details) => {
-    let isIn = false;
     let flag = false;
-    usersList.map((d) => {
-      if (d.username == details.username) {
-        isIn = true;
-        if (d.password == details.password) {
-          setUser(d);
-          flag = true;
-        }
-        else {
-          alert("Wrong Password");
-        }
+    if (usersList.has(details.username)) {
+      var d = usersList.get(details.username);
+      if (d.password == details.password) {
+        setConnected_user({ username: details.username, ...d});
+        flag = true;
+      } else {
+        alert("Wrong Password.");
       }
-    });
-    if (!isIn) {
-      alert("please register");
+    } else {
+      alert("Please register.");
     }
     return flag;
   }
