@@ -8,10 +8,7 @@ function InitialChat({setList, friend, messagesList}){
     console.log('last: '+FriendDetails.lastFriend.nickname);
     console.log('current: '+FriendDetails.thisFriend.nickname);
      if(FriendDetails.updated==false&& friend.nickname!="" && FriendDetails.thisFriend.nickname!='' && FriendDetails.lastFriend.nickname != FriendDetails.thisFriend.nickname){
-        console.log('message history of this frieng:');
-        console.log(friend.messagesHistory);
         setList(friend.messagesHistory);
-        console.log(messagesList);
         FriendDetails.updated = true;
 
     }}
