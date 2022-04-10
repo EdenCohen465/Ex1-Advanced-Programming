@@ -6,19 +6,20 @@ import RegisterPage from './registerPage/RegisterPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const [user, setUser] = useState({ username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: ""});
+  const [connected_user, setConnected_user] = useState({ username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: ""
+});
 
   const Logout = () => {
-    setUser({ username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" });
+    setConnected_user(new Map());
   }
 
   return (
       <div className="App">
         <BrowserRouter>
           <Routes>
-            <Route path="/registerpage" element={<RegisterPage setUser={setUser}/>}></Route>
-            <Route path="/" element={<LoginPage setUser={setUser} />}></Route>
-            <Route path="/chatsbar" element={<ChatsBar user={user} />}></Route>
+          <Route path="/registerpage" element={<RegisterPage connected_user={connected_user} setConnected_user={setConnected_user}/>}></Route>
+          <Route path="/" element={<LoginPage connected_user={connected_user} setConnected_user={setConnected_user} />}></Route>
+          <Route path="/chatsbar" element={<ChatsBar connected_user={connected_user} />}></Route>
           </Routes>
         </BrowserRouter>
       </div>

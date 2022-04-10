@@ -1,6 +1,6 @@
 
 let updated = false;
-let lastFriend =  { nickname: '', photo: '', messagesHistory: []};
+let lastFriend = '';
 let thisFriend = '';
 
 const HandleLogout = ()=>{

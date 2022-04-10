@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import checkValidPassword from './isValidPassword';
 import usersList from '../UsersList';
 
-function RegisterPage({ setUser }) {
+function RegisterPage({ connected_user, setConnected_user }) {
     const navigate = useNavigate();
 
     var photo = null;
@@ -19,12 +19,10 @@ function RegisterPage({ setUser }) {
         const password_ = document.getElementById('password').value;
         const passwordagain = document.getElementById('password-again').value;
 
-        usersList.map((user) => {
-            if (user.username == user_name) {
-                alert('Username already taken! enter another username :)');
-                flag = false;
-            }
-        });
+        if (usersList.has(user_name)) {
+            alert('Username already taken! enter another username :)');
+            flag = false;
+        }
 
         if (password_ != passwordagain) {
             alert('The passwords does not match, please register again.');
@@ -37,7 +35,6 @@ function RegisterPage({ setUser }) {
         }
 
         const new_user = {
-            username: user_name,
             nickname: nick_name,
             photo: photo,
             public_photo: "",
@@ -48,10 +45,10 @@ function RegisterPage({ setUser }) {
                     { username: "israelisraeli", messagesHistory: [{ time: "", message: "", displayMessage:"", type: "" }] },
                     { username: "avicohen", messagesHistory: [{ time: "", message: "", displayMessage:"", type: "" }] },
                     { username: "tallevi", messagesHistory: [{ time: "", message: "", displayMessage:"", type: "" }] }]};
-        usersList.push(new_user);
+        usersList.set(user_name, new_user);
 
-        setUser(new_user);
-
+        setConnected_user({username: user_name, ...new_user});
+        console.log(connected_user)
         return flag;
     }
 
