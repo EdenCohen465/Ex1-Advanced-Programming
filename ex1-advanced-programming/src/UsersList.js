@@ -20,7 +20,9 @@ admin_messages.set('edencohen', [{ time: "13:43", message: a, displayMessage: "p
 admin_messages.set('israelisraeli', [{ time: "16:23", message: b, displayMessage: "photo", type: "photo", iSent: false }]);
 admin_messages.set('avicohen', [{ time: "12:00", message: "How Are You?", displayMessage: "How Are You?", type: "text", iSent: true }, { time: "12:05", message: "Good, thanks!:)", displayMessage: "Good, thanks!:)", type: "text", iSent: false }]);
 admin_messages.set('tallevi', [{ time: "14:45", message: f, displayMessage: "photo", type: "photo", iSent: true }, { time: "14:57", message: "Thanks!!", displayMessage: "Thanks!!", type: "text", iSent: false }]);
+
 usersList.set('admin', { nickname: "admin", public_photo: sunflower, password: "admin1", friendsMessagesHistory: admin_messages });
+
 
 const ronioded_messages = new Map();
 ronioded_messages.set('admin', [{ time: "10:00", message: "heyyyyy", displayMessage: "heyyyyy", type: "text", iSent: false }, { time: "10:30", message: "HELLO", displayMessage: "HELLO", type: "text", iSent: true }, { time: "12:00", message: "Nice to see you (:", displayMessage: "Nice to see you (:", type: "text", iSent: false }]);
@@ -28,7 +30,9 @@ ronioded_messages.set('edencohen', [{ time: "16:54", message: "Hey!!!", displayM
 ronioded_messages.set('israelisraeli', [{ time: "19:00", message: c, displayMessage: "photo", type: "photo", iSent: true }]);
 ronioded_messages.set('avicohen', [{ time: "02:59", message: d, displayMessage: "photo", type: "photo", iSent: false }]);
 ronioded_messages.set('tallevi', [{ time: "06:00", message: video1, displayMessage: "video", type: "video", iSent: true }]);
+
 usersList.set("ronioded", { nickname: "roniz", public_photo: sunset, password: "roniz1", friendsMessagesHistory: ronioded_messages });
+
 
 const edencohen_messages = new Map();
 edencohen_messages.set('admin', [{ time: "13:43", message: a, displayMessage: "photo", type: "photo", iSent: false }, { time: "13:50", message: video1, displayMessage: "video", type: "video", iSent: true }]);
