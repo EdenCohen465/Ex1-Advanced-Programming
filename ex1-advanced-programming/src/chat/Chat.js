@@ -72,10 +72,10 @@ function Chat({ friend, handleExit, connected_user }) {
         const today = new Date();
         const time = today.getHours() + ':' + today.getMinutes();
         if (input.id == "selectPhoto") {
-            set_message({ time: time, message: photo, displayMessage: "photo", type: "photo", iSent: true });
+            set_message({ time: time, message: photo, displayMessage: "photo", type: "photo", public: false, iSent: true });
             HandleAddMessage(e);
         } else {
-            set_message({ time: time, message: video, displayMessage: "video", type: "video", iSent: true });
+            set_message({ time: time, message: video, displayMessage: "video", type: "video", public: false, iSent: true });
             HandleAddMessage(e);
         }
         handleExit(input.id, input.clearVal);
