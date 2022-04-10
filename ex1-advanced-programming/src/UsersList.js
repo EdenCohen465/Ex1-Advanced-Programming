@@ -7,6 +7,7 @@ import sunflower from './userPhotos/sunflower.jpg';
 const usersList = [
     {
         username: "admin", nickname: "admin", public_photo: sunflower, password: "admin1", friendsMessagesHistory:
+
             [{ username: "ronioded", messagesHistory: [{ time: "10:00", message: "heyyyyy", displayMessage: "heyyyyy", type: "text", iSent: true }, { time: "10:30", message: "llllllllllll", displayMessage: "llllllllllll", type: "text", iSent: false }, { time: "12:00", message: "oooooo", displayMessage: "oooooo", type: "text",iSent: true }] },
             { username: "edencohen", messagesHistory: [{ time: "", message: "", displayMessage: "", type: "", iSent:"" }] },
             { username: "israelisraeli", messagesHistory: [{ time: "", message: "", displayMessage: "", type: "", iSent:"" }] },
@@ -52,6 +53,7 @@ const usersList = [
             { username: "avicohen", messagesHistory: [{ time: "", message: "", displayMessage: "", type: "", iSent:"" }] }]
     },
     { username: "guy", nickname: "guy", public_photo: sunflower, password: "tal1", friendsMessagesHistory: [{ time: "", message: "", displayMessage: "", type: "", iSent:"" }] }
+
 ];
 
 export default usersList;

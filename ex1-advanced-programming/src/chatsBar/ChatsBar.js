@@ -1,18 +1,16 @@
 import React from 'react';
-import chatsListDefault from './ChatsList'
+import usersList from '../UsersList';
 import { useState } from 'react';
-import sunset from '../userPhotos/sunset.jpg';
 import './ChatsBar.css'
 import Chat from '../chat/Chat.js'
 import FriendDetails from '../chat/FriendDetails';
 
 function ChatsBar({ user }) {
-    const [chatsList, setList] = useState(chatsListDefault);
-    const initialFriend = {
-        nickname: "", photo: "", messagesHistory: [{ time: "", m: "" , type:""}]};
+    const [chatsList, setList] = useState(user.friendsMessagesHistory);
+    const initialFriend = { username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" };
     const [currentFriend, setFriend] = useState(initialFriend);
 
-    const AddContact = e => {
+    const AddContact = (e) => {
         e.preventDefault();
         document.getElementById('chatsBar').style.opacity = 0.5;
         document.getElementById('chat').style.opacity = 0.5;
@@ -27,14 +25,54 @@ function ChatsBar({ user }) {
             document.getElementById(clearVal).value = '';
         }
      }
+    const findUser = (chat) => {
+        var foundedUser = null;
+        usersList.map((user) => {
+            if (user.username == chat.username) {
+                foundedUser = user;
+            }
+        });
+        console.log(foundedUser);
+        return foundedUser;
+    }
+    
+    const findChat = (chat) => {
+        var foundedUser = null;
+        chatsList.map((user) => {
+            if (user.username == chat.username) {
+                foundedUser = user;
+            }
+        });
+        return foundedUser;
+    }
 
-    const HandleAddContact = e => {
+    const isUserNameExist = (chat) => {
+        var foundedUser = null;
+        usersList.map((user) => {
+            if (user.username == chat) {
+                foundedUser = user;
+            }
+        });
+        return foundedUser;
+    }
+    const HandleAddContact = (e) => {
         e.preventDefault();
-        const user = document.getElementById('newContact').value;
-        handleExit();
-        // what photo?#########################################################################################################
-        const newEl = { nickname: user, photo: sunset, messagesHistory: [{ time: "", m: "" }]};
-        setList([newEl, ...chatsList]);
+        const newChat = isUserNameExist(document.getElementById('newContact').value);
+        console.log(newChat);
+        if (newChat == null) {
+            alert("The user didn't register!");
+        } else if (findChat(newChat) != null) {
+            alert("The chat already exists");
+        } else {
+            handleExit('popup', 'newContact');
+            // what photo?#########################################################################################################
+            const newEl = { username: newChat.username, messagesHistory: [{ time: "", m: "", type:"" }]};
+            setList([newEl, ...chatsList]);
+            user.friendsMessagesHistory = [newEl, ...chatsList];
+
+            const addMeToNewContact = { username: user.username, messagesHistory: [{ time: "", m: "", type:"" }]};
+            newChat.friendsMessagesHistory = [addMeToNewContact, ...newChat.friendsMessagesHistory];
+        }
     }
 
     const HandleOpenChat = (friend) => {
@@ -43,25 +81,30 @@ function ChatsBar({ user }) {
         FriendDetails.lastFriend = currentFriend;
         // update this friend.
         FriendDetails.thisFriend = friend;
-        if(FriendDetails.thisFriend.nickname != FriendDetails.lastFriend.nickname){
+        if(FriendDetails.thisFriend.username != FriendDetails.lastFriend.username){
             FriendDetails.updated = false;
         }
         setFriend(friend);
         document.getElementById('chat').style.display = "block";
     }
 
+   
 
     const chats = chatsList.map((chat, key) => {
-        return (
-            <div key={key} className='row px-z' >
-                <div className="userLine" onClick={() => {HandleOpenChat(chat);}}>
-                    <img src={chat.photo} className="col-4 rounded-circle images" alt="photo" ></img>
-                    <span className='nickname col-4'>{chat.nickname}</span>
-                    <span className='minAgo col-4'>{chat.messagesHistory[chat.messagesHistory.length - 1].time}</span>
-                    <div>{chat.messagesHistory[chat.messagesHistory.length - 1].m}</div>
+        var userFriend = findUser(chat);
+        console.log(userFriend);
+        if (userFriend != null) {
+            return (
+                <div key={key} className='row px-z' >
+                    <div className="userLine" onClick={() => { HandleOpenChat(userFriend);}}>
+                        <img src={userFriend.public_photo} className="col-4 rounded-circle images" alt="photo" ></img>
+                        <span className='nickname col-4'>{userFriend.nickname}</span>
+                        <span className='minAgo col-4'>{chat.messagesHistory[chat.messagesHistory.length - 1].time}</span>
+                        <div>{chat.messagesHistory[chat.messagesHistory.length - 1].displayMessage}</div>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     });
 
     return (
@@ -98,7 +141,7 @@ function ChatsBar({ user }) {
                     <form className="form-floating mb3" onSubmit={HandleAddContact}>
                         <div className="form-floating mb-3 row"> 
                             <input className="form-control" id="newContact" placeholder='Enter contact username' required></input>
-                            <label className="identifier" for="newContact">Contact's identifier</label>
+                            <label className="identifier" for="newContact">Contact's username</label>
                         </div>
                         <div className="row">
                             <button className="btn btn-outline-secondary" id="addContact" type="submit">Add</button>
@@ -108,7 +151,7 @@ function ChatsBar({ user }) {
             </div>
             <div id="chat" className='col'>
                 <div>
-                    <Chat friend={currentFriend} handleExit={handleExit}/>
+                    <Chat friend={currentFriend} user={user} handleExit={handleExit}/>
                 </div>
             </div>
         </div>

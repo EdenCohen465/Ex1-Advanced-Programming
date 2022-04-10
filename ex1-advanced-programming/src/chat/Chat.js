@@ -3,29 +3,46 @@ import UploadOptions from './UploadOptions';
 import Message from './Message';
 import { useState} from 'react';
 import FriendDetails from './FriendDetails';
+import usersList from '../UsersList';
 
-function InitialChat({setList, friend, messagesList}){
-    console.log('last: '+FriendDetails.lastFriend.nickname);
+var messagesHistoryWithFriend = [];
+var messagesHistoryOfFriendWithMe = [];
+
+
+function InitialChat({setList, friend, messagesList, user}){
+    console.log('last: '+ FriendDetails.lastFriend.nickname);
     console.log('current: '+FriendDetails.thisFriend.nickname);
      if(FriendDetails.updated==false&& friend.nickname!="" && FriendDetails.thisFriend.nickname!='' && FriendDetails.lastFriend.nickname != FriendDetails.thisFriend.nickname){
+         user.friendsMessagesHistory.map((messagesHistoryWithUser)=> {
+            if (messagesHistoryWithUser.username == friend.username) {
+                console.log(messagesHistoryWithUser.messagesHistory);
+                messagesHistoryWithFriend = messagesHistoryWithUser.messagesHistory;
+                setList(messagesHistoryWithUser.messagesHistory);
+            }
+         }); 
+         friend.friendsMessagesHistory.map((messagesHistoryWithUser) => {
+             if (messagesHistoryWithUser.username == friend.username) {
+                 messagesHistoryOfFriendWithMe = messagesHistoryWithUser.messagesHistory;
+             }
+         }); 
+        console.log(messagesList);
         setList(friend.messagesHistory);
         FriendDetails.updated = true;
-
     }}
 
-function Chat({ friend, handleExit }) {
+function Chat({ friend, handleExit, user }) {
     const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
     const [messagesList, setList] = useState([]);
-    
+    const [new_message, set_message] = useState({ time: "", message: "", displayMessage:"", type: "", iSent: "" });
 
-    const [new_message, set_message] = useState({ time: "", m: "", type: "" });
     const HandleAddMessage = function (e) {
         e.preventDefault();
-        if (new_message.m != "") {
-            friend.messagesHistory = [...friend.messagesHistory, new_message];
+        if (new_message.message != "") {
+            console.log(new_message);
+            messagesHistoryWithFriend = [...messagesHistoryWithFriend, new_message];
             setList([...messagesList, new_message]);
-            // for deleting the input after sending the message.
-            set_message({ time: "", m: "", type: "" });
+            messagesHistoryOfFriendWithMe = [...messagesHistoryOfFriendWithMe, { time: new_message.time, message: new_message.message, displayMessage: new_message.displayMessage, type: new_message.type, iSent: !new_message.iSent}];
+            set_message({ time: "", message: "", displayMessage: "", type: "", iSent: "" });
         }
     }
 
@@ -37,8 +54,7 @@ function Chat({ friend, handleExit }) {
     const HandleChangeMessage= e => {
         const today = new Date();
         const time = today.getHours() + ':' + today.getMinutes();
-        set_message({ time: time, m: e.target.value, type: "text" });
-
+        set_message({ time: time, message: e.target.value, displayMessage: e.target.value, type: "text", iSent: true });
     }
     
     const HandleSendMessage = (e) => {
@@ -69,10 +85,10 @@ function Chat({ friend, handleExit }) {
         const today = new Date();
         const time = today.getHours() + ':' + today.getMinutes();
         if (input.id == "selectPhoto") {
-            set_message({ time: time, m: photo, type: "photo" });
+            set_message({ time: time, message: photo, displayMessage: "photo", type: "photo", iSent: true });
             HandleAddMessage(e);
         } else {
-            set_message({ time: time, m: video, type: "video" });
+            set_message({ time: time, message: video, displayMessage: "video", type: "video", iSent: true });
             HandleAddMessage(e);
         }
         handleExit(input.id, input.clearVal);
@@ -110,19 +126,19 @@ function Chat({ friend, handleExit }) {
         <div>
             <div className="chat">
                 <div className="header">
-                    <span><img src={friend.photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
+                    <span><img src={friend.public_photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
                     <h3>chat with {friend.nickname}</h3>
                 </div>
-                <InitialChat friend={friend} setList={setList} messagesList={messagesList}/>
+                <InitialChat user={user} friend={friend} setList={setList} messagesList={messagesList}/>
                 <div className="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
                     <button className="bi bi-link-45deg" onClick={()=>setUploadOptionsPopup(true)}></button>
                     <div><UploadOptions trigger={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup}></UploadOptions></div>
                     <form>
                         <input id="newM" placeholder='Write your message' type="text" onChange={HandleChangeMessage}
-                            value={new_message.m} onKeyPress={HandleSendMessage} />
+                            value={new_message.displayMessage} onKeyPress={HandleSendMessage} />
                         <button className="button_option bi bi-mic" onClick={HandleMicrophone}></button>
-                        <button className="button_option" onClick={HandleAddMessage} type="submit">Send <i className="bi bi-envelope"></i></button>
+                        <button className="button_option bi bi-envelope" onClick={HandleAddMessage} type="submit">Send</button>
                     </form>
                 </div>
             <div>
