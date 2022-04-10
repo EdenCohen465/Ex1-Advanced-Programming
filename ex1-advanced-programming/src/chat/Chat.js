@@ -26,6 +26,7 @@ function InitialChat({setList, friend, messagesList, user}){
              }
          }); 
         console.log(messagesList);
+        setList(friend.messagesHistory);
         FriendDetails.updated = true;
     }}
 
