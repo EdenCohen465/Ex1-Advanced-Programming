@@ -41,21 +41,18 @@ div#popup.popup {
 .images {
     width: 80px;
     height: 80px;
+    margin-left: 6px;
 }
 
-#user-image {
-    width: 100px;
-    height: 80px;
-}
 .nickname {
     margin: 10px;
     font-size: 20px;
 }
 
-.minAgo {
+.message-time {
     position: relative;
     right: 0px;
-    top: 0px;
+    margin-top: 13px;
 }
 
 .userLine {
@@ -64,19 +61,25 @@ div#popup.popup {
     border: 1px solid gray;
 }
 
+#logout-button {
+    width: 100%
+}
+.last-message {
+    padding-left: 5px;
+}
 #addContact {
     position: relative;
     width: 400px;
     margin-left: 1.6%;
 }
 
+
+
 #chatsBar {
     opacity: 100%
 }
 
-#chat {
-    display: none;
-}
+
 .identifier {
     background-color: white;
     border-radius: .25rem;
@@ -89,4 +92,18 @@ div#popup.popup {
 #newContact {
     width: 400px;
     margin-left: 1.6%;
+}
+ 
+.add-contact-button {
+    position: relative;
+    right: 0px;
+}
+
+.row > * {
+    padding: 0px;
+
+}
+
+.nickname {
+    padding-left: 10px;
 }

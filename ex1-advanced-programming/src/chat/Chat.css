@@ -1,6 +1,5 @@
-.chat {
-   
-   display: flex;
+#chat {
+   display: none;
    flex:1;
    flex-direction: column;
    flex: 0.65;

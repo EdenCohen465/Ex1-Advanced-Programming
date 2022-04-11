@@ -6,6 +6,18 @@ import FriendDetails from './FriendDetails';
 import usersList from '../UsersList';
 var friend_messages_history = null;
 
+function getDate() {
+    const date = new Date();
+    return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
+}
+
+function setMin(x) {
+    if ((x >=0) && (x<10)) {
+        return "0" + x;
+    } else {
+        return x;
+    }
+}
 
 function InitialChat({setList, friend, connected_user}){
      if(FriendDetails.updated==false&& friend.username!="" && FriendDetails.thisFriend!='' && FriendDetails.lastFriend != FriendDetails.thisFriend){
@@ -18,18 +30,18 @@ function InitialChat({setList, friend, connected_user}){
 function Chat({ friend, handleExit, connected_user }) {
     const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
     const [messagesList, setList] = useState([]);
-    const [new_message, set_message] = useState({ time: "", message: "", displayMessage:"", type: "", iSent: "" });
+    const [new_message, set_message] = useState({ date: "", time: "", message: "", displayMessage:"", type: "", iSent: "" });
 
     const HandleAddMessage = function (e) {
         e.preventDefault();
         if (new_message.message != "") {
-            console.log(new_message);
-            setList([...messagesList, new_message]);
-            usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, messagesList);
+            const newList = [...messagesList, new_message];
+            setList(newList);
+            usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, newList);
             var new_message_friend = {...new_message, iSent: false};
             friend_messages_history = [...friend_messages_history, new_message_friend];
             usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
-            set_message({ time: "", message: "", displayMessage: "", type: "", iSent: "" });
+            set_message({ date: getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
         }
     }
 
@@ -40,8 +52,8 @@ function Chat({ friend, handleExit, connected_user }) {
     
     const HandleChangeMessage= e => {
         const today = new Date();
-        const time = today.getHours() + ':' + today.getMinutes();
-        set_message({ time: time, message: e.target.value, displayMessage: e.target.value, type: "text", iSent: true });
+        const time = today.getHours() + ':' + setMin(today.getMinutes());
+        set_message({ date: getDate(), time: time, message: e.target.value, displayMessage: e.target.value, type: "text", iSent: true });
     }
     
     const HandleSendMessage = (e) => {
@@ -70,12 +82,12 @@ function Chat({ friend, handleExit, connected_user }) {
     const HandleUpload = (e, input) => {
         e.preventDefault();
         const today = new Date();
-        const time = today.getHours() + ':' + today.getMinutes();
+        const time = today.getHours() + ':' + setMin(today.getMinutes());
         if (input.id == "selectPhoto") {
-            set_message({ time: time, message: photo, displayMessage: "photo", type: "photo", public: false, iSent: true });
+            set_message({ date: getDate(), time: time, message: photo, displayMessage: "photo", type: "photo", public: false, iSent: true });
             HandleAddMessage(e);
         } else {
-            set_message({ time: time, message: video, displayMessage: "video", type: "video", public: false, iSent: true });
+            set_message({ date: getDate(), time: time, message: video, displayMessage: "video", type: "video", public: false, iSent: true });
             HandleAddMessage(e);
         }
         handleExit(input.id, input.clearVal);
@@ -94,10 +106,10 @@ function Chat({ friend, handleExit, connected_user }) {
                     </div>
                 </div>
                 <form className="form-floating mb3" onSubmit={(e) => HandleSubmitImageOrVideo(e, input)}>
-                    <div className="form-floating mb-3 row"> {(input.type == "image") ? (
-                        <input id="imageUpload" type="file" accept="image/*" onChange={photoHandler} required></input>
+                    <div className="form-floating mb-3 row "> {(input.type == "image") ? (
+                        <input className="form-control form-control-sm" id="imageUpload formFileSm" type="file" accept="image/*" onChange={photoHandler} required></input>
                     ) : (
-                        <input id="videoUpload" type="file" accept="video/*" onChange={videoHandler} required></input>
+                            <input className="form-control form-control-sm" id="videoUpload formFileSm" type="file" accept="video/*" onChange={videoHandler} required></input>
                     )}
                     </div>
                     <div className="row">
@@ -111,7 +123,7 @@ function Chat({ friend, handleExit, connected_user }) {
     
     return (
         <div>
-            <div className="chat">
+            <div id="chat">
                 <div className="header">
                     <span><img src={friend.public_photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
                     <h3>chat with {friend.nickname}</h3>
@@ -128,10 +140,10 @@ function Chat({ friend, handleExit, connected_user }) {
                         <button className="button_option bi bi-envelope" onClick={HandleAddMessage} type="submit">Send</button>
                     </form>
                 </div>
-            <div>
-                      {imageOrVideoTags}
             </div>
-        </div>
+            <div>
+                {imageOrVideoTags}
+            </div>
         </div>
     );
 }
