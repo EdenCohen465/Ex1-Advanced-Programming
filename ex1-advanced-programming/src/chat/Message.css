@@ -1,16 +1,9 @@
-.chatHistory {
-    
-    /* border: 1.5px solid black;
-    border-radius: 25px;
-    padding-left: 5px; 
-    padding-top: 2px;
-    padding-bottom: 0px;
-    background-color: #fcd5ce;
-    width: 50%;
-    margin-bottom: 20px;
-    margin-left: 5px; */
-}
 .photoMessage {
+    width: 150px;
+    height: 150px;
+}
+
+.videoMessage {
     width: 150px;
     height: 150px;
 }
