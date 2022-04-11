@@ -1,6 +1,7 @@
-.chat {
-   
-   display: flex;
+#chat {
+    width: 125%;
+    margin-left: -23%;
+   display: none;
    flex:1;
    flex-direction: column;
    flex: 0.65;
@@ -19,8 +20,9 @@
 }
 
 .chatBody{
-   overflow-y: scroll;
-   height: 180px;
+   overflow-y: auto;
+   height:300px;
+   width: 100%;
 }
 
 .toolBar{

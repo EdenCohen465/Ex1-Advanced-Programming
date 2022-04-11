@@ -7,7 +7,7 @@ function Message({ messagesList }) {
             return (
                 <div className="message" key={key} > { (message.message != "") ? (
                    <div> 
-                       {(() => {
+                       {(() => {console.log(message);
                             if(message.type == "text") {
                                 return(<span className="text">{message.message}</span>);
                             } else if (message.type == "photo") {
@@ -29,6 +29,18 @@ function Message({ messagesList }) {
                                                 <source src={message.message} type="video/mp4"></source>
                                             </video>
                                         );
+                                }
+                            } else if (message.type == "audio"){
+                                if(message.public == false){
+                                return(
+                                    <audio className="audioMessage"  controls >
+                                        <source src={URL.createObjectURL(message.message)} type="audio/mpeg"></source>
+                                    </audio>
+                                );
+                                } else {
+                                    <audio className="audioMessage"  controls >
+                                    <source src={(message.message)} type="audio/mpeg"/>
+                                    </audio>
                                 }
                             }
                         })()}
