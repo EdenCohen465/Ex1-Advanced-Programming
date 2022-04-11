@@ -4,6 +4,7 @@ import { useState } from 'react';
 import './ChatsBar.css'
 import Chat from '../chat/Chat.js'
 import FriendDetails from '../chat/FriendDetails';
+import { Link } from 'react-router-dom';
 
 function ChatsBar({ connected_user }) {
     const [chatsList, setList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
@@ -77,6 +78,8 @@ function ChatsBar({ connected_user }) {
                         <img src={URL.createObjectURL(connected_user.photo)} id="user-image" className="col-6 rounded-circle images" alt="photo" ></img>
                         <span className="nickname col-6">{connected_user.nickname}</span>
                         <span className='col-2 '>
+                        {/*#########################################################################doesnt workkkkkkkkkk*/}
+                        <Link to='/'>tap to logout</Link>
                             <button onClick={AddContact} id="new-contant-buttom" className="bi bi-person-plus-fill btn btn-outline-secondary"></button>
                         </span>
                     </div>
