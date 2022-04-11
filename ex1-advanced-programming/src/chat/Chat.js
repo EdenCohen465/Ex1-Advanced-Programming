@@ -6,7 +6,6 @@ import FriendDetails from './FriendDetails';
 import usersList from '../UsersList';
 var friend_messages_history = null;
 
-
 function InitialChat({setList, friend, connected_user}){
      if(FriendDetails.updated==false&& friend.username!="" && FriendDetails.thisFriend!='' && FriendDetails.lastFriend != FriendDetails.thisFriend){
         setList(usersList.get(connected_user.username).friendsMessagesHistory.get(friend.username));
@@ -24,8 +23,9 @@ function Chat({ friend, handleExit, connected_user }) {
         e.preventDefault();
         if (new_message.message != "") {
             console.log(new_message);
-            setList([...messagesList, new_message]);
-            usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, messagesList);
+            let newList = [...messagesList, new_message];
+            setList(newList);
+            usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, newList);
             var new_message_friend = {...new_message, iSent: false};
             friend_messages_history = [...friend_messages_history, new_message_friend];
             usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
@@ -35,7 +35,6 @@ function Chat({ friend, handleExit, connected_user }) {
 
     const HandleMicrophone = e => {
         e.preventDefault();
-
     }
     
     const HandleChangeMessage= e => {

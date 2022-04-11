@@ -36,9 +36,7 @@ function ChatsBar({ connected_user }) {
             alert("The chat already exists");
         } else {
             handleExit('popup', 'newContact');
-            chatsList.set(new_contact_username, [])
-            setList(chatsList);
-            console.log(chatsList);
+            setList(chatsList.set(new_contact_username, []));
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, []);
             usersList.get(currentFriend).friendsMessagesHistory.set(connected_user.username, []);
         }
@@ -81,7 +79,7 @@ function ChatsBar({ connected_user }) {
                         <span className="nickname col-6">{connected_user.nickname}</span>
                         <span className='col-2 '>
                         {/*#########################################################################doesnt workkkkkkkkkk*/}
-                        <Link to='/'>tap to logout</Link>
+<div>                        <Link to='/'>tap to logout</Link></div>
                             <button onClick={AddContact} id="new-contant-buttom" className="bi bi-person-plus-fill btn btn-outline-secondary"></button>
                         </span>
                     </div>
