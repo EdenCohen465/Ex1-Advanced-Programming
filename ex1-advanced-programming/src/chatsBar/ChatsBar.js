@@ -35,7 +35,9 @@ function ChatsBar({ connected_user }) {
             alert("The chat already exists");
         } else {
             handleExit('popup', 'newContact');
-            setList(chatsList.set(new_contact_username, []));
+            chatsList.set(new_contact_username, [])
+            setList(chatsList);
+            console.log(chatsList);
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, []);
             usersList.get(currentFriend).friendsMessagesHistory.set(connected_user.username, []);
         }

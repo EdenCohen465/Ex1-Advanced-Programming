@@ -11,12 +11,25 @@ function Message({ messagesList }) {
                             if(message.type == "text") {
                                 return(<span className="text">{message.message}</span>);
                             } else if (message.type == "photo") {
-                                return (<img className="photoMessage rounded float-start " src={URL.createObjectURL(message.message)} alt="photo" ></img>)
+                                if (message.public == false) {
+                                    return (<img className="photoMessage rounded float-start " src={URL.createObjectURL(message.message)} alt="photo" ></img>)
+                                } else {
+                                    return (<img className="photoMessage rounded float-start " src={message.message} alt="photo" ></img>)
+                                }
                             } else if (message.type == "video") {
-                                return(
-                                    <video className="videoMessage" controls>
-                                        <source src={URL.createObjectURL(message.message)} type="video/mp4"></source>
-                                </video>);
+                                    if (message.public == false) {
+                                    return(
+                                        <video className="videoMessage" controls>
+                                            <source src={URL.createObjectURL(message.message)} type="video/mp4"></source>
+                                        </video>
+                                    );
+                                } else {
+                                        return (
+                                            <video className="videoMessage" controls>
+                                                <source src={message.message} type="video/mp4"></source>
+                                            </video>
+                                        );
+                                }
                             }
                         })()}
                         <span className="time">{message.time}</span>
