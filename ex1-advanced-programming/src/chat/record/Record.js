@@ -6,6 +6,7 @@ function Record(props) {
 
   const HandleUpload = (e) => {
     e.preventDefault();
+    // when we done to record, add new message
     props.HandleAddMessage(e);
   }
 
