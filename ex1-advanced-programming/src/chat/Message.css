@@ -13,11 +13,11 @@
     width:fit-content;
     height:fit-content;
     border-radius: 10px;
-    background-color: #ffffff;
     margin-bottom: 15px;
     margin-left: auto;
-
+    background: #ffffff;
 }
+
 .text{
     margin-right: 5px;
     font-size: 20px;

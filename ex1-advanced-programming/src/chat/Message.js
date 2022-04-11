@@ -2,10 +2,11 @@ import './Message.css';
 import React from 'react';
 
 function Message({ messagesList }) {
+
     const chatHistory =
         messagesList.map((message, key) => {
             return (
-                <div className="message" key={key} > { (message.message != "") ? (
+                <div className="message"key={key} > { (message.message != "") ? (
                    <div> 
                        {(() => {console.log(message);
                             if(message.type == "text") {
