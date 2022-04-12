@@ -7,9 +7,14 @@ import FriendDetails from '../chat/FriendDetails';
 import { Link } from 'react-router-dom';
 import Helpers from '../chat/Helpers';
 
+
 function ChatsBar({ connected_user }) {
-    // messages list- for the last message.
-    const [messagesList, setMessageList] = useState([]);
+   
+    // for the popup widow of the upload options.
+    const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
+    // the next message to send.
+    const [new_message, set_message] = useState({ date: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
+
     // for sorting the chat by the last message.
     const sort_function = (a, b) => {
         const a_messages = usersList.get(connected_user.username).friendsMessagesHistory.get(a);
@@ -63,7 +68,13 @@ function ChatsBar({ connected_user }) {
         if (compare != 0) {
             return compare;
         }
-        
+
+        // compare the seconds.
+        compare = Helpers.sort(a_messages[a_messages.length - 1].sec, b_messages[ b_messages.length - 1].sec);
+        if (compare != 0) {
+            return compare;
+        }
+
         // if it is the same time, it does no matter.
         return -1;
     };
@@ -75,13 +86,17 @@ function ChatsBar({ connected_user }) {
     const initialFriend = { username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" };
     // chosen chat friend.
     const [currentFriend, setFriend] = useState(initialFriend);
-
+    const update_sorted_keys = () => {
+        setListKeys(Array.from(chatsList.keys()).sort(sort_function));
+    }
     // for sowing pop up window.
     const AddContact = (e) => {
         e.preventDefault();
+        setUploadOptionsPopup(false);
         document.getElementById('chatsBar').style.opacity = 0.5;
         document.getElementById('chat').style.opacity = 0.5;
         document.getElementById('popup').style.display = "block";
+        set_message({ date: Helpers.getDate(), time: "", sec: "0", message: "", displayMessage: "", type: "", iSent: "" });
     }
 
     const handleExit = (popUp, clearVal) => {
@@ -111,13 +126,16 @@ function ChatsBar({ connected_user }) {
             // close the popup window.
             handleExit('popup', 'newContact');
             // add to the chat list map the new contact.
-            chatsList.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }])
+
+            chatsList.set(new_contact_username, [{ date: "", sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: true }])
             setChatsList(chatsList);
+
             setListKeys(Array.from(chatsList.keys()).sort(sort_function));
             // add the friend to user history and the user to friend history.
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
             usersList.get(currentFriend.username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
         }
+        set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
     }
 
     const HandleOpenChat = (friend_details, friend_username) => {
@@ -131,6 +149,7 @@ function ChatsBar({ connected_user }) {
         setFriend({ username: friend_username, nickname: friend_details.nickname, public_photo: friend_details.public_photo, password: friend_details.password, friendsMessagesHistory: friend_details.friendsMessagesHistory });
         // open chat.
         document.getElementById('chat').style.display = "block";
+        setUploadOptionsPopup(false);
     }
 
     // check the logics of the sort!#####################################################################################################
@@ -140,14 +159,14 @@ function ChatsBar({ connected_user }) {
             const chat = usersList.get(connected_user.username).friendsMessagesHistory.get(friend_username);
             return (
                 // open the chat with the chosen friend.
-                <div key={key} className="userLine row px-z" onClick={() => { HandleOpenChat(friend_details, friend_username);}}>
+                <div key={key} className="userLine hover-style row px-z" onClick={() => { HandleOpenChat(friend_details, friend_username);}}>
                     <img src={friend_details.public_photo} className="col-4 rounded-circle images" alt="photo" ></img>
                     <div className='col-8'>
-                        <div className='container'>
+                        <div className='container nick_name_row'>
                             <div className='row'>
-                                <span className='nickname col-10'>{friend_details.nickname}</span>
+                                <span className='nickname col-7'>{friend_details.nickname}</span>
                                 {/** time of the last message */}
-                                <span className='message-time col-2'>{Helpers.timeDisplay(chat[chat.length- 1].time, chat[chat.length- 1].date)}</span>
+                                <span className='message-time col-5'>{Helpers.timeDisplay(chat[chat.length- 1].time, chat[chat.length- 1].date)}</span>
                             </div>
                             {/** last message */}
                             <div className='last-message row'>{chat[chat.length - 1].displayMessage}</div>
@@ -159,8 +178,8 @@ function ChatsBar({ connected_user }) {
 
     
     return (
-        <div className='container row'>
-            <div className="col">
+        <div className='container row chat-bar'>
+            <div className="col-sm-4 col-md-4">
                 <div id="chatsBar" className='container'> 
                     <div className="row px-z userLine"> 
                         {/* Showing connected user photo */}
@@ -210,9 +229,9 @@ function ChatsBar({ connected_user }) {
                     </form>
                 </div>
             </div>
-            <div className='col' id= "conversition">
+            <div className="col-sm-8 col-md-8" id= "conversation">
                 <div>
-                    <Chat messagesList={messagesList}setMessageList={setMessageList} friend={currentFriend} connected_user={connected_user} handleExit={handleExit}/>
+                    <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message} update_sorted_keys={update_sorted_keys}/>
                 </div>
             </div>
         </div>

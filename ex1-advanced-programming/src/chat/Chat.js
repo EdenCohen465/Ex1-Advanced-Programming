@@ -21,12 +21,9 @@ function InitialChat(props) {
     }
 }
 
-function Chat({ friend, handleExit, connected_user, setMessageList, messagesList }) {
-    // for the popup widow of the upload options.
-    const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
-
-    // the next message to send.
-    const [new_message, set_message] = useState({ date: "", time: "", message: "", displayMessage:"", type: "", iSent: "" });
+function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploadOptionsPopup, new_message, set_message, update_sorted_keys }) {
+    // messages list.
+    const [messagesList,  setMessageList] = useState([]);
     // popup microphone window.
     const [useMicrophone, setUseMicrophone] = useState(false);
 
@@ -36,6 +33,7 @@ function Chat({ friend, handleExit, connected_user, setMessageList, messagesList
         // close the popup windows of michrophone and upload options.
         setUseMicrophone(false);
         setUploadOptionsPopup(false);
+        
         // if the message is not empty, send it.
         if (new_message.message != "") {
             const newList = [...messagesList, new_message];
@@ -48,7 +46,8 @@ function Chat({ friend, handleExit, connected_user, setMessageList, messagesList
             friend_messages_history = [...friend_messages_history, new_message_friend];
             usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
             // in order to clear the input box.
-            set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
+            set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
+            update_sorted_keys();
         }
     }
 
@@ -57,7 +56,7 @@ function Chat({ friend, handleExit, connected_user, setMessageList, messagesList
         const today = new Date();
         const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
         // create message
-        set_message({ date: Helpers.getDate(), time: time, message: e.target.value, displayMessage: e.target.value, type: "text", iSent: true });
+        set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: e.target.value, displayMessage: e.target.value, type: "text", iSent: true });
     }
     
     // send the message if the user pressed Enter key.
@@ -98,14 +97,14 @@ function Chat({ friend, handleExit, connected_user, setMessageList, messagesList
         const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
         // set the messages depends of the id.
         if (input.id == "selectPhoto") {
-            set_message({ date: Helpers.getDate(), time: time, message: photo, displayMessage: "photo", type: "photo", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: photo, displayMessage: "photo", type: "photo", public: false, iSent: true });
             HandleAddMessage(e);
         } else if(input.id =="selectVideo") {
-            set_message({ date: Helpers.getDate(), time: time, message: video, displayMessage: "video", type: "video", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: video, displayMessage: "video", type: "video", public: false, iSent: true });
             HandleAddMessage(e);
         }
         else {
-            set_message({ date: Helpers.getDate(), time: time, message: audio, displayMessage: "audio", type: "audio", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: audio, displayMessage: "audio", type: "audio", public: false, iSent: true });
             HandleAddMessage(e);
         }
         handleExit(input.id, input.clearVal);
@@ -169,15 +168,17 @@ function Chat({ friend, handleExit, connected_user, setMessageList, messagesList
                 {/**show the messages list */}
                 <div className="chatBody" id="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
-                    <button className="bi bi-link-45deg" onClick={()=>setUploadOptionsPopup(true)}></button>
+                    <button className="bi bi-link-45deg hover-style" onClick={()=> {setUploadOptionsPopup(true)
+                        set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
+                    }}></button>
                     <div><UploadOptions trigger={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup}></UploadOptions></div>
                     {/**Send text message */}
                     <form>
                         <input id="newM" placeholder='Write your message' type="text" onChange={HandleChangeMessage}
                             value={new_message.displayMessage} onKeyPress={HandleSendMessage} onClick={()=>{setUploadOptionsPopup(false); setUseMicrophone(false)}}/>
-                        <button className="button_option bi bi-mic" onClick={(e)=>{e.preventDefault(); setUseMicrophone(!useMicrophone)}}></button>
+                        <button className="button_option bi bi-mic hover-style" onClick={(e)=>{e.preventDefault(); setUseMicrophone(!useMicrophone)}}></button>
                         <div className='microphone'><Record trigger={useMicrophone} setUseMicrophone={setUseMicrophone} set_message={set_message} HandleAddMessage={HandleAddMessage}/></div>
-                        <button className="button_option bi bi-envelope" onClick={HandleAddMessage} type="submit">Send</button>
+                        <button className="button_option bi bi-envelope hover-style" onClick={HandleAddMessage} type="submit">Send</button>
                     </form>
                 </div>
             </div>

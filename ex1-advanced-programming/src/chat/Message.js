@@ -1,13 +1,19 @@
 import './Message.css';
-import React from 'react';
-
+import React, { useEffect, useRef } from 'react'
 function Message({ messagesList }) {
-
+    const messagesEndRef = useRef(null);
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+      }
+      useEffect(() => {
+        scrollToBottom()
+      }, [messagesList]);
     const chatHistory =
         messagesList.map((message, key) => {
+            
             return (
-                <div className="message" key={key} > {(message.message != "") ? (
-                    <div>
+                <div id={key} className="message" key={key} > {(message.message != "") ? (
+                    <div >
                         {(() => {
                             // display the message depends on her type.
                             if (message.type == "text") {
@@ -56,13 +62,9 @@ function Message({ messagesList }) {
         });
 
     return (
-        <div>
-            <div>
-                <div className="chatHistory" id='chatHistory'>
-                    {chatHistory}
-                </div>
-            </div>
-
+        <div className="chatHistory" id='chatHistory'>
+            {chatHistory}
+            <div ref={messagesEndRef} />
         </div>
     );
 }
