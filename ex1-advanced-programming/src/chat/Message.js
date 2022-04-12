@@ -80,7 +80,7 @@ function Message({ messagesList }) {
     return (
         <div>
             <div>
-                <div className="chatHistory" id='chatHistory'>
+                <div className="chatHistory">
                     {chatHistory}
                 </div>
             </div>
