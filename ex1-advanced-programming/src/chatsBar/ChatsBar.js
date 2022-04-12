@@ -9,6 +9,8 @@ import Helpers from '../chat/Helpers';
 
 
 function ChatsBar({ connected_user }) {
+    // messages list- for the last message.
+    const [messagesList, setMessageList] = useState([]);
     // for the popup widow of the upload options.
     const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
     // the next message to send.
@@ -73,7 +75,7 @@ function ChatsBar({ connected_user }) {
     };
 
     // chat list is initialize by the messages history of the connected user.
-    const [chatsList, setList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
+    const [chatsList, setChatsList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
     const [chatsListKeys, setListKeys] = useState(Array.from(chatsList.keys()).sort(sort_function));
 
     const initialFriend = { username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" };
@@ -118,7 +120,7 @@ function ChatsBar({ connected_user }) {
             handleExit('popup', 'newContact');
             // add to the chat list map the new contact.
             chatsList.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }])
-            setList(chatsList);
+            setChatsList(chatsList);
             setListKeys(Array.from(chatsList.keys()).sort(sort_function));
             // add the friend to user history and the user to friend history.
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
@@ -220,7 +222,7 @@ function ChatsBar({ connected_user }) {
             </div>
             <div className="col-sm-8 col-md-8" id= "conversation">
                 <div>
-                    <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message}/>
+                    <Chat messagesList={messagesList} setMessageList={setMessageList} friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message}/>
                 </div>
             </div>
         </div>
