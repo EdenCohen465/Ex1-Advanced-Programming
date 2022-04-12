@@ -2,21 +2,29 @@ import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import usersList from '../UsersList';
 
-function LoginPage({ connected_user, setConnected_user }) {
+function LoginPage({ setConnected_user }) {
   const navigate = useNavigate();
+
   // detalis is the user name and paasword that entered in the login page.
   const [details, setDetails] = useState({ username: "", password: "" });
 
   const Login = (details) => {
+    // flag for check if the user can connect successfully.
     let flag = false;
+
+    // check if the user already registered.
     if (usersList.has(details.username)) {
+      // get information of the user from the user list.
       var d = usersList.get(details.username);
+      // check for correct password.
       if (d.password == details.password) {
+        // if the password correct, connect the user.
         setConnected_user({ username: details.username, ...d});
         flag = true;
       } else {
         alert("Wrong Password.");
       }
+      // if the user didnt register.
     } else {
       alert("Please register.");
     }
@@ -25,6 +33,7 @@ function LoginPage({ connected_user, setConnected_user }) {
 
   const loginHandler = e => {
     e.preventDefault();
+    // Check if the user can connect, if so, connect him.
     if (Login(details)) {
       navigate('/chatsbar');
     }
