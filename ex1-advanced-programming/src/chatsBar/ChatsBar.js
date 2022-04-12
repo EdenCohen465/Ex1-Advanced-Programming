@@ -15,7 +15,8 @@ function ChatsBar({ connected_user }) {
     const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
     // the next message to send.
     const [new_message, set_message] = useState({ date: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
-    
+
+
     // for sorting the chat by the last message.
     const sort_function = (a, b) => {
         const a_messages = usersList.get(connected_user.username).friendsMessagesHistory.get(a);
@@ -69,7 +70,13 @@ function ChatsBar({ connected_user }) {
         if (compare != 0) {
             return compare;
         }
-        
+
+        // compare the seconds.
+        compare = Helpers.sort(a_messages[a_messages.length - 1].sec, b_messages[ b_messages.length - 1].sec);
+        if (compare != 0) {
+            return compare;
+        }
+
         // if it is the same time, it does no matter.
         return -1;
     };
@@ -81,7 +88,9 @@ function ChatsBar({ connected_user }) {
     const initialFriend = { username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" };
     // chosen chat friend.
     const [currentFriend, setFriend] = useState(initialFriend);
-
+    const update_sorted_keys = () => {
+        setListKeys(Array.from(chatsList.keys()).sort(sort_function));
+    }
     // for sowing pop up window.
     const AddContact = (e) => {
         e.preventDefault();
@@ -89,7 +98,7 @@ function ChatsBar({ connected_user }) {
         document.getElementById('chatsBar').style.opacity = 0.5;
         document.getElementById('chat').style.opacity = 0.5;
         document.getElementById('popup').style.display = "block";
-        set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
+        set_message({ date: Helpers.getDate(), time: "", sec: "0", message: "", displayMessage: "", type: "", iSent: "" });
     }
 
     const handleExit = (popUp, clearVal) => {
@@ -119,8 +128,10 @@ function ChatsBar({ connected_user }) {
             // close the popup window.
             handleExit('popup', 'newContact');
             // add to the chat list map the new contact.
-            chatsList.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }])
-            setChatsList(chatsList);
+
+            chatsList.set(new_contact_username, [{ date: "", sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: true }])
+            setList(chatsList);
+
             setListKeys(Array.from(chatsList.keys()).sort(sort_function));
             // add the friend to user history and the user to friend history.
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
@@ -222,7 +233,7 @@ function ChatsBar({ connected_user }) {
             </div>
             <div className="col-sm-8 col-md-8" id= "conversation">
                 <div>
-                    <Chat messagesList={messagesList} setMessageList={setMessageList} friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message}/>
+                    <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message} update_sorted_keys={update_sorted_keys}/>
                 </div>
             </div>
         </div>
