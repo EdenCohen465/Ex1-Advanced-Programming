@@ -24,6 +24,7 @@ function sort (a,b) {
 }
 
 function timeDisplay(time, message_date) {
+
     var date_splitted = message_date.split('.');
     var time_splitted = time.split(':');
     const date = new Date();

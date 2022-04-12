@@ -14,8 +14,7 @@ function Record(props) {
   return ((props.trigger) ? (
     <div className="Record">
       <div className="inner-record">
-        <audio src={audioURL} controls />
-        <button onClick={startRecording} disabled={isRecording}>
+              <button onClick={startRecording} disabled={isRecording}>
           start
         </button>
         <button onClick={(e) => { stopRecording(); HandleUpload(e) }} disabled={!isRecording}>

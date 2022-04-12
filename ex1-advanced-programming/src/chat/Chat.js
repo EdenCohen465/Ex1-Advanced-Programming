@@ -6,7 +6,8 @@ import FriendDetails from './FriendDetails';
 import usersList from '../UsersList';
 import Record from './record/Record';
 import Helpers from './Helpers';
-var friend_messages_history = null;
+var friend_messages_history = [];
+
 
 function InitialChat({ setList, friend, connected_user }) {
     // when the char is opened, set the list in order to show the message history, only if we changed friend.
@@ -22,7 +23,7 @@ function InitialChat({ setList, friend, connected_user }) {
 
 function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploadOptionsPopup, new_message, set_message, update_sorted_keys }) {
     // messages list.
-    const [messagesList, setList] = useState([]);
+    const [messagesList,  setMessageList] = useState([]);
     // popup microphone window.
     const [useMicrophone, setUseMicrophone] = useState(false);
 
