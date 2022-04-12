@@ -1,30 +1,29 @@
 import './Chat.css';
 import UploadOptions from './uploadOptions/UploadOptions';
 import Message from './Message';
-import { useState} from 'react';
+import { useState, useRef, useEffect} from 'react';
 import FriendDetails from './FriendDetails';
 import usersList from '../UsersList';
 import Record from './record/Record';
 import Helpers from './Helpers';
-var friend_messages_history = null;
+var friend_messages_history = [];
 
-function InitialChat({ setList, friend, connected_user }) {
+function InitialChat(props) {
     // when the char is opened, set the list in order to show the message history, only if we changed friend.
     // and if it not already updeted.
-    if (FriendDetails.updated == false && friend.username != "" && FriendDetails.thisFriend != '' && FriendDetails.lastFriend != FriendDetails.thisFriend) {
+    if (FriendDetails.updated == false && props.friend.username != "" && FriendDetails.thisFriend != '' && FriendDetails.lastFriend != FriendDetails.thisFriend) {
         // get the history messages of the connected user with the chosen friend.
-        setList(usersList.get(connected_user.username).friendsMessagesHistory.get(friend.username));
-        friend_messages_history = friend.friendsMessagesHistory.get(connected_user.username);
+        props.setMessageList(usersList.get(props.connected_user.username).friendsMessagesHistory.get(props.friend.username));
+        friend_messages_history = props.friend.friendsMessagesHistory.get(props.connected_user.username);
         // message history updated.
         FriendDetails.updated = true;
     }
 }
 
-function Chat({ friend, handleExit, connected_user }) {
+function Chat({ friend, handleExit, connected_user, setMessageList, messagesList }) {
     // for the popup widow of the upload options.
     const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
-    // messages list.
-    const [messagesList, setList] = useState([]);
+
     // the next message to send.
     const [new_message, set_message] = useState({ date: "", time: "", message: "", displayMessage:"", type: "", iSent: "" });
     // popup microphone window.
@@ -40,7 +39,7 @@ function Chat({ friend, handleExit, connected_user }) {
         if (new_message.message != "") {
             const newList = [...messagesList, new_message];
             // update the list with the new message.
-            setList(newList);
+            setMessageList(newList);
             // append the new message to the user history with the current friend.
             usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, newList);
             // append the new message to the friend history with the connected user.
@@ -49,7 +48,6 @@ function Chat({ friend, handleExit, connected_user }) {
             usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
             // in order to clear the input box.
             set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
-            
         }
     }
 
@@ -156,7 +154,7 @@ function Chat({ friend, handleExit, connected_user }) {
         );
     });
     //#############################################################################################################
-    
+
     return (
         <div>
             <div id="chat">
@@ -166,9 +164,9 @@ function Chat({ friend, handleExit, connected_user }) {
                     <h3>Chat with {friend.nickname}</h3>
                 </div>
                 {/**initial the messagesList- by the history messages. */}
-                <InitialChat connected_user={connected_user} friend={friend} setList={setList}/>
+                <InitialChat connected_user={connected_user} friend={friend} setMessageList={setMessageList}/>
                 {/**show the messages list */}
-                <div className="chatBody"><Message messagesList={messagesList} /></div>
+                <div className="chatBody" id="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
                     <button className="bi bi-link-45deg" onClick={()=>setUploadOptionsPopup(true)}></button>
                     <div><UploadOptions trigger={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup}></UploadOptions></div>
@@ -187,6 +185,7 @@ function Chat({ friend, handleExit, connected_user }) {
             </div>
         </div>
     );
+
 }
 
 export default Chat;

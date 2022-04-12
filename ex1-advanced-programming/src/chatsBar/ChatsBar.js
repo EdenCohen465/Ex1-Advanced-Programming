@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import Helpers from '../chat/Helpers';
 
 function ChatsBar({ connected_user }) {
+    // messages list- for the last message.
+    const [messagesList, setMessageList] = useState([]);
     // for sorting the chat by the last message.
     const sort_function = (a, b) => {
         const a_messages = usersList.get(connected_user.username).friendsMessagesHistory.get(a);
@@ -67,7 +69,7 @@ function ChatsBar({ connected_user }) {
     };
 
     // chat list is initialize by the messages history of the connected user.
-    const [chatsList, setList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
+    const [chatsList, setChatsList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
     const [chatsListKeys, setListKeys] = useState(Array.from(chatsList.keys()).sort(sort_function));
 
     const initialFriend = { username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" };
@@ -110,7 +112,7 @@ function ChatsBar({ connected_user }) {
             handleExit('popup', 'newContact');
             // add to the chat list map the new contact.
             chatsList.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }])
-            setList(chatsList);
+            setChatsList(chatsList);
             setListKeys(Array.from(chatsList.keys()).sort(sort_function));
             // add the friend to user history and the user to friend history.
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
@@ -210,7 +212,7 @@ function ChatsBar({ connected_user }) {
             </div>
             <div className='col' id= "conversition">
                 <div>
-                    <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit}/>
+                    <Chat messagesList={messagesList} setMessageList={setMessageList} friend={currentFriend} connected_user={connected_user} handleExit={handleExit}/>
                 </div>
             </div>
         </div>
