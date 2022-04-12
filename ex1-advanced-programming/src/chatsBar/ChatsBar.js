@@ -14,7 +14,6 @@ function ChatsBar({ connected_user }) {
     // the next message to send.
     const [new_message, set_message] = useState({ date: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
 
-
     // for sorting the chat by the last message.
     const sort_function = (a, b) => {
         const a_messages = usersList.get(connected_user.username).friendsMessagesHistory.get(a);

@@ -1,10 +1,13 @@
 import './Message.css';
-import React from 'react';
-
+import React, { useEffect, useRef } from 'react'
 function Message({ messagesList }) {
-    const setStyle = (key) => {
-
-    }
+    const messagesEndRef = useRef(null);
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+      }
+      useEffect(() => {
+        scrollToBottom()
+      }, [messagesList]);
     const chatHistory =
         messagesList.map((message, key) => {
             var margin;
@@ -78,13 +81,9 @@ function Message({ messagesList }) {
         });
 
     return (
-        <div>
-            <div>
-                <div className="chatHistory">
-                    {chatHistory}
-                </div>
-            </div>
-
+        <div className="chatHistory" id='chatHistory'>
+            {chatHistory}
+            <div ref={messagesEndRef} />
         </div>
     );
 }
