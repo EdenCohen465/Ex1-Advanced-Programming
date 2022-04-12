@@ -85,6 +85,7 @@ function Chat({ friend, handleExit, connected_user }) {
         video = e.target.files[0];
         console.log(video);
     }
+
     var audio = null;
     const audioHandler = (e) => {
         audio = e.target.files[0];
@@ -119,19 +120,19 @@ function Chat({ friend, handleExit, connected_user }) {
     // return input depends on the input type.
     const HandleOptions = (input, key)=> {
         if (input.type == "image"){
-            return(<input className="form-control form-control-sm" id="imageUpload formFileSm" type="file" accept="image/*" onChange={photoHandler} required></input>);
+            return(<input className="form-control form-control-sm" id={input.clearVal} type="file" accept="image/*" onChange={photoHandler} required></input>);
         }
         else if (input.type == "video") {
-            return(<input className="form-control form-control-sm" id="videoUpload formFileSm" type="file" accept="video/*" onChange={videoHandler} required></input>);
+            return (<input className="form-control form-control-sm" id={input.clearVal} type="file" accept="video/*" onChange={videoHandler} required></input>);
         }
         else if (input.type == "audio") {
-            return(<input className="form-control form-control-sm" id="audioUpload formFileSm" type="file" accept="audio/*" onChange={audioHandler} required></input>);
+            return (<input className="form-control form-control-sm" id={input.clearVal} type="file" accept="audio/*" onChange={audioHandler} required></input>);
         }
     }
     // show upload window.
-    const imageOrVideoTags = inputs.map((input, key) => {
+    const uploadTags = inputs.map((input, key) => {
         return (
-            <div key={key} id={input.id} className="container UploadImageOrVideo">
+            <div key={key} id={input.id} className="container UploadOptions">
                 <div className="row">
                     <div className="col-10 padding">{input.val}</div>
                     <div id="x-button" className='col-2'>
@@ -182,7 +183,7 @@ function Chat({ friend, handleExit, connected_user }) {
                 </div>
             </div>
             <div>
-                {imageOrVideoTags}
+                {uploadTags}
             </div>
         </div>
     );

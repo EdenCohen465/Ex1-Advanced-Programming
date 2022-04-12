@@ -89,6 +89,8 @@ function ChatsBar({ connected_user }) {
         document.getElementById('chat').style.opacity = 1;
         if (clearVal != '') {
             // clear the values.
+            console.log(clearVal);
+            console.log(document.getElementById(clearVal));
             document.getElementById(clearVal).value = '';
         }
      }

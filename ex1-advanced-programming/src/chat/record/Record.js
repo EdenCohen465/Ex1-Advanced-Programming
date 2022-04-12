@@ -14,7 +14,7 @@ function Record(props) {
   return ((props.trigger) ? (
     <div className="Record">
       <div className="inner-record">
-        <audiok src={audioURL} controls />
+        <audio src={audioURL} controls />
         <button onClick={startRecording} disabled={isRecording}>
           start
         </button>

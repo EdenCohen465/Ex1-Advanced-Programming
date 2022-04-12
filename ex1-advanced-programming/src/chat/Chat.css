@@ -54,22 +54,7 @@
     margin-right: 0px;
 }
 
-#selectPhoto {
-    display: none;
-    background-color: white;
-    z-index: 1;
-    width: 400px;
-    position: absolute;
-    left: 35%;
-    top: 20%; 
-    opacity: 1;
-    border-width: 5px;
-    border-color: black;
-    border-radius: .25rem;
-
-}
-
-#selectVideo {
+.UploadOptions {
     display: none;
     background-color: white;
     z-index: 1;
@@ -80,4 +65,5 @@
     opacity: 1;
     border-width: 5px;
     border-color: black;
-    border-radius: .25rem;}
+    border-radius: .25rem;
+}
