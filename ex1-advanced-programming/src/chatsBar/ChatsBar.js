@@ -4,24 +4,101 @@ import { useState } from 'react';
 import './ChatsBar.css'
 import Chat from '../chat/Chat.js'
 import FriendDetails from '../chat/FriendDetails';
+import { Link } from 'react-router-dom';
+import Helpers from '../chat/Helpers';
+
 
 function ChatsBar({ connected_user }) {
+    // for the popup widow of the upload options.
+    const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
+    // the next message to send.
+    const [new_message, set_message] = useState({ date: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
+    
+    // for sorting the chat by the last message.
+    const sort_function = (a, b) => {
+        const a_messages = usersList.get(connected_user.username).friendsMessagesHistory.get(a);
+        const b_messages = usersList.get(connected_user.username).friendsMessagesHistory.get(b);
+
+        var last_message_a_date = a_messages[a_messages.length - 1].date;
+        var last_message_b_date = b_messages[b_messages.length - 1].date;
+
+        // if it's a new message it need to be first.
+        if (last_message_a_date == "") {
+            return -1;
+        } else if (last_message_b_date == "") {
+            return -1;
+        }
+        // split the date by '.'
+        var last_message_a_date_split = last_message_a_date.split('.');
+        var last_message_b_date_split = last_message_b_date.split('.');
+
+        // compare between the years.
+        var compare = Helpers.sort(last_message_a_date_split[2], last_message_b_date_split[2]);
+        if (compare != 0) {
+            return compare;
+        }
+
+        // compare between the months.
+        compare = Helpers.sort(last_message_a_date_split[1], last_message_b_date_split[1]);
+        if (compare != 0) {
+            return compare;
+        }
+
+        // compare between the days.
+        compare = Helpers.sort(last_message_a_date_split[0], last_message_b_date_split[0]);
+        if (compare != 0) {
+            return compare;
+        }
+        
+        var last_message_a_time = a_messages[a_messages.length - 1].time;
+        var last_message_b_time = b_messages[b_messages.length - 1].time;
+
+        var last_message_a_time_split = last_message_a_time.split(':');
+        var last_message_b_time_split = last_message_b_time.split(':');
+
+        // compare the hours.
+        compare = Helpers.sort(last_message_a_time_split[0], last_message_b_time_split[0]);
+        if (compare != 0) {
+            return compare;
+        } 
+
+        // compare the minutes.
+        compare = Helpers.sort(last_message_a_time_split[1], last_message_b_time_split[1]);
+        if (compare != 0) {
+            return compare;
+        }
+        
+        // if it is the same time, it does no matter.
+        return -1;
+    };
+
+    // chat list is initialize by the messages history of the connected user.
     const [chatsList, setList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
+    const [chatsListKeys, setListKeys] = useState(Array.from(chatsList.keys()).sort(sort_function));
+
     const initialFriend = { username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" };
+    // chosen chat friend.
     const [currentFriend, setFriend] = useState(initialFriend);
 
+    // for sowing pop up window.
     const AddContact = (e) => {
         e.preventDefault();
+        setUploadOptionsPopup(false);
         document.getElementById('chatsBar').style.opacity = 0.5;
         document.getElementById('chat').style.opacity = 0.5;
         document.getElementById('popup').style.display = "block";
+        set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
     }
 
     const handleExit = (popUp, clearVal) => {
+        // dont display popup.
         document.getElementById(popUp).style.display = "none";
         document.getElementById('chatsBar').style.opacity = 1;
         document.getElementById('chat').style.opacity = 1;
         if (clearVal != '') {
+            // clear the values.
+            console.log(clearVal);
+            console.log(document.getElementById(clearVal));
             document.getElementById(clearVal).value = '';
         }
      }
@@ -29,18 +106,25 @@ function ChatsBar({ connected_user }) {
     const HandleAddContact = (e) => {
         e.preventDefault();
         const new_contact_username = document.getElementById('newContact').value; 
+        // check if thw new contact is register to the app. 
         if (!usersList.has(new_contact_username)) {
             alert("The user didn't register!");
+        // check if the contact already in the chat list.
         } else if (chatsList.has(new_contact_username)) {
             alert("The chat already exists");
+        // add the new contact.
         } else {
+            // close the popup window.
             handleExit('popup', 'newContact');
-            chatsList.set(new_contact_username, [])
+            // add to the chat list map the new contact.
+            chatsList.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }])
             setList(chatsList);
-            console.log(chatsList);
-            usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, []);
-            usersList.get(currentFriend).friendsMessagesHistory.set(connected_user.username, []);
+            setListKeys(Array.from(chatsList.keys()).sort(sort_function));
+            // add the friend to user history and the user to friend history.
+            usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
+            usersList.get(currentFriend.username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
         }
+        set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
     }
 
     const HandleOpenChat = (friend_details, friend_username) => {
@@ -50,21 +134,32 @@ function ChatsBar({ connected_user }) {
         if(FriendDetails.thisFriend != FriendDetails.lastFriend){
             FriendDetails.updated = false;
         }
+        // update the friend to be the chosen friend.
         setFriend({ username: friend_username, nickname: friend_details.nickname, public_photo: friend_details.public_photo, password: friend_details.password, friendsMessagesHistory: friend_details.friendsMessagesHistory });
+        // open chat.
         document.getElementById('chat').style.display = "block";
+        setUploadOptionsPopup(false);
     }
 
-    const Chats = Array.from(chatsList.keys()).map((friend_username, key) => {
+    // check the logics of the sort!#####################################################################################################
+    const Chats = chatsListKeys.map((friend_username, key) => {
         // if (usersList.has(friend_username)) {
             const friend_details = usersList.get(friend_username);
             const chat = usersList.get(connected_user.username).friendsMessagesHistory.get(friend_username);
             return (
-                <div key={key} className='row px-z' >
-                    <div className="userLine" onClick={() => { HandleOpenChat(friend_details, friend_username);}}>
-                        <img src={friend_details.public_photo} className="col-4 rounded-circle images" alt="photo" ></img>
-                        <span className='nickname col-4'>{friend_details.nickname}</span>
-                        <span className='minAgo col-4'>{chat[chat.length - 1].time}</span>
-                        <div>{chat[chat.length - 1].displayMessage}</div>
+                // open the chat with the chosen friend.
+                <div key={key} className="userLine hover-style row px-z" onClick={() => { HandleOpenChat(friend_details, friend_username);}}>
+                    <img src={friend_details.public_photo} className="col-4 rounded-circle images" alt="photo" ></img>
+                    <div className='col-8'>
+                        <div className='container nick_name_row'>
+                            <div className='row'>
+                                <span className='nickname col-7'>{friend_details.nickname}</span>
+                                {/** time of the last message */}
+                                <span className='message-time col-5'>{Helpers.timeDisplay(chat[chat.length- 1].time, chat[chat.length- 1].date)}</span>
+                            </div>
+                            {/** last message */}
+                            <div className='last-message row'>{chat[chat.length - 1].displayMessage}</div>
+                        </div>
                     </div>
                 </div>
             );
@@ -72,28 +167,39 @@ function ChatsBar({ connected_user }) {
 
     
     return (
-        <div className='container row'>
-            <div className="col">
-                <div id="chatsBar" className='container'> {(connected_user.public_photo == "") ? (
-                    <div className="row userLine ">
-                        <img src={URL.createObjectURL(connected_user.photo)} id="user-image" className="col-6 rounded-circle images" alt="photo" ></img>
-                        <span className="nickname col-6">{connected_user.nickname}</span>
-                        <span className='col-2 '>
-                            <button onClick={AddContact} id="new-contant-buttom" className="bi bi-person-plus-fill btn btn-outline-secondary"></button>
-                        </span>
+        <div className='container row chat-bar'>
+            <div className="col-sm-4 col-md-4">
+                <div id="chatsBar" className='container'> 
+                    <div className="row px-z userLine"> 
+                        {/* Showing connected user photo */}
+                        <div className='col-4'>{(connected_user.public_photo == "") ? (
+                                <img src={URL.createObjectURL(connected_user.photo)} id="images" className="col-6 rounded-circle images" alt="photo" ></img>
+                            ): (
+                                <img src={connected_user.public_photo} id="images" className="col-4 rounded-circle images" alt="photo" ></img>
+                            ) }
+                        </div>
+                        <div className='col-8'>
+                            <div className='container'>
+                                <div className='row'>
+                                    <span className="nickname col-8">{connected_user.nickname}</span>
+                                    <span className='col-2 add-contact-button'>
+                                        {/*Add new contact*/}
+                                        <button onClick={AddContact} id="new-contant-buttom" className="bi bi-person-plus-fill btn btn-outline-secondary"></button>
+                                    </span>
+                                </div>
+                                <div className='row'>
+                                    {/*Logout option */}
+                                    <Link to="/">
+                                        <button className="btn btn-outline-secondary" id='logout-button' type="button">LogOut</button>
+                                    </Link>
+                                </div>                    
+                            </div>                    
+                        </div>                    
                     </div>
-                    ): (
-                    <div className ="row userLine">
-                            <img src={connected_user.public_photo} id="user-image" className="col-6 rounded-circle images" alt="photo" ></img>
-                            <span className="col-6 nickname">{connected_user.nickname}</span>
-                        <span className='col-2'>
-                            <button onClick={AddContact} className="bi bi-person-plus-fill btn btn-outline-secondary"></button>
-                        </span>
-                    </div>
-                    )
-                }
-                {Chats}
+                    {/*Show the chat list */}                    
+                    {Chats}
                 </div>
+                {/** new contact popup window. */}
                 <div id="popup" className="popup container">
                     <div className="row"> 
                         <div className="col-10 padding">Add new contact</div>
@@ -104,7 +210,7 @@ function ChatsBar({ connected_user }) {
                     <form className="form-floating mb3" onSubmit={HandleAddContact}>
                         <div className="form-floating mb-3 row"> 
                             <input className="form-control" id="newContact" placeholder='Enter contact username' required></input>
-                            <label className="identifier" for="newContact">Contact's username</label>
+                            <label className="identifier" htmlFor="newContact">Contact's username</label>
                         </div>
                         <div className="row">
                             <button className="btn btn-outline-secondary" id="addContact" type="submit">Add</button>
@@ -112,9 +218,9 @@ function ChatsBar({ connected_user }) {
                     </form>
                 </div>
             </div>
-            <div id="chat" className='col'>
+            <div className="col-sm-8 col-md-8" id= "conversation">
                 <div>
-                    <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit}/>
+                    <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message}/>
                 </div>
             </div>
         </div>

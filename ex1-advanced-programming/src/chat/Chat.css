@@ -1,6 +1,9 @@
-.chat {
-   
-   display: flex;
+#chat {
+    
+    border: 1px solid gray;
+    width: 100%;
+    height:100%;
+   display: none;
    flex:1;
    flex-direction: column;
    flex: 0.65;
@@ -19,8 +22,9 @@
 }
 
 .chatBody{
-   overflow-y: scroll;
-   height: 180px;
+   overflow-y: auto;
+   height:300px;
+   width: 100%;
 }
 
 .toolBar{
@@ -52,22 +56,7 @@
     margin-right: 0px;
 }
 
-#selectPhoto {
-    display: none;
-    background-color: white;
-    z-index: 1;
-    width: 400px;
-    position: absolute;
-    left: 35%;
-    top: 20%; 
-    opacity: 1;
-    border-width: 5px;
-    border-color: black;
-    border-radius: .25rem;
-
-}
-
-#selectVideo {
+.UploadOptions {
     display: none;
     background-color: white;
     z-index: 1;
@@ -78,4 +67,5 @@
     opacity: 1;
     border-width: 5px;
     border-color: black;
-    border-radius: .25rem;}
+    border-radius: .25rem;
+}
