@@ -38,13 +38,17 @@ function timeDisplay(time, message_date) {
         return "yesterday";
     }
 
-    // if passed more than a hour or more than 10 min, return the time.
-    if (((date.getHours() - time_splitted[0]) > 1) || ((date.getMinutes() - time_splitted[1]) > 10)) {
+    // if it passed more than a hour, return the time.
+    if (date.getHours() - time_splitted[1] > 1) {
+        return time;
+    }
+    // if passed more than 10 min, return the time.
+    if (((date.getMinutes() - time_splitted[1]) > 10) || ((date.getMinutes() - time_splitted[1]) < -10)) {
         return time;
     }
 
     // return the minutes passed.
-    return (date.getMinutes() - time_splitted[1]) + " min ago";
+    return Math.abs(date.getMinutes() - time_splitted[1]) + " min ago";
 }
 
 

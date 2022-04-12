@@ -6,7 +6,7 @@ import Chat from '../chat/Chat.js'
 import FriendDetails from '../chat/FriendDetails';
 import { Link } from 'react-router-dom';
 import Helpers from '../chat/Helpers';
-
+import { Col, Row, Container } from 'react-bootstrap';
 
 function ChatsBar({ connected_user }) {
     // for the popup widow of the upload options.
@@ -123,6 +123,7 @@ function ChatsBar({ connected_user }) {
             alert("The chat already exists");
         // add the new contact.
         } else {
+            set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
             // close the popup window.
             handleExit('popup', 'newContact');
             // add to the chat list map the new contact.
@@ -133,7 +134,6 @@ function ChatsBar({ connected_user }) {
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
             usersList.get(currentFriend.username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
         }
-        set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
     }
 
     const HandleOpenChat = (friend_details, friend_username) => {
@@ -160,15 +160,15 @@ function ChatsBar({ connected_user }) {
                 <div key={key} className="userLine hover-style row px-z" onClick={() => { HandleOpenChat(friend_details, friend_username);}}>
                     <img src={friend_details.public_photo} className="col-4 rounded-circle images" alt="photo" ></img>
                     <div className='col-8'>
-                        <div className='container nick_name_row'>
-                            <div className='row'>
-                                <span className='nickname col-7'>{friend_details.nickname}</span>
+                        <Container className='nick_name_row'>
+                            <Row>
+                                <Col xs={7} className='nickname'>{friend_details.nickname}</Col>
                                 {/** time of the last message */}
-                                <span className='message-time col-5'>{Helpers.timeDisplay(chat[chat.length- 1].time, chat[chat.length- 1].date)}</span>
-                            </div>
+                                <Col xs={5} className='message-time'>{Helpers.timeDisplay(chat[chat.length- 1].time, chat[chat.length- 1].date)}</Col>
+                            </Row>
                             {/** last message */}
                             <div className='last-message row'>{chat[chat.length - 1].displayMessage}</div>
-                        </div>
+                        </Container>
                     </div>
                 </div>
             );
@@ -176,63 +176,65 @@ function ChatsBar({ connected_user }) {
 
     
     return (
-        <div className='container row chat-bar'>
-            <div className="col-sm-4 col-md-4">
-                <div id="chatsBar" className='container'> 
-                    <div className="row px-z userLine"> 
-                        {/* Showing connected user photo */}
-                        <div className='col-4'>{(connected_user.public_photo == "") ? (
-                                <img src={URL.createObjectURL(connected_user.photo)} id="images" className="col-6 rounded-circle images" alt="photo" ></img>
-                            ): (
-                                <img src={connected_user.public_photo} id="images" className="col-4 rounded-circle images" alt="photo" ></img>
-                            ) }
-                        </div>
-                        <div className='col-8'>
-                            <div className='container'>
-                                <div className='row'>
-                                    <span className="nickname col-8">{connected_user.nickname}</span>
-                                    <span className='col-2 add-contact-button'>
-                                        {/*Add new contact*/}
-                                        <button onClick={AddContact} id="new-contant-buttom" className="bi bi-person-plus-fill btn btn-outline-secondary"></button>
-                                    </span>
-                                </div>
-                                <div className='row'>
-                                    {/*Logout option */}
-                                    <Link to="/">
-                                        <button className="btn btn-outline-secondary" id='logout-button' type="button">LogOut</button>
-                                    </Link>
-                                </div>                    
-                            </div>                    
-                        </div>                    
+        <Container className='chat-bar'>
+            <Row>
+                <Col xs={4} >
+                    <Container id="chatsBar"> 
+                        <Row className="px-z userLine"> 
+                            {/* Showing connected user photo */}
+                            <Col xs={4}>{(connected_user.public_photo == "") ? (
+                                    <img src={URL.createObjectURL(connected_user.photo)} id="images" className="col-6 rounded-circle images" alt="photo" ></img>
+                                ): (
+                                    <img src={connected_user.public_photo} id="images" className="col-4 rounded-circle images" alt="photo" ></img>
+                                ) }
+                            </Col>
+                            <Col xs={8} className='col-8'>
+                                <Container>
+                                    <Row>
+                                        <Col xs={8} className="nickname">{connected_user.nickname}</Col>
+                                        <Col xs={2} className='add-contact-button'>
+                                            {/*Add new contact*/}
+                                            <button onClick={AddContact} id="new-contant-buttom" className="bi bi-person-plus-fill btn btn-outline-secondary"></button>
+                                        </Col>
+                                    </Row>
+                                    <Row className='row'>
+                                        {/*Logout option */}
+                                        <Link to="/">
+                                            <button className="btn btn-outline-secondary" id='logout-button' type="button">LogOut</button>
+                                        </Link>
+                                    </Row>                    
+                                </Container>                    
+                            </Col>                    
+                        </Row>
+                        {/*Show the chat list */}                    
+                        {Chats}
+                    </Container>
+                    {/** new contact popup window. */}
+                    <Container id="popup" className="popup">
+                        <Row> 
+                            <Col xs={10} className="padding">Add new contact</Col>
+                            <Col id="x-button">
+                                <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit('popup', 'newContact')}}> </button>   
+                            </Col> 
+                        </Row>
+                        <form className="form-floating mb3" onSubmit={HandleAddContact}>
+                            <Row className="form-floating mb-3"> 
+                                <input className="form-control" id="newContact" placeholder='Enter contact username' required></input>
+                                <label className="identifier" htmlFor="newContact">Contact's username</label>
+                            </Row>
+                            <Row className="row">
+                                <button className="btn btn-outline-secondary" id="addContact" type="submit">Add</button>
+                            </Row>
+                        </form>
+                    </Container>
+                </Col>
+                <Col xs={8} id= "conversation">
+                    <div>
+                        <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message} update_sorted_keys={update_sorted_keys}/>
                     </div>
-                    {/*Show the chat list */}                    
-                    {Chats}
-                </div>
-                {/** new contact popup window. */}
-                <div id="popup" className="popup container">
-                    <div className="row"> 
-                        <div className="col-10 padding">Add new contact</div>
-                        <div id="x-button" className='col-2'>
-                            <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit('popup', 'newContact')}}> </button>   
-                        </div> 
-                    </div>
-                    <form className="form-floating mb3" onSubmit={HandleAddContact}>
-                        <div className="form-floating mb-3 row"> 
-                            <input className="form-control" id="newContact" placeholder='Enter contact username' required></input>
-                            <label className="identifier" htmlFor="newContact">Contact's username</label>
-                        </div>
-                        <div className="row">
-                            <button className="btn btn-outline-secondary" id="addContact" type="submit">Add</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div className="col-sm-8 col-md-8" id= "conversation">
-                <div>
-                    <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message} update_sorted_keys={update_sorted_keys}/>
-                </div>
-            </div>
-        </div>
+                </Col>
+            </Row>
+        </Container>
     );
 }
 export default ChatsBar;
