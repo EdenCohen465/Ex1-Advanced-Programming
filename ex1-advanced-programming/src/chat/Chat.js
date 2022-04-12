@@ -20,7 +20,7 @@ function InitialChat({ setList, friend, connected_user }) {
     }
 }
 
-function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploadOptionsPopup, new_message, set_message }) {
+function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploadOptionsPopup, new_message, set_message, update_sorted_keys }) {
     // messages list.
     const [messagesList, setList] = useState([]);
     // popup microphone window.
@@ -32,6 +32,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         // close the popup windows of michrophone and upload options.
         setUseMicrophone(false);
         setUploadOptionsPopup(false);
+        
         // if the message is not empty, send it.
         if (new_message.message != "") {
             const newList = [...messagesList, new_message];
@@ -44,7 +45,8 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             friend_messages_history = [...friend_messages_history, new_message_friend];
             usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
             // in order to clear the input box.
-            set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
+            set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
+            update_sorted_keys();
         }
     }
 
@@ -53,7 +55,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         const today = new Date();
         const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
         // create message
-        set_message({ date: Helpers.getDate(), time: time, message: e.target.value, displayMessage: e.target.value, type: "text", iSent: true });
+        set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: e.target.value, displayMessage: e.target.value, type: "text", iSent: true });
     }
     
     // send the message if the user pressed Enter key.
@@ -94,14 +96,14 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
         // set the messages depends of the id.
         if (input.id == "selectPhoto") {
-            set_message({ date: Helpers.getDate(), time: time, message: photo, displayMessage: "photo", type: "photo", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: photo, displayMessage: "photo", type: "photo", public: false, iSent: true });
             HandleAddMessage(e);
         } else if(input.id =="selectVideo") {
-            set_message({ date: Helpers.getDate(), time: time, message: video, displayMessage: "video", type: "video", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: video, displayMessage: "video", type: "video", public: false, iSent: true });
             HandleAddMessage(e);
         }
         else {
-            set_message({ date: Helpers.getDate(), time: time, message: audio, displayMessage: "audio", type: "audio", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: audio, displayMessage: "audio", type: "audio", public: false, iSent: true });
             HandleAddMessage(e);
         }
         handleExit(input.id, input.clearVal);
@@ -166,7 +168,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
                 <div className="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
                     <button className="bi bi-link-45deg hover-style" onClick={()=> {setUploadOptionsPopup(true)
-                        set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
+                        set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
                     }}></button>
                     <div><UploadOptions trigger={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup}></UploadOptions></div>
                     {/**Send text message */}
