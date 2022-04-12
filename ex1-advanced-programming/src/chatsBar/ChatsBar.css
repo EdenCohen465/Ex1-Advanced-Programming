@@ -1,7 +1,13 @@
-#conversition{
-    
-    width: 100%;
+.chat-bar {
+    width: 90%;
+    margin: 5%;
 }
+
+#conversation{    
+    width: 100%;
+    
+}
+
 div#popup.popup {
     display: none;
     background-color: white;
@@ -39,9 +45,9 @@ div#popup.popup {
     background: none;
 }
 .bi-x-circle {
-
     align-items: center;
 }
+
 .images {
     width: 80px;
     height: 80px;
@@ -56,7 +62,9 @@ div#popup.popup {
 .message-time {
     position: relative;
     right: 0px;
+    width: 30%;
     margin-top: 13px;
+    margin-left: 3%;
 }
 
 .userLine {
@@ -65,6 +73,10 @@ div#popup.popup {
     border: 1px solid gray;
 }
 
+.hover-style:hover {
+    background-color: rgb(194, 212, 231);
+    cursor: pointer;
+}
 #logout-button {
     width: 100%
 }
@@ -77,22 +89,15 @@ div#popup.popup {
     margin-left: 1.6%;
 }
 
-
-
 #chatsBar {
-    opacity: 100%
+    opacity: 100%;
 }
-
 
 .identifier {
     background-color: white;
     border-radius: .25rem;
     background: rgba(255,255,255,0);
 }
-.col-2 {
-    width: 0;
-}
-
 #newContact {
     width: 400px;
     margin-left: 1.6%;
