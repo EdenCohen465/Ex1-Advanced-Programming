@@ -1,21 +1,21 @@
 import './Chat.css';
 import UploadOptions from './uploadOptions/UploadOptions';
 import Message from './Message';
-import { useState, useRef, useEffect} from 'react';
+import { useState} from 'react';
 import FriendDetails from './FriendDetails';
 import usersList from '../UsersList';
 import Record from './record/Record';
 import Helpers from './Helpers';
-
 var friend_messages_history = [];
 
-function InitialChat(props) {
+
+function InitialChat({ setList, friend, connected_user }) {
     // when the char is opened, set the list in order to show the message history, only if we changed friend.
     // and if it not already updeted.
-    if (FriendDetails.updated == false && props.friend.username != "" && FriendDetails.thisFriend != '' && FriendDetails.lastFriend != FriendDetails.thisFriend) {
+    if (FriendDetails.updated == false && friend.username != "" && FriendDetails.thisFriend != '' && FriendDetails.lastFriend != FriendDetails.thisFriend) {
         // get the history messages of the connected user with the chosen friend.
-        props.setMessageList(usersList.get(props.connected_user.username).friendsMessagesHistory.get(props.friend.username));
-        friend_messages_history = props.friend.friendsMessagesHistory.get(props.connected_user.username);
+        setList(usersList.get(connected_user.username).friendsMessagesHistory.get(friend.username));
+        friend_messages_history = friend.friendsMessagesHistory.get(connected_user.username);
         // message history updated.
         FriendDetails.updated = true;
     }
@@ -36,9 +36,11 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         
         // if the message is not empty, send it.
         if (new_message.message != "") {
+            set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
+            update_sorted_keys();
             const newList = [...messagesList, new_message];
             // update the list with the new message.
-            setMessageList(newList);
+            setList(newList);
             // append the new message to the user history with the current friend.
             usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, newList);
             // append the new message to the friend history with the connected user.
@@ -46,8 +48,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             friend_messages_history = [...friend_messages_history, new_message_friend];
             usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
             // in order to clear the input box.
-            set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
-            update_sorted_keys();
+            
         }
     }
 
@@ -154,7 +155,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         );
     });
     //#############################################################################################################
-
+    
     return (
         <div>
             <div id="chat">
@@ -164,9 +165,9 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
                     <h3>Chat with {friend.nickname}</h3>
                 </div>
                 {/**initial the messagesList- by the history messages. */}
-                <InitialChat connected_user={connected_user} friend={friend} setMessageList={setMessageList}/>
+                <InitialChat connected_user={connected_user} friend={friend} setList={setList}/>
                 {/**show the messages list */}
-                <div className="chatBody" id="chatBody"><Message messagesList={messagesList} /></div>
+                <div className="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
                     <button className="bi bi-link-45deg hover-style" onClick={()=> {setUploadOptionsPopup(true)
                         set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
@@ -187,7 +188,6 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             </div>
         </div>
     );
-
 }
 
 export default Chat;
