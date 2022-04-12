@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import Helpers from '../chat/Helpers';
 
 function ChatsBar({ connected_user }) {
+    // for sorting the chat by the last message.
     const sort_function = (a, b) => {
         const a_messages = usersList.get(connected_user.username).friendsMessagesHistory.get(a);
         const b_messages = usersList.get(connected_user.username).friendsMessagesHistory.get(b);
@@ -65,13 +66,15 @@ function ChatsBar({ connected_user }) {
         return -1;
     };
 
+    // chat list is initialize by the messages history of the connected user.
     const [chatsList, setList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
     const [chatsListKeys, setListKeys] = useState(Array.from(chatsList.keys()).sort(sort_function));
+
     const initialFriend = { username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" };
+    // chosen chat friend.
     const [currentFriend, setFriend] = useState(initialFriend);
 
-    
-
+    // for sowing pop up window.
     const AddContact = (e) => {
         e.preventDefault();
         document.getElementById('chatsBar').style.opacity = 0.5;
@@ -80,10 +83,12 @@ function ChatsBar({ connected_user }) {
     }
 
     const handleExit = (popUp, clearVal) => {
+        // dont display popup.
         document.getElementById(popUp).style.display = "none";
         document.getElementById('chatsBar').style.opacity = 1;
         document.getElementById('chat').style.opacity = 1;
         if (clearVal != '') {
+            // clear the values.
             document.getElementById(clearVal).value = '';
         }
      }
@@ -91,16 +96,21 @@ function ChatsBar({ connected_user }) {
     const HandleAddContact = (e) => {
         e.preventDefault();
         const new_contact_username = document.getElementById('newContact').value; 
+        // check if thw new contact is register to the app. 
         if (!usersList.has(new_contact_username)) {
             alert("The user didn't register!");
+        // check if the contact already in the chat list.
         } else if (chatsList.has(new_contact_username)) {
             alert("The chat already exists");
+        // add the new contact.
         } else {
+            // close the popup window.
             handleExit('popup', 'newContact');
+            // add to the chat list map the new contact.
             chatsList.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }])
             setList(chatsList);
             setListKeys(Array.from(chatsList.keys()).sort(sort_function));
-            console.log(chatsList);
+            // add the friend to user history and the user to friend history.
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
             usersList.get(currentFriend.username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
         }
@@ -113,7 +123,9 @@ function ChatsBar({ connected_user }) {
         if(FriendDetails.thisFriend != FriendDetails.lastFriend){
             FriendDetails.updated = false;
         }
+        // update the friend to be the chosen friend.
         setFriend({ username: friend_username, nickname: friend_details.nickname, public_photo: friend_details.public_photo, password: friend_details.password, friendsMessagesHistory: friend_details.friendsMessagesHistory });
+        // open chat.
         document.getElementById('chat').style.display = "block";
     }
 
@@ -123,14 +135,17 @@ function ChatsBar({ connected_user }) {
             const friend_details = usersList.get(friend_username);
             const chat = usersList.get(connected_user.username).friendsMessagesHistory.get(friend_username);
             return (
+                // open the chat with the chosen friend.
                 <div key={key} className="userLine row px-z" onClick={() => { HandleOpenChat(friend_details, friend_username);}}>
                     <img src={friend_details.public_photo} className="col-4 rounded-circle images" alt="photo" ></img>
                     <div className='col-8'>
                         <div className='container'>
                             <div className='row'>
                                 <span className='nickname col-10'>{friend_details.nickname}</span>
+                                {/** time of the last message */}
                                 <span className='message-time col-2'>{Helpers.timeDisplay(chat[chat.length- 1].time, chat[chat.length- 1].date)}</span>
                             </div>
+                            {/** last message */}
                             <div className='last-message row'>{chat[chat.length - 1].displayMessage}</div>
                         </div>
                     </div>
@@ -144,6 +159,7 @@ function ChatsBar({ connected_user }) {
             <div className="col">
                 <div id="chatsBar" className='container'> 
                     <div className="row px-z userLine"> 
+                        {/* Showing connected user photo */}
                         <div className='col-4'>{(connected_user.public_photo == "") ? (
                                 <img src={URL.createObjectURL(connected_user.photo)} id="images" className="col-6 rounded-circle images" alt="photo" ></img>
                             ): (
@@ -155,19 +171,23 @@ function ChatsBar({ connected_user }) {
                                 <div className='row'>
                                     <span className="nickname col-8">{connected_user.nickname}</span>
                                     <span className='col-2 add-contact-button'>
+                                        {/*Add new contact*/}
                                         <button onClick={AddContact} id="new-contant-buttom" className="bi bi-person-plus-fill btn btn-outline-secondary"></button>
                                     </span>
                                 </div>
                                 <div className='row'>
+                                    {/*Logout option */}
                                     <Link to="/">
                                         <button className="btn btn-outline-secondary" id='logout-button' type="button">LogOut</button>
                                     </Link>
                                 </div>                    
                             </div>                    
                         </div>                    
-                    </div>                    
+                    </div>
+                    {/*Show the chat list */}                    
                     {Chats}
                 </div>
+                {/** new contact popup window. */}
                 <div id="popup" className="popup container">
                     <div className="row"> 
                         <div className="col-10 padding">Add new contact</div>
@@ -178,7 +198,7 @@ function ChatsBar({ connected_user }) {
                     <form className="form-floating mb3" onSubmit={HandleAddContact}>
                         <div className="form-floating mb-3 row"> 
                             <input className="form-control" id="newContact" placeholder='Enter contact username' required></input>
-                            <label className="identifier" for="newContact">Contact's username</label>
+                            <label className="identifier" htmlFor="newContact">Contact's username</label>
                         </div>
                         <div className="row">
                             <button className="btn btn-outline-secondary" id="addContact" type="submit">Add</button>

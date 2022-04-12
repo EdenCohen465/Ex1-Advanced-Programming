@@ -53,7 +53,6 @@ function RegisterPage({ connected_user, setConnected_user }) {
 
 
         setConnected_user({username: user_name, ...new_user});
-        console.log(connected_user)
         return flag;
     }
 

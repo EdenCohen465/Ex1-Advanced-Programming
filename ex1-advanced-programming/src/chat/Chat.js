@@ -8,10 +8,11 @@ import Record from './record/Record';
 import Helpers from './Helpers';
 var friend_messages_history = null;
 
-function InitialChat({setList, friend, connected_user}){
+function InitialChat({ setList, friend, connected_user }) {
     // when the char is opened, set the list in order to show the message history, only if we changed friend.
     // and if it not already updeted.
-     if(FriendDetails.updated==false&& friend.username!="" && FriendDetails.thisFriend!='' && FriendDetails.lastFriend != FriendDetails.thisFriend){
+    if (FriendDetails.updated == false && friend.username != "" && FriendDetails.thisFriend != '' && FriendDetails.lastFriend != FriendDetails.thisFriend) {
+        // get the history messages of the connected user with the chosen friend.
         setList(usersList.get(connected_user.username).friendsMessagesHistory.get(friend.username));
         friend_messages_history = friend.friendsMessagesHistory.get(connected_user.username);
         // message history updated.
@@ -107,7 +108,6 @@ function Chat({ friend, handleExit, connected_user }) {
             set_message({ date: Helpers.getDate(), time: time, message: audio, displayMessage: "audio", type: "audio", public: false, iSent: true });
             HandleAddMessage(e);
         }
-        //??????????????????????????????????????????? ask roni to explain the porpuse.?????????????????????????????????????????????????????????????????
         handleExit(input.id, input.clearVal);
     }
 
@@ -160,14 +160,18 @@ function Chat({ friend, handleExit, connected_user }) {
         <div>
             <div id="chat">
                 <div className="header">
+                    {/** Show friend details */}
                     <span><img src={friend.public_photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
-                    <h3>chat with {friend.nickname}</h3>
+                    <h3>Chat with {friend.nickname}</h3>
                 </div>
+                {/**initial the messagesList- by the history messages. */}
                 <InitialChat connected_user={connected_user} friend={friend} setList={setList}/>
+                {/**show the messages list */}
                 <div className="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
                     <button className="bi bi-link-45deg" onClick={()=>setUploadOptionsPopup(true)}></button>
                     <div><UploadOptions trigger={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup}></UploadOptions></div>
+                    {/**Send text message */}
                     <form>
                         <input id="newM" placeholder='Write your message' type="text" onChange={HandleChangeMessage}
                             value={new_message.displayMessage} onKeyPress={HandleSendMessage} onClick={()=>{setUploadOptionsPopup(false); setUseMicrophone(false)}}/>
