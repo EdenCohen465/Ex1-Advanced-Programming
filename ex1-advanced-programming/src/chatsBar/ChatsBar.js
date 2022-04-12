@@ -212,7 +212,7 @@ function ChatsBar({ connected_user }) {
             </div>
             <div className='col' id= "conversition">
                 <div>
-                    <Chat messagesList={messagesList} setMessageList={setMessageList} friend={currentFriend} connected_user={connected_user} handleExit={handleExit}/>
+                    <Chat messagesList={messagesList}setMessageList={setMessageList} friend={currentFriend} connected_user={connected_user} handleExit={handleExit}/>
                 </div>
             </div>
         </div>

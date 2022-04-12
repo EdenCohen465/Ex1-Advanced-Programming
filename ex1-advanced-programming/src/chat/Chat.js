@@ -6,6 +6,7 @@ import FriendDetails from './FriendDetails';
 import usersList from '../UsersList';
 import Record from './record/Record';
 import Helpers from './Helpers';
+
 var friend_messages_history = [];
 
 function InitialChat(props) {
