@@ -9,7 +9,6 @@ function Message({ messagesList }) {
                 <div className="message" key={key} > {(message.message != "") ? (
                     <div>
                         {(() => {
-                            console.log(message);
                             // display the message depends on her type.
                             if (message.type == "text") {
                                 return (<span className="text">{message.message}</span>);
@@ -41,9 +40,11 @@ function Message({ messagesList }) {
                                         </audio>
                                     );
                                 } else {
-                                    <audio className="audioMessage" controls >
-                                        <source src={(message.message)} type="audio/mpeg" />
-                                    </audio>
+                                    return (
+                                        <audio className="audioMessage" controls >
+                                            <source src={message.message} type="audio/mpeg"></source>
+                                        </audio>
+                                    );
                                 }
                             }
                         })()}
