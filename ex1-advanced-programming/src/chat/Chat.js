@@ -20,12 +20,9 @@ function InitialChat(props) {
     }
 }
 
-function Chat({ friend, handleExit, connected_user, setMessageList, messagesList }) {
-    // for the popup widow of the upload options.
-    const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
-
-    // the next message to send.
-    const [new_message, set_message] = useState({ date: "", time: "", message: "", displayMessage:"", type: "", iSent: "" });
+function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploadOptionsPopup, new_message, set_message, messagesList, setMessageList }) {
+    // messages list.
+    const [messagesList, setList] = useState([]);
     // popup microphone window.
     const [useMicrophone, setUseMicrophone] = useState(false);
 
@@ -168,15 +165,17 @@ function Chat({ friend, handleExit, connected_user, setMessageList, messagesList
                 {/**show the messages list */}
                 <div className="chatBody" id="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
-                    <button className="bi bi-link-45deg" onClick={()=>setUploadOptionsPopup(true)}></button>
+                    <button className="bi bi-link-45deg hover-style" onClick={()=> {setUploadOptionsPopup(true)
+                        set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
+                    }}></button>
                     <div><UploadOptions trigger={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup}></UploadOptions></div>
                     {/**Send text message */}
                     <form>
                         <input id="newM" placeholder='Write your message' type="text" onChange={HandleChangeMessage}
                             value={new_message.displayMessage} onKeyPress={HandleSendMessage} onClick={()=>{setUploadOptionsPopup(false); setUseMicrophone(false)}}/>
-                        <button className="button_option bi bi-mic" onClick={(e)=>{e.preventDefault(); setUseMicrophone(!useMicrophone)}}></button>
+                        <button className="button_option bi bi-mic hover-style" onClick={(e)=>{e.preventDefault(); setUseMicrophone(!useMicrophone)}}></button>
                         <div className='microphone'><Record trigger={useMicrophone} setUseMicrophone={setUseMicrophone} set_message={set_message} HandleAddMessage={HandleAddMessage}/></div>
-                        <button className="button_option bi bi-envelope" onClick={HandleAddMessage} type="submit">Send</button>
+                        <button className="button_option bi bi-envelope hover-style" onClick={HandleAddMessage} type="submit">Send</button>
                     </form>
                 </div>
             </div>

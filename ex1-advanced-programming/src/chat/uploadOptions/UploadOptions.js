@@ -1,5 +1,5 @@
 import './UploadOptions.css'
-function HandleImageOrVideo(e, id) {
+function HandleTap(e, id) {
     e.preventDefault();
     document.getElementById(id).style.opacity = 1;
     document.getElementById('chatsBar').style.opacity = 0.5;
@@ -13,11 +13,11 @@ function UploadOptions(props) {
         <div className="popup">
             <div className="inner-popup">
                 {/**Upload photo */}
-                <button className="bi bi-camera-reels" onClick={(e) => { HandleImageOrVideo(e, 'selectVideo') }}></button>
+                <button className="bi bi-camera-reels" onClick={(e) => { HandleTap(e, 'selectVideo') }}></button>
                 {/**Upload video */}
-                <button className="bi bi-image" onClick={(e) => { HandleImageOrVideo(e, 'selectPhoto')}}></button>
+                <button className="bi bi-image" onClick={(e) => { HandleTap(e, 'selectPhoto')}}></button>
                 {/**Upload audio */}
-                <button className="bi bi-mic" onClick={(e)=>{HandleImageOrVideo(e, 'selectAudio')}}></button>
+                <button className="bi bi-mic" onClick={(e)=>{HandleTap(e, 'selectAudio')}}></button>
                 {/** Close popup window */}
                 <button className="close bi bi-x" onClick={()=>props.setUploadOptionsPopup(false)}></button>
                 {props.childern}
