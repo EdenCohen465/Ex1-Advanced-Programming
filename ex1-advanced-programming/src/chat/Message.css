@@ -1,5 +1,5 @@
 .photoMessage {
-    width: 150px-;
+    width: 150px;
     height: 150px;
 }
 
@@ -10,9 +10,12 @@
 
 
 .message{
+    height: 170px;
+    width: 170px;
     position: relative;
     padding: 7px;
     width:fit-content;
+    
     border-radius: 10px;
     margin-bottom: 15px;
     margin-left: auto;
