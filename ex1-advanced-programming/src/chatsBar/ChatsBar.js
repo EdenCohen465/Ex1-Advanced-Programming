@@ -82,7 +82,7 @@ function ChatsBar({ connected_user }) {
     const [chatsList, setList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
     const [chatsListKeys, setListKeys] = useState(Array.from(chatsList.keys()).sort(sort_function));
 
-    const initialFriend = { username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" };
+    const initialFriend = { username: "", nickname: "", photo: "", password: "", friendsMessagesHistory: "" };
     // chosen chat friend.
     const [currentFriend, setFriend] = useState(initialFriend);
     const update_sorted_keys = () => {
@@ -143,7 +143,7 @@ function ChatsBar({ connected_user }) {
             FriendDetails.updated = false;
         }
         // update the friend to be the chosen friend.
-        setFriend({ username: friend_username, nickname: friend_details.nickname, public_photo: friend_details.public_photo, password: friend_details.password, friendsMessagesHistory: friend_details.friendsMessagesHistory });
+        setFriend({ username: friend_username, nickname: friend_details.nickname, photo: friend_details.photo, password: friend_details.password, friendsMessagesHistory: friend_details.friendsMessagesHistory });
         // open chat.
         document.getElementById('chat').style.display = "block";
         setUploadOptionsPopup(false);
@@ -157,7 +157,7 @@ function ChatsBar({ connected_user }) {
             return (
                 // open the chat with the chosen friend.
                 <div key={key} className="userLine hover-style row px-z" onClick={() => { HandleOpenChat(friend_details, friend_username);}}>
-                    <img src={friend_details.public_photo} className="col-4 rounded-circle images" alt="photo" ></img>
+                    <img src={friend_details.photo} className="col-4 rounded-circle images" alt="photo" ></img>
                     <div className='col-8'>
                         <Container className='nick_name_row'>
                             <Row>
@@ -181,11 +181,8 @@ function ChatsBar({ connected_user }) {
                     <Container id="chatsBar"> 
                         <Row className="px-z userLine"> 
                             {/* Showing connected user photo */}
-                            <Col xs={4}>{(connected_user.public_photo == "") ? (
-                                    <img src={URL.createObjectURL(connected_user.photo)} id="images" className="col-6 rounded-circle images" alt="photo" ></img>
-                                ): (
-                                    <img src={connected_user.public_photo} id="images" className="col-4 rounded-circle images" alt="photo" ></img>
-                                ) }
+                            <Col xs={4}>
+                                    <img src={connected_user.photo} id="images" className="col-4 rounded-circle images" alt="photo" ></img>
                             </Col>
                             <Col xs={8}>
                                 <Container>

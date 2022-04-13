@@ -36,7 +36,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         
         // if the message is not empty, send it.
         if (new_message.message != "") {
-            set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
+            set_message({ date: "", sec: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
             update_sorted_keys();
             const newList = [...messagesList, new_message];
             // update the list with the new message.
@@ -82,13 +82,11 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
     var video = null;
     const videoHandler = (e) => {
         video = e.target.files[0];
-        console.log(video);
     }
 
     var audio = null;
     const audioHandler = (e) => {
         audio = e.target.files[0];
-        console.log(audio);
     }
 
     // upload pictre, video or audio.
@@ -98,14 +96,13 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
         // set the messages depends of the id.
         if (input.id == "selectPhoto") {
-            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: photo, displayMessage: "photo", type: "photo", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: URL.createObjectURL(photo), displayMessage: "photo", type: "photo", iSent: true });
             HandleAddMessage(e);
         } else if(input.id =="selectVideo") {
-            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: video, displayMessage: "video", type: "video", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: URL.createObjectURL(video), displayMessage: "video", type: "video", iSent: true });
             HandleAddMessage(e);
-        }
-        else {
-            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: audio, displayMessage: "audio", type: "audio", public: false, iSent: true });
+        } else {
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: URL.createObjectURL(audio), displayMessage: "audio", type: "audio", iSent: true });
             HandleAddMessage(e);
         }
         handleExit(input.id, input.clearVal);
@@ -116,6 +113,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         // close the popup window.
         setUploadOptionsPopup(false);
     }
+
     // return input depends on the input type.
     const HandleOptions = (input, key)=> {
         if (input.type == "image"){
@@ -161,7 +159,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             <div id="chat">
                 <div className="header">
                     {/** Show friend details */}
-                    <span><img src={friend.public_photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
+                    <span><img src={friend.photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
                     <h3>Chat with {friend.nickname}</h3>
                 </div>
                 {/**initial the messagesList- by the history messages. */}

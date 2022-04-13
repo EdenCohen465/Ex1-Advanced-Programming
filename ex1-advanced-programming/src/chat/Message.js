@@ -37,13 +37,6 @@ function Message({ messagesList }) {
                                         </div>
                                         );
                             } else if (message.type == "photo") {
-                                if (message.public == false) {
-                                    return (<div className="message" style={{ marginLeft: margin, backgroundColor: background_color}}>
-                                                <img className="photoMessage rounded float-start " src={URL.createObjectURL(message.message)} alt="photo" ></img>
-                                                <span className="time">{message.time}</span>
-                                            </div>
-                                            );
-                                } else {
                                     return (<div className="message" style={{ marginLeft: margin, backgroundColor: background_color }}>
                                             <Container>
                                                 <Row>
@@ -56,39 +49,20 @@ function Message({ messagesList }) {
                                                 </Row>
                                              </Container>
                                             </div>);
-                                }
                             } else if (message.type == "video") {
-                                if (message.public == false) {
-                                    return (<div className="message" style={{ marginLeft: margin, backgroundColor: background_color }}>
-                                        <video className="videoMessage" controls>
-                                            <source src={URL.createObjectURL(message.message)} type="video/mp4"></source>
-                                        </video>
-                                        <span className="time">{message.time}</span>
-                                    </div>);
-                                } else {
                                     return (<div className="message" style={{ marginLeft: margin, backgroundColor: background_color }}>
                                         <video className="videoMessage" controls>
                                             <source src={message.message} type="video/mp4"></source>
                                         </video>
                                         <span className="time">{message.time}</span>
                                     </div>);
-                                }
                             } else if (message.type == "audio") {
-                                if (message.public == false) {
-                                    return (<div className="message" style={{ height: "fit-content", marginLeft: margin, backgroundColor: background_color}}>
-                                        <audio className="audioMessage" controls >
-                                            <source src={URL.createObjectURL(message.message)} type="audio/mpeg"></source>
-                                        </audio>
-                                        <span className="time">{message.time}</span>
-                                    </div>);
-                                } else {
                                     return (<div className="message" style={{ height: "fit-content", marginLeft: margin, backgroundColor: background_color }}>
                                         <audio className="audioMessage" controls >
                                             <source src={message.message} type="audio/mpeg"></source>
                                         </audio>
                                         <span className="time">{message.time}</span>
                                     </div>);
-                                }
                             }
                         })()}
                     </div>
