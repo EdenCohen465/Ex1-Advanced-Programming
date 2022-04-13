@@ -65,7 +65,7 @@ function RegisterPage({ connected_user, setConnected_user }) {
     }
 
     return (
-        <div className="mb-3 LoginOrRegister" id ='registerLogic'>
+        <div className="mb-3 Register" id ='registerLogic'>
             <form className="Register-form" onSubmit={handleSubmit}>
                 <InputBox photoHandler={photoHandler}/>
                 <button className="btn btn-outline-secondary" type="submit">Register</button>

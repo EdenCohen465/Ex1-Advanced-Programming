@@ -40,7 +40,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             update_sorted_keys();
             const newList = [...messagesList, new_message];
             // update the list with the new message.
-            setList(newList);
+            setMessageList(newList);
             // append the new message to the user history with the current friend.
             usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, newList);
             // append the new message to the friend history with the connected user.
@@ -165,7 +165,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
                     <h3>Chat with {friend.nickname}</h3>
                 </div>
                 {/**initial the messagesList- by the history messages. */}
-                <InitialChat connected_user={connected_user} friend={friend} setList={setList}/>
+                <InitialChat connected_user={connected_user} friend={friend} setList={setMessageList}/>
                 {/**show the messages list */}
                 <div className="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">

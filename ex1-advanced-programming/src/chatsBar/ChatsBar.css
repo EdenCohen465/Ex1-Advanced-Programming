@@ -5,7 +5,7 @@
 
 #conversation{    
     width: 100%;
-    
+    position: flex;
 }
 
 div#popup.popup {

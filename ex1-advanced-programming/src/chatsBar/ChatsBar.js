@@ -175,9 +175,9 @@ function ChatsBar({ connected_user }) {
 
     
     return (
-        <Container className='chat-bar'>
-            <Row>
-                <Col xs={4} >
+        <Container fluid className='chat-bar'>
+            <Row >
+                <Col sm="auto">
                     <Container id="chatsBar"> 
                         <Row className="px-z userLine"> 
                             {/* Showing connected user photo */}
@@ -187,7 +187,7 @@ function ChatsBar({ connected_user }) {
                                     <img src={connected_user.public_photo} id="images" className="col-4 rounded-circle images" alt="photo" ></img>
                                 ) }
                             </Col>
-                            <Col xs={8} className='col-8'>
+                            <Col xs={8}>
                                 <Container>
                                     <Row>
                                         <Col xs={8} className="nickname">{connected_user.nickname}</Col>
@@ -211,7 +211,7 @@ function ChatsBar({ connected_user }) {
                     {/** new contact popup window. */}
                     <Container id="popup" className="popup">
                         <Row> 
-                            <Col xs={10} className="padding">Add new contact</Col>
+                            <Col className="padding">Add new contact</Col>
                             <Col id="x-button">
                                 <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit('popup', 'newContact')}}> </button>   
                             </Col> 
@@ -227,7 +227,7 @@ function ChatsBar({ connected_user }) {
                         </form>
                     </Container>
                 </Col>
-                <Col xs={8} id= "conversation">
+                <Col id= "conversation">
                     <div>
                         <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message} update_sorted_keys={update_sorted_keys}/>
                     </div>
