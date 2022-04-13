@@ -206,10 +206,10 @@ function ChatsBar({ connected_user }) {
                         {Chats}
                     </Container>
                     {/** new contact popup window. */}
-                    <Container id="popup" className="popup">
+                    <Container id="popup" className="UploadOptions">
                         <Row> 
-                            <Col className="padding">Add new contact</Col>
-                            <Col id="x-button">
+                            <Col xs={10} className="padding">Add new contact</Col>
+                            <Col xs={2} id="x-button">
                                 <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit('popup', 'newContact')}}> </button>   
                             </Col> 
                         </Row>
@@ -219,7 +219,7 @@ function ChatsBar({ connected_user }) {
                                 <label className="identifier" htmlFor="newContact">Contact's username</label>
                             </Row>
                             <Row className="row">
-                                <button className="btn btn-outline-secondary" id="addContact" type="submit">Add</button>
+                                <button className="btn btn-outline-secondary addContact" id="addContact" type="submit">Add</button>
                             </Row>
                         </form>
                     </Container>

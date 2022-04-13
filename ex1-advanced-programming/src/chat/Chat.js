@@ -6,6 +6,7 @@ import FriendDetails from './FriendDetails';
 import usersList from '../UsersList';
 import Record from './record/Record';
 import Helpers from './Helpers';
+import { Container, Row, Col } from 'react-bootstrap';
 var friend_messages_history = [];
 
 
@@ -52,7 +53,6 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         }
     }
 
-  
     const HandleChangeMessage= e => {
         const today = new Date();
         const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
@@ -129,27 +129,22 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
     // show upload window.
     const uploadTags = inputs.map((input, key) => {
         return (
-            <div key={key} id={input.id} className="container UploadOptions">
-                <div className="row">
-                    <div className="col-10 padding">{input.val}</div>
-                    <div id="x-button" className='col-2'>
+            <Container key={key} id={input.id} className="UploadOptions">
+                <Row>
+                    <Col xs={10} className="padding">{input.val}</Col>
+                    <Col xs={2} id="x-button">
                         <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit(input.id, input.clearVal) }}> </button>
-                    </div>
-                </div>
+                    </Col>
+                </Row>
                 <form className="form-floating mb3" onSubmit={(e) => HandleSubmitImageOrVideo(e, input)}>
-                    <div className="form-floating mb-3 row "> 
-                    {/* {(input.type == "image") ? (
-                        <input className="form-control form-control-sm" id="imageUpload formFileSm" type="file" accept="image/*" onChange={photoHandler} required></input>
-                    ) : (
-                            <input className="form-control form-control-sm" id="videoUpload formFileSm" type="file" accept="video/*" onChange={videoHandler} required></input>
-                    )} */}
-                    {HandleOptions(input, key)}
-                    </div>
-                    <div className="row">
-                        <button className="btn btn-outline-secondary" id="addContact" type="submit">Add</button>
-                    </div>
+                    <Row className="form-floating mb-3"> 
+                        {HandleOptions(input, key)}
+                    </Row>
+                    <Row>
+                        <button className="btn btn-outline-secondary addContact" id="addContact" type="submit">Add</button>
+                    </Row>
                 </form>
-            </div>
+            </Container>
         );
     });
     //#############################################################################################################
