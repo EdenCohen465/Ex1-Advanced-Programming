@@ -85,8 +85,12 @@ div#popup.popup {
 }
 #addContact {
     position: relative;
-    width: 400px;
+    width: 100%;
     margin-bottom: 10px;;
+}
+
+#newContact {
+    width: 100%;
 }
 
 #chatsBar {
@@ -99,10 +103,7 @@ div#popup.popup {
     margin-left: 0px;
     background: rgba(255,255,255,0);
 }
-#newContact {
-    width: 400px;
-}
- 
+
 .add-contact-button {
     position: relative;
     right: 0px;

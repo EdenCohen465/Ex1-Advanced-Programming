@@ -26,7 +26,7 @@ function ChatsBar({ connected_user }) {
         if (last_message_a_date == "") {
             return -1;
         } else if (last_message_b_date == "") {
-            return -1;
+            return 1;
         }
         // split the date by '.'
         var last_message_a_date_split = last_message_a_date.split('.');
@@ -69,7 +69,7 @@ function ChatsBar({ connected_user }) {
         }
 
         // compare the seconds.
-        compare = Helpers.sort(a_messages[a_messages.length - 1].sec, b_messages[ b_messages.length - 1].sec);
+        compare = Helpers.sort(a_messages[a_messages.length - 1].sec, b_messages[b_messages.length - 1].sec);
         if (compare != 0) {
             return compare;
         }
@@ -81,13 +81,14 @@ function ChatsBar({ connected_user }) {
     // chat list is initialize by the messages history of the connected user.
     const [chatsList, setList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
     const [chatsListKeys, setListKeys] = useState(Array.from(chatsList.keys()).sort(sort_function));
-
     const initialFriend = { username: "", nickname: "", photo: "", password: "", friendsMessagesHistory: "" };
     // chosen chat friend.
     const [currentFriend, setFriend] = useState(initialFriend);
     const update_sorted_keys = () => {
-        setListKeys(Array.from(chatsList.keys()).sort(sort_function));
+        const array = Array.from(chatsList.keys()).sort(sort_function);
+        setListKeys(array);
     }
+
     // for sowing pop up window.
     const AddContact = (e) => {
         e.preventDefault();
@@ -128,7 +129,7 @@ function ChatsBar({ connected_user }) {
             // add to the chat list map the new contact.
             chatsList.set(new_contact_username, [{ date: "", sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: true }])
             setList(chatsList);
-            setListKeys(Array.from(chatsList.keys()).sort(sort_function));
+            update_sorted_keys();
             // add the friend to user history and the user to friend history.
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
             usersList.get(currentFriend.username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);

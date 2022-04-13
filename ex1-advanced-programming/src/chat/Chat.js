@@ -36,9 +36,8 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         setUploadOptionsPopup(false);
         
         // if the message is not empty, send it.
-        if (new_message.message != "") {
-            set_message({ date: "", sec: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
-            update_sorted_keys();
+        if (new_message.message != "")  {
+            
             const newList = [...messagesList, new_message];
             // update the list with the new message.
             setMessageList(newList);
@@ -48,8 +47,9 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             var new_message_friend = {...new_message, iSent: false};
             friend_messages_history = [...friend_messages_history, new_message_friend];
             usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
+            update_sorted_keys();
             // in order to clear the input box.
-            
+            set_message({ date: "", sec: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
         }
     }
 
