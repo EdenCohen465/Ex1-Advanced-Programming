@@ -26,7 +26,7 @@ function ChatsBar({ connected_user }) {
         if (last_message_a_date == "") {
             return -1;
         } else if (last_message_b_date == "") {
-            return -1;
+            return 1;
         }
         // split the date by '.'
         var last_message_a_date_split = last_message_a_date.split('.');
@@ -69,7 +69,7 @@ function ChatsBar({ connected_user }) {
         }
 
         // compare the seconds.
-        compare = Helpers.sort(a_messages[a_messages.length - 1].sec, b_messages[ b_messages.length - 1].sec);
+        compare = Helpers.sort(a_messages[a_messages.length - 1].sec, b_messages[b_messages.length - 1].sec);
         if (compare != 0) {
             return compare;
         }
@@ -81,13 +81,14 @@ function ChatsBar({ connected_user }) {
     // chat list is initialize by the messages history of the connected user.
     const [chatsList, setList] = useState(usersList.get(connected_user.username).friendsMessagesHistory);
     const [chatsListKeys, setListKeys] = useState(Array.from(chatsList.keys()).sort(sort_function));
-
-    const initialFriend = { username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: "" };
+    const initialFriend = { username: "", nickname: "", photo: "", password: "", friendsMessagesHistory: "" };
     // chosen chat friend.
     const [currentFriend, setFriend] = useState(initialFriend);
     const update_sorted_keys = () => {
-        setListKeys(Array.from(chatsList.keys()).sort(sort_function));
+        const array = Array.from(chatsList.keys()).sort(sort_function);
+        setListKeys(array);
     }
+
     // for sowing pop up window.
     const AddContact = (e) => {
         e.preventDefault();
@@ -128,7 +129,7 @@ function ChatsBar({ connected_user }) {
             // add to the chat list map the new contact.
             chatsList.set(new_contact_username, [{ date: "", sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: true }])
             setList(chatsList);
-            setListKeys(Array.from(chatsList.keys()).sort(sort_function));
+            update_sorted_keys();
             // add the friend to user history and the user to friend history.
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
             usersList.get(currentFriend.username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
@@ -143,7 +144,7 @@ function ChatsBar({ connected_user }) {
             FriendDetails.updated = false;
         }
         // update the friend to be the chosen friend.
-        setFriend({ username: friend_username, nickname: friend_details.nickname, public_photo: friend_details.public_photo, password: friend_details.password, friendsMessagesHistory: friend_details.friendsMessagesHistory });
+        setFriend({ username: friend_username, nickname: friend_details.nickname, photo: friend_details.photo, password: friend_details.password, friendsMessagesHistory: friend_details.friendsMessagesHistory });
         // open chat.
         document.getElementById('chat').style.display = "block";
         setUploadOptionsPopup(false);
@@ -157,7 +158,7 @@ function ChatsBar({ connected_user }) {
             return (
                 // open the chat with the chosen friend.
                 <div key={key} className="userLine hover-style row px-z" onClick={() => { HandleOpenChat(friend_details, friend_username);}}>
-                    <img src={friend_details.public_photo} className="col-4 rounded-circle images" alt="photo" ></img>
+                    <img src={friend_details.photo} className="col-4 rounded-circle images" alt="photo" ></img>
                     <div className='col-8'>
                         <Container className='nick_name_row'>
                             <Row>
@@ -175,19 +176,16 @@ function ChatsBar({ connected_user }) {
 
     
     return (
-        <Container className='chat-bar'>
-            <Row>
-                <Col xs={4} >
+        <Container fluid className='chat-bar'>
+            <Row >
+                <Col sm="auto">
                     <Container id="chatsBar"> 
                         <Row className="px-z userLine"> 
                             {/* Showing connected user photo */}
-                            <Col xs={4}>{(connected_user.public_photo == "") ? (
-                                    <img src={URL.createObjectURL(connected_user.photo)} id="images" className="col-6 rounded-circle images" alt="photo" ></img>
-                                ): (
-                                    <img src={connected_user.public_photo} id="images" className="col-4 rounded-circle images" alt="photo" ></img>
-                                ) }
+                            <Col xs={4}>
+                                    <img src={connected_user.photo} id="images" className="col-4 rounded-circle images" alt="photo" ></img>
                             </Col>
-                            <Col xs={8} className='col-8'>
+                            <Col xs={8}>
                                 <Container>
                                     <Row>
                                         <Col xs={8} className="nickname">{connected_user.nickname}</Col>
@@ -209,10 +207,10 @@ function ChatsBar({ connected_user }) {
                         {Chats}
                     </Container>
                     {/** new contact popup window. */}
-                    <Container id="popup" className="popup">
+                    <Container id="popup" className="UploadOptions">
                         <Row> 
                             <Col xs={10} className="padding">Add new contact</Col>
-                            <Col id="x-button">
+                            <Col xs={2} id="x-button">
                                 <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit('popup', 'newContact')}}> </button>   
                             </Col> 
                         </Row>
@@ -222,12 +220,12 @@ function ChatsBar({ connected_user }) {
                                 <label className="identifier" htmlFor="newContact">Contact's username</label>
                             </Row>
                             <Row className="row">
-                                <button className="btn btn-outline-secondary" id="addContact" type="submit">Add</button>
+                                <button className="btn btn-outline-secondary addContact" id="addContact" type="submit">Add</button>
                             </Row>
                         </form>
                     </Container>
                 </Col>
-                <Col xs={8} id= "conversation">
+                <Col id= "conversation">
                     <div>
                         <Chat friend={currentFriend} connected_user={connected_user} handleExit={handleExit} UploadOptionsPopup={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup} new_message={new_message} set_message={set_message} update_sorted_keys={update_sorted_keys}/>
                     </div>

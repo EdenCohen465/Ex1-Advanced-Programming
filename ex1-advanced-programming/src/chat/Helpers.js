@@ -12,8 +12,8 @@ function getDate() {
 }
 
 function sort (a,b) {
-    a = parseInt(a);
-    b = parseInt(b);
+    console.log(a);
+    console.log(b);
     if (a < b) {
         return 1;
     } else if (a > b) {
@@ -40,16 +40,23 @@ function timeDisplay(time, message_date) {
     }
 
     // if it passed more than a hour, return the time.
-    if (date.getHours() - time_splitted[1] > 1) {
+    if (date.getHours() - time_splitted[0] > 1) {
         return time;
+    } // the message was sent in the same hour. if 10 minutes passed, return time, else return number of minutes passed.
+     else if (date.getHours() == time_splitted[0]) {
+        if ((date.getMinutes() - time_splitted[1]) < 10) {
+            return (date.getMinutes() - time_splitted[1]) + " min ago";
+        } else {
+            return time;
+        }
+    } // it is not the same hour, if 10 minutes passed, return time, else return number of minutes passed.
+    else {
+        if ((date.getMinutes() + 60 - time_splitted[1]) < 10) {
+            return (date.getMinutes() + 60 - time_splitted[1]) + " min ago";
+        } else {
+            return time;
+        }
     }
-    // if passed more than 10 min, return the time.
-    if (((date.getMinutes() - time_splitted[1]) > 10) || ((date.getMinutes() - time_splitted[1]) < -10)) {
-        return time;
-    }
-
-    // return the minutes passed.
-    return Math.abs(date.getMinutes() - time_splitted[1]) + " min ago";
 }
 
 

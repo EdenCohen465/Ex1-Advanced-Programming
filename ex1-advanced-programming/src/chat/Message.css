@@ -10,29 +10,20 @@
 
 
 .message{
-    height: 170px;
+    height: 164px;
     width: 170px;
     position: relative;
     padding: 7px;
     width:fit-content;
-    
     border-radius: 10px;
     margin-bottom: 15px;
     margin-left: auto;
-    background: #ffffff;
 }
 
-.reciever{
-    margin-left:auto;
-    
-}
-
-
-.text{
-    margin-right: 5px;
-    font-size: 20px;
-}
 .time{
+    margin-left: 5px;
     font-size: 10px;
+    position: flex;
+    margin-top: auto;
 }
 
