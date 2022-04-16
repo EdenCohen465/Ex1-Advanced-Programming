@@ -24,7 +24,7 @@ function InitialChat({ setList, friend, connected_user }) {
 
 function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploadOptionsPopup, new_message, set_message, update_sorted_keys }) {
     // messages list.
-    const [messagesList,  setList] = useState([]);
+    const [messagesList,  setMessageList] = useState([]);
     // popup microphone window.
     const [useMicrophone, setUseMicrophone] = useState(false);
 
