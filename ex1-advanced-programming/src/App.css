@@ -1,10 +1,18 @@
-.LoginOrRegister {
-  height: 500px;
-  width: 500px;
+.Login {
+  height: 50%;
+  width: 40%;
   position: absolute;
-  left: 33%;
+  left: 32%;
   top: 20%;
-  font-family: 'Nunito',sans-serif;
+  background-color: #D8e2dc
+}
+
+.Register {
+  height: 85%;
+  width: 40%;
+  position: absolute;
+  left: 32%;
+  top: 10%;
   background-color: #D8e2dc
 }
 

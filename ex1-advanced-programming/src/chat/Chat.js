@@ -6,6 +6,7 @@ import FriendDetails from './FriendDetails';
 import usersList from '../UsersList';
 import Record from './record/Record';
 import Helpers from './Helpers';
+import { Container, Row, Col } from 'react-bootstrap';
 var friend_messages_history = [];
 
 
@@ -35,24 +36,23 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         setUploadOptionsPopup(false);
         
         // if the message is not empty, send it.
-        if (new_message.message != "") {
-            set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
-            update_sorted_keys();
+        if (new_message.message != "")  {
+            
             const newList = [...messagesList, new_message];
             // update the list with the new message.
-            setList(newList);
+            setMessageList(newList);
             // append the new message to the user history with the current friend.
             usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, newList);
             // append the new message to the friend history with the connected user.
             var new_message_friend = {...new_message, iSent: false};
             friend_messages_history = [...friend_messages_history, new_message_friend];
             usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
+            update_sorted_keys();
             // in order to clear the input box.
-            
+            set_message({ date: "", sec: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
         }
     }
 
-  
     const HandleChangeMessage= e => {
         const today = new Date();
         const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
@@ -82,13 +82,11 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
     var video = null;
     const videoHandler = (e) => {
         video = e.target.files[0];
-        console.log(video);
     }
 
     var audio = null;
     const audioHandler = (e) => {
         audio = e.target.files[0];
-        console.log(audio);
     }
 
     // upload pictre, video or audio.
@@ -98,14 +96,13 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
         // set the messages depends of the id.
         if (input.id == "selectPhoto") {
-            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: photo, displayMessage: "photo", type: "photo", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: URL.createObjectURL(photo), displayMessage: "photo", type: "photo", iSent: true });
             HandleAddMessage(e);
         } else if(input.id =="selectVideo") {
-            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: video, displayMessage: "video", type: "video", public: false, iSent: true });
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: URL.createObjectURL(video), displayMessage: "video", type: "video", iSent: true });
             HandleAddMessage(e);
-        }
-        else {
-            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: audio, displayMessage: "audio", type: "audio", public: false, iSent: true });
+        } else {
+            set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: URL.createObjectURL(audio), displayMessage: "audio", type: "audio", iSent: true });
             HandleAddMessage(e);
         }
         handleExit(input.id, input.clearVal);
@@ -116,6 +113,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         // close the popup window.
         setUploadOptionsPopup(false);
     }
+
     // return input depends on the input type.
     const HandleOptions = (input, key)=> {
         if (input.type == "image"){
@@ -131,27 +129,22 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
     // show upload window.
     const uploadTags = inputs.map((input, key) => {
         return (
-            <div key={key} id={input.id} className="container UploadOptions">
-                <div className="row">
-                    <div className="col-10 padding">{input.val}</div>
-                    <div id="x-button" className='col-2'>
+            <Container key={key} id={input.id} className="UploadOptions">
+                <Row>
+                    <Col xs={10} className="padding">{input.val}</Col>
+                    <Col xs={2} id="x-button">
                         <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit(input.id, input.clearVal) }}> </button>
-                    </div>
-                </div>
+                    </Col>
+                </Row>
                 <form className="form-floating mb3" onSubmit={(e) => HandleSubmitImageOrVideo(e, input)}>
-                    <div className="form-floating mb-3 row "> 
-                    {/* {(input.type == "image") ? (
-                        <input className="form-control form-control-sm" id="imageUpload formFileSm" type="file" accept="image/*" onChange={photoHandler} required></input>
-                    ) : (
-                            <input className="form-control form-control-sm" id="videoUpload formFileSm" type="file" accept="video/*" onChange={videoHandler} required></input>
-                    )} */}
-                    {HandleOptions(input, key)}
-                    </div>
-                    <div className="row">
-                        <button className="btn btn-outline-secondary" id="addContact" type="submit">Add</button>
-                    </div>
+                    <Row className="form-floating mb-3"> 
+                        {HandleOptions(input, key)}
+                    </Row>
+                    <Row>
+                        <button className="btn btn-outline-secondary addContact" id="addContact" type="submit">Add</button>
+                    </Row>
                 </form>
-            </div>
+            </Container>
         );
     });
     //#############################################################################################################
@@ -161,11 +154,11 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             <div id="chat">
                 <div className="header">
                     {/** Show friend details */}
-                    <span><img src={friend.public_photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
+                    <span><img src={friend.photo} alt="photo" className="border border-1 rounded-circle images"></img></span>
                     <h3>Chat with {friend.nickname}</h3>
                 </div>
                 {/**initial the messagesList- by the history messages. */}
-                <InitialChat connected_user={connected_user} friend={friend} setList={setList}/>
+                <InitialChat connected_user={connected_user} friend={friend} setList={setMessageList}/>
                 {/**show the messages list */}
                 <div className="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
