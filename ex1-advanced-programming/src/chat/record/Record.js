@@ -4,12 +4,14 @@ import useRecorder from "./useRecorder";
 function Record(props) {
   let [isRecording, startRecording, stopRecording] = useRecorder(props.set_message);
 
+  // send the message when the recording is done.
   const HandleUpload = (e) => {
     e.preventDefault();
     // when we done to record, add new message
     props.HandleAddMessage(e);
   }
 
+  // when we are not recording, make sure that the recorder does not recording.
   const NotRecording = () => {
     stopRecording();
   }
