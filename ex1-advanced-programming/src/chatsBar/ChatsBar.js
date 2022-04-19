@@ -89,6 +89,15 @@ function ChatsBar({ connected_user }) {
         setListKeys(array);
     }
 
+    // For time display
+    const [thisTime, setThisTime] = useState(new Date());
+    function setTime() {
+        setTimeout(() => {
+            setThisTime(new Date());
+        }, 1000);
+    }
+
+    setTime();
     // for sowing pop up window.
     const AddContact = (e) => {
         e.preventDefault();
@@ -106,8 +115,6 @@ function ChatsBar({ connected_user }) {
         document.getElementById('chat').style.opacity = 1;
         if (clearVal != '') {
             // clear the values.
-            console.log(clearVal);
-            console.log(document.getElementById(clearVal));
             document.getElementById(clearVal).value = '';
         }
      }
@@ -164,7 +171,7 @@ function ChatsBar({ connected_user }) {
                             <Row>
                                 <Col xs={7} className='nickname'>{friend_details.nickname}</Col>
                                 {/** time of the last message */}
-                                <Col xs={5} className='message-time'>{Helpers.timeDisplay(chat[chat.length- 1].time, chat[chat.length- 1].date)}</Col>
+                                <Col xs={5} className='message-time'>{Helpers.timeDisplay(thisTime, chat[chat.length- 1].time, chat[chat.length- 1].date)}</Col>
                             </Row>
                             {/** last message */}
                             <div className='last-message row'>{chat[chat.length - 1].displayMessage}</div>

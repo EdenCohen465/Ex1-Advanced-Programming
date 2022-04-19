@@ -12,8 +12,6 @@ function getDate() {
 }
 
 function sort (a,b) {
-    console.log(a);
-    console.log(b);
     if (a < b) {
         return 1;
     } else if (a > b) {
@@ -23,36 +21,35 @@ function sort (a,b) {
     }
 }
 
-function timeDisplay(time, message_date) {
+function timeDisplay(thisTime, time, message_date) {
 
     var date_splitted = message_date.split('.');
     var time_splitted = time.split(':');
-    const date = new Date();
 
     // if the last message is not in this year or month or more than a day passed, show the date.
-    if ((date_splitted[2] != date.getFullYear()) || (date_splitted[1] != (date.getMonth() + 1)) || ((parseInt(date.getDate()) - parseInt(date_splitted[0])) > 1))  {
+    if ((date_splitted[2] != thisTime.getFullYear()) || (date_splitted[1] != (thisTime.getMonth() + 1)) || ((parseInt(thisTime.getDate()) - parseInt(date_splitted[0])) > 1))  {
         return message_date;
     }
 
     // the last message was sent yesterday.
-    if ((parseInt(date.getDate()) - parseInt(date_splitted[0])) == 1) {
+    if ((parseInt(thisTime.getDate()) - parseInt(date_splitted[0])) == 1) {
         return "yesterday";
     }
 
     // if it passed more than a hour, return the time.
-    if (date.getHours() - time_splitted[0] > 1) {
+    if (thisTime.getHours() - time_splitted[0] > 1) {
         return time;
     } // the message was sent in the same hour. if 10 minutes passed, return time, else return number of minutes passed.
-     else if (date.getHours() == time_splitted[0]) {
-        if ((date.getMinutes() - time_splitted[1]) < 10) {
-            return (date.getMinutes() - time_splitted[1]) + " min ago";
+     else if (thisTime.getHours() == time_splitted[0]) {
+        if ((thisTime.getMinutes() - time_splitted[1]) < 10) {
+            return (thisTime.getMinutes() - time_splitted[1]) + " min ago";
         } else {
             return time;
         }
     } // it is not the same hour, if 10 minutes passed, return time, else return number of minutes passed.
     else {
-        if ((date.getMinutes() + 60 - time_splitted[1]) < 10) {
-            return (date.getMinutes() + 60 - time_splitted[1]) + " min ago";
+        if ((thisTime.getMinutes() + 60 - time_splitted[1]) < 10) {
+            return (thisTime.getMinutes() + 60 - time_splitted[1]) + " min ago";
         } else {
             return time;
         }
