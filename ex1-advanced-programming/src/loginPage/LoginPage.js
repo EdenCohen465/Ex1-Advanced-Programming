@@ -9,9 +9,10 @@ function LoginPage({ setConnected_user }) {
     }, [])
   const navigate = useNavigate();
 
-  // detalis is the user name and paasword that entered in the login page.
+  // detalis is the user name and password of the user that entered in the login page.
   const [details, setDetails] = useState({ username: "", password: "" });
 
+  // the function hadle the login logic.
   const Login = (details) => {
     // flag for check if the user can connect successfully.
     let flag = false;
@@ -28,21 +29,24 @@ function LoginPage({ setConnected_user }) {
       } else {
         alert("Wrong Password.");
       }
-      // if the user didnt register.
+    // else, if the user didnt register.
     } else {
       alert("Please register.");
     }
     return flag;
   }
 
+  // the function habdle the tap on the login button.
   const loginHandler = e => {
+    // prevent refresh of the page.
     e.preventDefault();
-    // Check if the user can connect, if so, connect him.
+    // Check if the user can connect, if so, connect him- go to the chatsBar page.
     if (Login(details)) {
       navigate('/chatsbar');
     }
   }
 
+  // return the html og the login page.
   return (
     <form className="Login" onSubmit={loginHandler}>
       <div className="mb-3">

@@ -1,14 +1,19 @@
 import './UploadOptions.css'
+
+// the function handle the tap on the icon.
 function HandleTap(e, id) {
+    // prevent refresh of the page.
     e.preventDefault();
+    
+    // show the elemnt of Id-id, make the chat and chatsBar dim.
     document.getElementById(id).style.opacity = 1;
     document.getElementById('chatsBar').style.opacity = 0.5;
     document.getElementById('chat').style.opacity = 0.5;
     document.getElementById(id).style.display = "block";
 }
 
+// the function return the html represend the upload options- video, image or audio.
 function UploadOptions(props) {
-    
     return (props.trigger) ? (
         <div className="popup">
             <div className="inner-popup">
