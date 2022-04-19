@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import usersList from '../UsersList';
 
 function LoginPage({ setConnected_user }) {
+    // This effect runs once, after the first render
+    useEffect(() => {
+      document.title = "Login";
+    }, [])
   const navigate = useNavigate();
 
   // detalis is the user name and paasword that entered in the login page.

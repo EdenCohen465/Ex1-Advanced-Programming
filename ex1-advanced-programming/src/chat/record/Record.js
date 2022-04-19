@@ -2,7 +2,7 @@ import * as React from "react";
 import useRecorder from "./useRecorder";
 
 function Record(props) {
-  let [audioURL, isRecording, startRecording, stopRecording, setAudioURL] = useRecorder(props.set_message);
+  let [isRecording, startRecording, stopRecording] = useRecorder(props.set_message);
 
   const HandleUpload = (e) => {
     e.preventDefault();

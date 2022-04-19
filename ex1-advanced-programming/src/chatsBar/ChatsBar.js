@@ -1,6 +1,6 @@
 import React from 'react';
 import usersList from '../UsersList';
-import { useState } from 'react';
+import { useState, useEffect, useNavigate } from 'react';
 import './ChatsBar.css'
 import Chat from '../chat/Chat.js'
 import FriendDetails from '../chat/FriendDetails';
@@ -9,6 +9,11 @@ import Helpers from '../chat/Helpers';
 import { Col, Row, Container } from 'react-bootstrap';
 
 function ChatsBar({ connected_user }) {
+
+    useEffect(() => {
+        document.title = `${connected_user}'s chat`;
+      }, []);
+
     // for the popup widow of the upload options.
     const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
     // the next message to send.
@@ -88,17 +93,6 @@ function ChatsBar({ connected_user }) {
         const array = Array.from(chatsList.keys()).sort(sort_function);
         setListKeys(array);
     }
-
-    // For time display
-    const [thisTime, setThisTime] = useState(new Date());
-    function setTime() {
-        setTimeout(() => {
-            setThisTime(new Date());
-        }, 1000);
-    }
-
-    setTime();
-    // for sowing pop up window.
     const AddContact = (e) => {
         e.preventDefault();
         setUploadOptionsPopup(false);
@@ -171,7 +165,7 @@ function ChatsBar({ connected_user }) {
                             <Row>
                                 <Col xs={7} className='nickname'>{friend_details.nickname}</Col>
                                 {/** time of the last message */}
-                                <Col xs={5} className='message-time'>{Helpers.timeDisplay(thisTime, chat[chat.length- 1].time, chat[chat.length- 1].date)}</Col>
+                                <Col xs={5} className='message-time'>{Helpers.timeDisplay(chat[chat.length- 1].time, chat[chat.length- 1].date)}</Col>
                             </Row>
                             {/** last message */}
                             <div className='last-message row'>{chat[chat.length - 1].displayMessage}</div>

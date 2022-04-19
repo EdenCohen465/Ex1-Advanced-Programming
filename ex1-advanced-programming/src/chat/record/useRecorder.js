@@ -48,7 +48,7 @@ const useRecorder = (set_message) => {
         setIsRecording(false);
     };
 
-    return [audioURL, isRecording, startRecording, stopRecording, setAudioURL];
+    return [isRecording, startRecording, stopRecording];
 };
 // create recorder
 async function requestRecorder() {

@@ -1,9 +1,14 @@
 import InputBox from './InputBox';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import checkValidPassword from './isValidPassword';
 import usersList from '../UsersList';
 
 function RegisterPage({ connected_user, setConnected_user }) {
+        // This effect runs once, after the first render
+        useEffect(() => {
+            document.title = "Register";
+          }, [])
     const navigate = useNavigate();
 
     var photo = null;

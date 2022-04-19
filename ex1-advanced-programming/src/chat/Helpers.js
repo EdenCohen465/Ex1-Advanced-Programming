@@ -21,8 +21,8 @@ function sort (a,b) {
     }
 }
 
-function timeDisplay(thisTime, time, message_date) {
-
+function timeDisplay(time, message_date) {
+    let thisTime = new Date();
     var date_splitted = message_date.split('.');
     var time_splitted = time.split(':');
 
