@@ -1,6 +1,6 @@
 import React from 'react';
 import usersList from '../UsersList';
-import { useState } from 'react';
+import { useState, useEffect, useNavigate } from 'react';
 import './ChatsBar.css'
 import Chat from '../chat/Chat.js'
 import FriendDetails from '../chat/FriendDetails';
@@ -9,6 +9,11 @@ import Helpers from '../chat/Helpers';
 import { Col, Row, Container } from 'react-bootstrap';
 
 function ChatsBar({ connected_user }) {
+
+    useEffect(() => {
+        document.title = `${connected_user}'s chat`;
+      }, []);
+
     // for the popup widow of the upload options.
     const [UploadOptionsPopup, setUploadOptionsPopup] = useState(false);
     // the next message to send.
@@ -88,8 +93,6 @@ function ChatsBar({ connected_user }) {
         const array = Array.from(chatsList.keys()).sort(sort_function);
         setListKeys(array);
     }
-
-    // for sowing pop up window.
     const AddContact = (e) => {
         e.preventDefault();
         setUploadOptionsPopup(false);
@@ -106,8 +109,6 @@ function ChatsBar({ connected_user }) {
         document.getElementById('chat').style.opacity = 1;
         if (clearVal != '') {
             // clear the values.
-            console.log(clearVal);
-            console.log(document.getElementById(clearVal));
             document.getElementById(clearVal).value = '';
         }
      }
@@ -123,16 +124,16 @@ function ChatsBar({ connected_user }) {
             alert("The chat already exists");
         // add the new contact.
         } else {
-            set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
             // close the popup window.
             handleExit('popup', 'newContact');
             // add to the chat list map the new contact.
-            chatsList.set(new_contact_username, [{ date: "", sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: true }])
+            chatsList.set(new_contact_username, [{ date: "", sec: "", time: "", message: "", displayMessage: "", type: "", iSent: true }])
             setList(chatsList);
             update_sorted_keys();
             // add the friend to user history and the user to friend history.
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
-            usersList.get(currentFriend.username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
+            usersList.get(new_contact_username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
+            set_message({ date: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
         }
     }
 
@@ -148,6 +149,7 @@ function ChatsBar({ connected_user }) {
         // open chat.
         document.getElementById('chat').style.display = "block";
         setUploadOptionsPopup(false);
+        set_message({ date: "", sec: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
     }
 
     // check the logics of the sort!#####################################################################################################

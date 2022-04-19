@@ -2,7 +2,7 @@ import * as React from "react";
 import useRecorder from "./useRecorder";
 
 function Record(props) {
-  let [audioURL, isRecording, startRecording, stopRecording] = useRecorder(props.set_message);
+  let [isRecording, startRecording, stopRecording] = useRecorder(props.set_message);
 
   const HandleUpload = (e) => {
     e.preventDefault();
@@ -10,6 +10,9 @@ function Record(props) {
     props.HandleAddMessage(e);
   }
 
+  const NotRecording = () => {
+    stopRecording();
+  }
 
   return ((props.trigger) ? (
     <div className="Record">
@@ -19,6 +22,6 @@ function Record(props) {
         {props.childern}
       </div>
     </div>
-  ) : "");
+  ) : <NotRecording />);
 }
 export default Record;
