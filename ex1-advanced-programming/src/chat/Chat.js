@@ -176,7 +176,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
                             value={new_message.displayMessage} onKeyPress={HandleSendMessage} onClick={()=>{setUploadOptionsPopup(false); setUseMicrophone(false)}}/>
                         <button className="button_option bi bi-mic hover-style" onClick={(e)=>{e.preventDefault(); setUseMicrophone(!useMicrophone)}}></button>
                         <div className='microphone'><Record trigger={useMicrophone} setUseMicrophone={setUseMicrophone} set_message={set_message} HandleAddMessage={HandleAddMessage}/></div>
-                        <button className="button_option bi bi-envelope hover-style" onClick={HandleAddMessage} type="submit">Send</button>
+                        <button className="button_option bi bi-envelope hover-style" onClick={HandleAddMessage} type="submit"></button>
                     </form>
                 </div>
             </div>

@@ -11,7 +11,7 @@ import { Col, Row, Container } from 'react-bootstrap';
 function ChatsBar({ connected_user }) {
 
     useEffect(() => {
-        document.title = `${connected_user}'s chat`;
+        document.title = `${connected_user.nickname}'s chat`;
       }, []);
 
     // for the popup widow of the upload options.
@@ -205,8 +205,9 @@ function ChatsBar({ connected_user }) {
                                 </Container>                    
                             </Col>                    
                         </Row>
-                        {/*Show the chat list */}                    
-                        {Chats}
+                        
+                            {/*Show the chat list */}                    
+                        {Chats}                        
                     </Container>
                     {/** new contact popup window. */}
                     <Container id="popup" className="UploadOptions">
