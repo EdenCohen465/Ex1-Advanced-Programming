@@ -31,7 +31,6 @@ const useRecorder = (set_message) => {
             // set the new message in order to send it.
             const today = new Date();
             const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
-
             set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: url, displayMessage: "audio", type: "audio", public: false, iSent: true });
         };
 

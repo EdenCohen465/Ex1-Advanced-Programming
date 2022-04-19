@@ -22,10 +22,12 @@ div#popup.popup {
     border-color: black;
     border-radius: .25rem;
 }
+
 #new-contant-buttom {
     right: 0;
     top: 0;
 }
+
 .button {
     position: relative;
     right: 0;
@@ -35,16 +37,20 @@ div#popup.popup {
 #x-button {
     padding-top: 8px;
 }
+
 .padding{
     padding: 15px;
 }
+
 .btn {
     margin-top: 0px;
 }
+
 .row {
     border-color: gray;
     background: none;
 }
+
 .bi-x-circle {
     align-items: center;
 }
@@ -78,9 +84,11 @@ div#popup.popup {
     background-color: rgb(194, 212, 231);
     cursor: pointer;
 }
+
 #logout-button {
     width: 100%
 }
+
 .last-message {
     padding-left: 5px;
 }

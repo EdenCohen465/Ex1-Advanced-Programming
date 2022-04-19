@@ -6,10 +6,10 @@ import RegisterPage from './registerPage/RegisterPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const [connected_user, setConnected_user] = useState({
-    username: "", nickname: "", photo: "", password: "", friendsMessagesHistory: ""
-  });
+  // connected_user will be the user that connected to the app.
+  const [connected_user, setConnected_user] = useState({username: "", nickname: "", photo: "", password: "", friendsMessagesHistory: ""});
 
+  // return the html - call to the login, and update the URL's.
   return (
     <div className="App">
       <BrowserRouter>
