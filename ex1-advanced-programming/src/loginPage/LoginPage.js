@@ -40,7 +40,7 @@ function LoginPage({ setConnected_user }) {
   }
 
   return (
-    <form className="LoginOrRegister" onSubmit={loginHandler}>
+    <form className="Login" onSubmit={loginHandler}>
       <div className="mb-3">
         <h2 className="page-title">Login Page</h2>
         <label className="form-label" htmlFor="Username">Username: </label>

@@ -2,9 +2,6 @@ import InputBox from './InputBox';
 import { Link, useNavigate } from 'react-router-dom';
 import checkValidPassword from './isValidPassword';
 import usersList from '../UsersList';
-import e from '../messages_objects/e.jpg';
-import f from '../messages_objects/f.jpg';
-import video1 from '../messages_objects/video1.mp4';
 
 function RegisterPage({ connected_user, setConnected_user }) {
     const navigate = useNavigate();
@@ -36,19 +33,12 @@ function RegisterPage({ connected_user, setConnected_user }) {
             alert("Password must contain numbers and letters. Try again!");
             flag = false;
         }
-
-        const new_contact_default = new Map();
-        new_contact_default.set('admin', [{ time: "14:45", message: f, displayMessage: "photo", type: "photo", public: true, iSent: false }, { time: "14:57", message: "Thanks!!", displayMessage: "Thanks!!", type: "text", iSent: true }]);
-        new_contact_default.set("edencohen", [{ time: "", message: "", displayMessage: "", type: "", iSent: "" }]);
-        new_contact_default.set("ronioded", [{ time: "06:00", message: video1, displayMessage: "video", type: "video", public: true, iSent: false }]);
-        new_contact_default.set("israelisraeli", [{ time: "", message: "", displayMessage: "", type: "", iSent: "" }]);
-        new_contact_default.set("avicohen", [{ time: "18:16", message: e, displayMessage: "photo", type: "photo", public: true, iSent: true }]);        
+     
         const new_user = {
             nickname: nick_name,
-            photo: photo,
-            public_photo: "",
+            photo: URL.createObjectURL(photo),
             password: password_,
-            friendsMessagesHistory: new_contact_default};
+            friendsMessagesHistory: new Map()};
         usersList.set(user_name, new_user);
 
 
@@ -65,7 +55,7 @@ function RegisterPage({ connected_user, setConnected_user }) {
     }
 
     return (
-        <div className="mb-3 LoginOrRegister" id ='registerLogic'>
+        <div className="mb-3 Register" id ='registerLogic'>
             <form className="Register-form" onSubmit={handleSubmit}>
                 <InputBox photoHandler={photoHandler}/>
                 <button className="btn btn-outline-secondary" type="submit">Register</button>

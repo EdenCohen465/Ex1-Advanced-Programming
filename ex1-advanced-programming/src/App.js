@@ -6,7 +6,7 @@ import RegisterPage from './registerPage/RegisterPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const [connected_user, setConnected_user] = useState({ username: "", nickname: "", public_photo: "", password: "", friendsMessagesHistory: ""
+  const [connected_user, setConnected_user] = useState({ username: "", nickname: "", photo: "", password: "", friendsMessagesHistory: ""
 });
 
   const Logout = () => {

@@ -14,12 +14,8 @@ function Record(props) {
   return ((props.trigger) ? (
     <div className="Record">
       <div className="inner-record">
-              <button onClick={startRecording} disabled={isRecording}>
-          start
-        </button>
-        <button onClick={(e) => { stopRecording(); HandleUpload(e) }} disabled={!isRecording}>
-          stop
-        </button>
+        <button className="btn btn-outline-secondary btn-sm bi bi-play" onClick={startRecording} disabled={isRecording}> </button>
+        <button className="btn btn-outline-secondary btn-sm bi bi-stop" onClick={(e) => { stopRecording(); HandleUpload(e) }} disabled={!isRecording}></button>
         {props.childern}
       </div>
     </div>
