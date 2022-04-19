@@ -11,7 +11,7 @@ var friend_messages_history = null;
 
 
 function InitialChat({ setList, friend, connected_user }) {
-    // when the char is opened, set the list in order to show the message history, only if we changed friend.
+    // when the chat is open, set the list in order to show the messages history, only if we changed friend.
     // and if it not already updeted.
     if (FriendDetails.updated == false && friend.username != "" && FriendDetails.thisFriend != '' && FriendDetails.lastFriend != FriendDetails.thisFriend) {
         // get the history messages of the connected user with the chosen friend.
@@ -70,17 +70,16 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         }
     }
     
-    // handle upload inmage and videos functions #################################################################
+    // handle upload image, video and audio functions
     const inputs = [
         { id: "selectPhoto", val: "Upload an image", type: "image", clearVal: "imageUpload"},
         { id: "selectVideo", val: "Upload a video", type: "video", clearVal: "videoUpload" },
         { id: "selectAudio", val: "Upload an audio", type: "audio", clearVal: "audioUpload" }
     ];
-
+    // get the first file from the input.
     var photo = null;
     const photoHandler = (e) => {
         photo = e.target.files[0];
-        console.log(photo);
     }
 
     var video = null;
@@ -98,7 +97,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         e.preventDefault();
         const today = new Date();
         const time = today.getHours() + ':' + Helpers.setMin(today.getMinutes());
-        // set the messages depends of the id.
+        // set the messages depends of the id- photo, video or audio.
         if (input.id == "selectPhoto") {
             set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: URL.createObjectURL(photo), displayMessage: "photo", type: "photo", iSent: true });
             HandleAddMessage(e);
@@ -109,6 +108,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             set_message({ date: Helpers.getDate(), sec: today.getSeconds(), time: time, message: URL.createObjectURL(audio), displayMessage: "audio", type: "audio", iSent: true });
             HandleAddMessage(e);
         }
+        // close the popup window.
         handleExit(input.id, input.clearVal);
     }
 
@@ -118,7 +118,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         setUploadOptionsPopup(false);
     }
 
-    // return input depends on the input type.
+    // return input tag depends on the required type.
     const HandleOptions = (input, key)=> {
         if (input.type == "image"){
             return(<input className="form-control form-control-sm" id={input.clearVal} type="file" accept="image/*" onChange={photoHandler} required></input>);
@@ -140,8 +140,10 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
                         <button className="button bi bi-x-circle btn btn-outline-secondary" onClick={() => { handleExit(input.id, input.clearVal) }}> </button>
                     </Col>
                 </Row>
+                {/** when submiting the form, call the function that deals with the upload. */}
                 <form className="form-floating mb3" onSubmit={(e) => HandleSubmitImageOrVideo(e, input)}>
                     <Row className="form-floating mb-3"> 
+                    {/** show the options upload */}
                         {HandleOptions(input, key)}
                     </Row>
                     <Row>
@@ -151,7 +153,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             </Container>
         );
     });
-    //#############################################################################################################
+    
     
     return (
         <div>
@@ -175,6 +177,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
                         <input id="newM" placeholder='Write your message' type="text" onChange={HandleChangeMessage}
                             value={new_message.displayMessage} onKeyPress={HandleSendMessage} onClick={()=>{setUploadOptionsPopup(false); setUseMicrophone(false)}}/>
                         <button className="button_option bi bi-mic hover-style" onClick={(e)=>{e.preventDefault(); setUseMicrophone(!useMicrophone)}}></button>
+                        {/** Record Option */}
                         <div className='microphone'><Record trigger={useMicrophone} setUseMicrophone={setUseMicrophone} set_message={set_message} HandleAddMessage={HandleAddMessage}/></div>
                         <button className="button_option bi bi-envelope hover-style" onClick={HandleAddMessage} type="submit"></button>
                     </form>
