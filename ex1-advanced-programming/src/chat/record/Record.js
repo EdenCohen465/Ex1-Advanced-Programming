@@ -10,11 +10,9 @@ function Record(props) {
     props.HandleAddMessage(e);
   }
 
-  const NotRecording = ()=>{
+  const NotRecording = () => {
     stopRecording();
-    if (audioURL != ""){
-      setAudioURL("");
-    }  
+
   }
 
   return ((props.trigger) ? (
@@ -25,6 +23,6 @@ function Record(props) {
         {props.childern}
       </div>
     </div>
-  ) : <NotRecording/>);
+  ) : <NotRecording />);
 }
 export default Record;
