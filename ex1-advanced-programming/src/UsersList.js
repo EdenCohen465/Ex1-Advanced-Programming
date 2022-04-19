@@ -12,6 +12,8 @@ import f from './messages_objects/f.jpg';
 import video1 from './messages_objects/video1.mp4';
 import song from './messages_objects/song.mp3';
 
+// hard codded users!
+
 const usersList = new Map();
 const admin_messages = new Map();
 

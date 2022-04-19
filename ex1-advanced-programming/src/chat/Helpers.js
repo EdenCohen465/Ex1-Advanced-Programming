@@ -1,3 +1,4 @@
+// the function set the minutes to 2 digits. if the minutes is 0-9 change to 00-09.
 function setMin(x) {
     if ((x >=0) && (x<10)) {
         return "0" + x;
@@ -6,11 +7,13 @@ function setMin(x) {
     }
 }
 
+// the function return the current date in the format: DD.MM.YY
 function getDate() {
     const date = new Date();
     return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
 }
 
+// the function compare between 2 integers.
 function sort (a,b) {
     if (a < b) {
         return 1;
@@ -21,6 +24,7 @@ function sort (a,b) {
     }
 }
 
+// the function decide what time we will display of the last message in the chatsBar.
 function timeDisplay(time, message_date) {
     let thisTime = new Date();
     var date_splitted = message_date.split('.');

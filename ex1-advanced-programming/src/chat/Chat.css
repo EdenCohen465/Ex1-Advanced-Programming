@@ -1,5 +1,4 @@
 #chat {
-    
     border: 1px solid gray;
     width: 100%;
     height:100%;
@@ -7,8 +6,8 @@
    flex:1;
    flex-direction: column;
    flex: 0.65;
-
 }
+
 .header{
     padding: 20px;
     display: flex;
@@ -34,6 +33,7 @@
     align-items: center;
     border-top: 1px solid gray;
 }
+
 .toolBar > form {
     flex: 1;
     display: flex;
