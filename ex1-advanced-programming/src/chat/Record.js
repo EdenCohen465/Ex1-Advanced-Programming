@@ -7,7 +7,6 @@ function Record(){
 
         <div className="recorder-container">
             <RecorderControls recorderState={recorderState} handlers={handlers}/>
-            
         </div>
         </section>
     );

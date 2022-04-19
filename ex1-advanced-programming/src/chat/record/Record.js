@@ -12,9 +12,6 @@ function Record(props) {
 
   const NotRecording = ()=>{
     stopRecording();
-    if (audioURL != ""){
-      setAudioURL("");
-    }  
   }
 
   return ((props.trigger) ? (
