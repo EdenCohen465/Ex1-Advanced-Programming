@@ -56,5 +56,4 @@ function timeDisplay(time, message_date) {
     }
 }
 
-
 export default {timeDisplay, sort, getDate, setMin};

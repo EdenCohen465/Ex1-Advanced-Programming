@@ -124,16 +124,16 @@ function ChatsBar({ connected_user }) {
             alert("The chat already exists");
         // add the new contact.
         } else {
-            set_message({ date: Helpers.getDate(), time: "", message: "", displayMessage: "", type: "", iSent: "" });
             // close the popup window.
             handleExit('popup', 'newContact');
             // add to the chat list map the new contact.
-            chatsList.set(new_contact_username, [{ date: "", sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: true }])
+            chatsList.set(new_contact_username, [{ date: "", sec: "", time: "", message: "", displayMessage: "", type: "", iSent: true }])
             setList(chatsList);
             update_sorted_keys();
             // add the friend to user history and the user to friend history.
             usersList.get(connected_user.username).friendsMessagesHistory.set(new_contact_username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
-            usersList.get(currentFriend.username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
+            usersList.get(new_contact_username).friendsMessagesHistory.set(connected_user.username, [{ date: "", time: "", message: "", displayMessage: "", type: "", iSent: true }]);
+            set_message({ date: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
         }
     }
 
@@ -149,6 +149,7 @@ function ChatsBar({ connected_user }) {
         // open chat.
         document.getElementById('chat').style.display = "block";
         setUploadOptionsPopup(false);
+        set_message({ date: "", sec: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
     }
 
     // check the logics of the sort!#####################################################################################################

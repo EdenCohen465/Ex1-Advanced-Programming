@@ -12,7 +12,6 @@ function Record(props) {
 
   const NotRecording = () => {
     stopRecording();
-
   }
 
   return ((props.trigger) ? (

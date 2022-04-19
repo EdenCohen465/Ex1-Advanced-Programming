@@ -39,15 +39,15 @@ function RegisterPage({ connected_user, setConnected_user }) {
             flag = false;
         }
      
-        const new_user = {
-            nickname: nick_name,
-            photo: URL.createObjectURL(photo),
-            password: password_,
-            friendsMessagesHistory: new Map()};
-        usersList.set(user_name, new_user);
-
-
-        setConnected_user({username: user_name, ...new_user});
+        if (flag) {
+            const new_user = {
+                nickname: nick_name,
+                photo: URL.createObjectURL(photo),
+                password: password_,
+                friendsMessagesHistory: new Map()};
+            usersList.set(user_name, new_user);
+            setConnected_user({username: user_name, ...new_user});
+        }
         return flag;
     }
 

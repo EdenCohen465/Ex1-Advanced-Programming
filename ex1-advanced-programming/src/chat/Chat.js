@@ -7,7 +7,7 @@ import usersList from '../UsersList';
 import Record from './record/Record';
 import Helpers from './Helpers';
 import { Container, Row, Col } from 'react-bootstrap';
-var friend_messages_history = [];
+var friend_messages_history = null;
 
 
 function InitialChat({ setList, friend, connected_user }) {
@@ -37,7 +37,6 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
         
         // if the message is not empty, send it.
         if (new_message.message != "")  {
-            
             const newList = [...messagesList, new_message];
             // update the list with the new message.
             setMessageList(newList);
@@ -45,7 +44,11 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
             usersList.get(connected_user.username).friendsMessagesHistory.set(friend.username, newList);
             // append the new message to the friend history with the connected user.
             var new_message_friend = {...new_message, iSent: false};
-            friend_messages_history = [...friend_messages_history, new_message_friend];
+            if (friend_messages_history != null) {
+                friend_messages_history = [...friend_messages_history, new_message_friend];
+            } else {
+                friend_messages_history = [new_message_friend];
+            }
             usersList.get(friend.username).friendsMessagesHistory.set(connected_user.username, friend_messages_history);
             update_sorted_keys();
             // in order to clear the input box.
@@ -77,6 +80,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
     var photo = null;
     const photoHandler = (e) => {
         photo = e.target.files[0];
+        console.log(photo);
     }
 
     var video = null;
@@ -163,7 +167,7 @@ function Chat({ friend, handleExit, connected_user, UploadOptionsPopup, setUploa
                 <div className="chatBody"><Message messagesList={messagesList} /></div>
                 <div className="toolBar">
                     <button className="bi bi-link-45deg hover-style" onClick={()=> {setUploadOptionsPopup(true)
-                        set_message({ date: Helpers.getDate(), sec: "0", time: "", message: "", displayMessage: "", type: "", iSent: "" });
+                        set_message({ date: "", sec: "", time: "", message: "", displayMessage: "", type: "", iSent: "" });
                     }}></button>
                     <div><UploadOptions trigger={UploadOptionsPopup} setUploadOptionsPopup={setUploadOptionsPopup}></UploadOptions></div>
                     {/**Send text message */}
