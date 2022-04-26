@@ -1,4 +1,5 @@
 # Ex1-Advanced-Programming
+Roni Oded and Eden Cohen ex1 :)
 We used React.js.
 The files are in ex1-advanced-programming folder.
 In order to run, download the files (you need the node_modules folder too, but you told us not to upload it), and then write in cmd- npm start.
