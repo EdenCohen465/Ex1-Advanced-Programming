@@ -7,12 +7,18 @@ The downloads we used: react-router-dom, react-bootstrap, (we used bootstrap and
 
 Usernames and passwords of the usernames already registred to the app:
 
-user name       password
+user name- password
 
 admin- admin1
+
 ronioded- roniz1
+
 edencohen- edenz1
+
 israelisraeli- israel1
+
 avicohen- avi1
+
 tallevi- tal1
+
 guy- tal1
